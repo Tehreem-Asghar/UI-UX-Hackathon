@@ -18,7 +18,7 @@ function ShopexOffer() {
   return (
     <main>
       <h1
-        className={`text-[42px] text-[#151875] font-bold ${josefinSans.className} text-center my-12`}
+        className={`md:text-[42px] text-[20px] text-[#151875] font-bold ${josefinSans.className} text-center my-12`}
       >
         What Shopex Offer!
       </h1>

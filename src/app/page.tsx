@@ -7,6 +7,7 @@ import { Josefin_Sans } from "next/font/google";
 import Trending from './components/trending';
 import DiscountItem from './components/discountItem';
 import TopCategary from './components/topcategary';
+import Blogs from './components/blogs';
 
 
 
@@ -79,7 +80,7 @@ export default function Home() {
     </button>
   </div>
 </div>
-        
+        <Blogs/>
      </main>
   );
 }
