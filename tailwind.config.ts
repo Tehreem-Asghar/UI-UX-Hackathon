@@ -23,7 +23,10 @@ const config: Config = {
         },
         screen3: {
           min : '1020px' , max : '1115px'
-        }
+        },
+		screen4: {
+			min : '1018px' , max : '1117px'
+		  }
       },
   		borderRadius: {
   			lg: 'var(--radius)',

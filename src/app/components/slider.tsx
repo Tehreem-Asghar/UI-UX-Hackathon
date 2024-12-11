@@ -26,10 +26,10 @@ export default function Sliding() {
      <Swiper
         pagination={true}
         modules={[Pagination]}
-        className="mySwiper h-[400px] sm:h-[500px] w-full "
+        className="mySwiper h-[500px] sm:h-[500px] w-full "
       >
         <SwiperSlide>
-          <div className="flex justify-around bg-[#F2F0FF] h-[400px] sm:h-[500px]">
+          <div className="flex justify-around bg-[#F2F0FF] h-[500px] sm:h-[500px]">
             <div className="h-[150px] w-[200px] md:block hidden ml-4">
               <Image
                 src={"/images/slider/pic1.png"}
@@ -66,11 +66,11 @@ export default function Sliding() {
         </SwiperSlide> 
         <SwiperSlide>
           <Image
-            height={400}
+            height={500}
             width={400}
             src={"/images/slider/pick-3.png"}
             alt="banner"
-            className="h-[400px] sm:h-[500px] w-full "
+            className="h-[500px] sm:h-[500px] w-full "
           />
         </SwiperSlide>
         <SwiperSlide>
@@ -79,7 +79,7 @@ export default function Sliding() {
             width={400}
             src={"/images/slider/pick-4.png"}
             alt="banner"
-            className="h-[400px] sm:h-[500px] w-full "
+            className="h-[500px] sm:h-[500px] w-full "
           />
         </SwiperSlide>
         <SwiperSlide>
@@ -88,7 +88,7 @@ export default function Sliding() {
             width={400}
             src={"/images/slider/pick-5.png"}
             alt="banner"
-             className="h-[400px] sm:h-[500px] w-full "
+             className="h-[500px] sm:h-[500px] w-full "
           />
         </SwiperSlide>
         <SwiperSlide>
@@ -97,7 +97,7 @@ export default function Sliding() {
             width={400}
             src={"/images/slider/pick-6.png"}
             alt="banner"
-             className="h-[400px] sm:h-[500px] w-full "
+             className="h-[500px] sm:h-[500px] w-full "
           />
         </SwiperSlide>
       </Swiper>

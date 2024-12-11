@@ -5,6 +5,7 @@ import { FaAngleDown } from "react-icons/fa6";
 import { FiUser } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa6";
 import { CgShoppingCart } from "react-icons/cg";
+import Link from "next/link";
 
 
 function TopHeader() {
@@ -29,15 +30,16 @@ function TopHeader() {
           USD
           <FaAngleDown />
         </p>
-        <p className="flex items-center gap-1">
-          Login
+        <p >
+          <Link href={'/login'} className="flex items-center gap-1"> Login
           <FiUser />
+          </Link>
         </p>
         <p className="flex items-center gap-1">
         Wishlist
         <FaRegHeart />
         </p>
-        <CgShoppingCart className="lg:h-[24px] lg:w-[24px]  md:h-[13px] md:w-[13px]  h-[11px] w-[11px] ml-2"/>
+       <Link href={'/cart'}> <CgShoppingCart className="lg:h-[24px] lg:w-[24px]  md:h-[18px] md:w-[18px]  h-[18px] w-[18px] ml-2"/> </Link>
 
 
       </div>

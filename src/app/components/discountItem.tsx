@@ -13,7 +13,7 @@ function DiscountItem() {
   return (
     <main className='mt-16'>
         <h1 className={`text-[32px] font-bold text-center  text-[#151875] ${josefinSans.className}`}>Discount Item</h1>
-        <div className="text-[#151875] flex justify-center font-[12px] sm:font-[18px]  items-center gap-2 sm:gap-4 md:gap-10">
+        <div className="text-[#151875] flex justify-center text-[14px] sm:text-[18px]  items-center gap-2 sm:gap-4 md:gap-10">
         <p className="text-[#FB4997] underline underline-offset-3">
         Wood Chair
         </p>
@@ -23,7 +23,7 @@ function DiscountItem() {
 
 
       <section>
-        <div className='h-[400px]   mt-7  w-full flex justify-center items-center '>
+        <div className='h-[400px]   mt-4  w-full flex justify-center items-center '>
            <div className='flex  flex-col md:flex-row gap-3 justify-center items-center '>
            
             <div  className='grid gap-3 mx-2 sm:mx-0'>

@@ -1,53 +1,84 @@
 import React from "react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 
-const trending = [
-    "/images/featureProducts/product1.png",
-  "/images/featureProducts/product2.png",
-  "/images/featureProducts/product3.png",
-  "/images/featureProducts/product4.png",
+export const topCategary = [
+  {
+    id: 12,
+    name: "Mini LCW Chair",
+    price: "56.00",
+    image: "/images/featureProducts/product1.png",
+  },
+  {
+    id: 13,
+    name: "Mini LCW Chair",
+    price: "56.00",
+    image: "/images/featureProducts/product2.png",
+  },
+  {
+    id: 14,
+    name: "Mini LCW Chair",
+    price: "56.00",
+    image: "/images/featureProducts/product3.png",
+  },
+  {
+    id: 15,
+    name: "Mini LCW Chair",
+    price: "56.00",
+    image: "/images/featureProducts/product4.png",
+  },
 ];
 
 export default function TopCategary() {
   return (
     <main className="mt-24  w-full">
-      <h1
-        className={`text-[#151875] text-[34px] text-center font-bold mb-6    ${josefinSans.className}`}
-      >
-       Top Categories
-      </h1>
+      <div className="lg:mx-[170px] sm:mx-[30px]">
+        <h1
+          className={`text-[#151875] text-[34px] text-center font-bold mb-6    ${josefinSans.className}`}
+        >
+          Top Categories
+        </h1>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4  mb-16  justify-center gap-4  ">
-        {trending.map((image, index) => {
-          return (
-            <div key={index} className="h-auto  w-full flex flex-col justify-center items-center  shadow-md ">
-              <div className="h-[269px]  w-[269px]  rounded-full   hover:border-l-[1px] hover:border-b-[5px] hover:border-l-purple-800 hover:border-b-purple-800   lg:mx-0  relative  flex  gap-5 flex-col justify-center items-center bg-[#F6F7FB]">
-                <Image
-                  src={image}
-                  width={216}
-                  height={151}
-                  alt="product-image"
-                  className="h-[211px] w-[151]"
-                />
-              </div>
-              <div className="flex  w-[100%] flex-col justify-center items-center gap-3 mt-3  text-[#151875]  ">
-                <h2 className="font-bold">Mini LCW Chair</h2>
-                <div className="flex gap-3">
-                  <p >$56.00</p>
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 px-5 sm:px-0  mb-16  justify-center gap-4  ">
+          {topCategary.map((product) => {
+            return (
+              <div
+                key={product.id}
+                className="h-auto group w-full flex flex-col justify-center items-center  shadow-md "
+              >
+                <div className="lg:h-[230px]  lg:w-[230px]   w-[200px]  h-[200px] rounded-full   hover:border-l-[1px] hover:border-b-[5px] hover:border-l-purple-800 hover:border-b-purple-800   lg:mx-0  relative  flex  gap-5 flex-col justify-center items-center  lg:bg-inherit bg-[#F6F7FB]">
+                  <Image
+                    src={product.image}
+                    width={216}
+                    height={151}
+                    alt="product-image"
+                    className="lg:h-[211px] lg:w-[151] h-[180px] w-[110px]"
+                  />
+                  <Button
+                    asChild
+                    className="h-[29px] w-[94px] hidden  absolute bottom-3 hover:bg-[#08D15F]  bg-[#08D15F] p-1 text-[12px] text-white group-hover:flex justify-center items-center"
+                  >
+                    <Link href={`/${product.id}`}>View Details</Link>
+                  </Button>
+                </div>
+                <div className="flex  w-[100%] flex-col justify-center items-center gap-3 mt-3  text-[#151875]  ">
+                  <h2 className="font-bold">{product.name}</h2>
+                  <div className="flex mb-4 gap-3">
+                    <p>${product.price}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </section>
-
-
+            );
+          })}
+        </section>
+      </div>
     </main>
   );
 }

@@ -49,13 +49,14 @@ function SecondHeader() {
               activeLink == "/" && "text-[#FB2E86]"
             }`}
           >
-            Home <FaAngleDown />
+            Home 
+            {/* <FaAngleDown /> */}
           </Link>
           <Link
-            href={"/pages"}
-            className={`${activeLink == "/pages" && "text-[#FB2E86]"}`}
+            href={"/about"}
+            className={`${activeLink == "/about" && "text-[#FB2E86]"}`}
           >
-            Pages
+            About
           </Link>
           <Link
             href={"/products"}
@@ -119,16 +120,15 @@ function SecondHeader() {
                 Home 
               </Link>
               <Link
-                href={"/pages"}
-                className={`${activeLink == "/pages" && "text-[#FB2E86]"}`}
+                href={"/about"}
+                className={`${activeLink == "/about" && "text-[#FB2E86]"}`}
               >
-                Pages
+                About
               </Link>
               <Link
                 href={"/products"}
                 className={`${activeLink == "/products" && "text-[#FB2E86]"}`}
               >
-                {" "}
                 Products
               </Link>
               <Link
@@ -149,6 +149,22 @@ function SecondHeader() {
               >
                 {" "}
                 Contact
+              </Link>
+
+              <Link
+                href={"/cart"}
+                className={`${activeLink == "/cart" && "text-[#FB2E86]"}`}
+              >
+                {" "}
+                cart
+              </Link>
+
+              <Link
+                href={"/faq"}
+                className={`${activeLink == "/faq" && "text-[#FB2E86]"}`}
+              >
+                {" "}
+                FAQ
               </Link>
             </nav>
           

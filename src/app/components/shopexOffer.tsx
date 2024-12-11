@@ -22,7 +22,7 @@ function ShopexOffer() {
       >
         What Shopex Offer!
       </h1>
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4  justify-center gap-4  ">
+      <section className="grid grid-cols-1 px-4 lg:px-0 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4  justify-center gap-4  ">
         {images.map((image, index) => {
           return (
             <div
