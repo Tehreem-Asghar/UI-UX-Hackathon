@@ -12,6 +12,7 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import Image from "next/image";
 import { Josefin_Sans } from "next/font/google";
+import Link from "next/link";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -53,9 +54,11 @@ export default function Sliding() {
                 in est adipiscing 
                 in phasellus non in justo.
               </p>
+              <Link href={'/shop'}>
               <button className="w-[163px] h-[50px] flex justify-center items-center bg-[#FB2E86] text-white">
                 Shop Now
               </button>
+              </Link>
             </div>
 
             <div className="sm:flex justify-center hidden items-center">

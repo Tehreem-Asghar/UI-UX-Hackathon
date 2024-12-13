@@ -8,6 +8,7 @@ import Trending from "./components/trending";
 import DiscountItem from "./components/discountItem";
 import TopCategary from "./components/topcategary";
 import Blogs from "./components/blogs";
+import Link from "next/link";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -34,7 +35,7 @@ export default function Home() {
               alt="sofa"
               className="lg:h-[400px] lg:w-[400px] md:h-[250px] md:w-[250px] md:block  h-[200px] w-[200px]  hidden"
             />
-            <div className="grid gap-3 mx-2 sm:mx-0">
+            <div className="grid gap-3 mx-5 sm:mx-0">
               <h1
                 className={`text-[#151875] font-bold text-[20px]  sm:text-[30px]  ${josefinSans.className}`}
               >
@@ -98,9 +99,11 @@ export default function Home() {
             <br />
             Our Newsletter
           </p>
+          <Link href={'/shop'}>
           <button className="p-7 h-10 w-[150px] flex justify-center items-center text-white bg-[#FB2E86]">
             Shop Now
           </button>
+          </Link>
         </div>
       </div>
 

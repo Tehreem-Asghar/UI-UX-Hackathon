@@ -5,18 +5,12 @@ import { LuShoppingCart } from "react-icons/lu";
 import { FaSearchPlus } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
+import { featureProducts } from "../../../data";
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 
-export const featureProducts = [ 
-  {id : 1 , name : "Cantilever chair" , price : '42.00', image: "/images/featureProducts/product1.png"},
-  { id : 2 , name : "Cantilever chair" , price : '42.00' , image : "/images/featureProducts/product2.png"},
-  {id : 3 , name : "Cantilever chair" , price : '42.00' ,image : "/images/featureProducts/product3.png"},
-  {id : 4 , name : "Cantilever chair" , price : '42.00' , image : "/images/featureProducts/product4.png"},
-]
 
   function FeatureProdut() {
   return (

@@ -15,7 +15,7 @@ const josefinSans = Josefin_Sans({
 interface PT {
   id: number;
   name: string;
-  price: string;
+  price: number;
   image: string;
 }
 
@@ -63,13 +63,36 @@ function Cart() {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const calculateSubtotal: () => number = () => {
-    return cartItems.reduce(
-      (total, item) =>
-        total + Number(item.selectedPlant.price) * Number(item.quantity),
-      0
+
+
+
+  // const calculateSubtotal: () => number = () => {
+  //   return cartItems.reduce((total, item) => {
+  //     // Check if selectedPlant exists before accessing its price and quantity
+  //     const price = item.selectedPlant?.price ?? 0; // If undefined, use 0 as the default value
+  //     const quantity = item.quantity ?? 0; // Default to 0 if quantity is undefined or null
+  //     return total + price * quantity;
+  //   }, 0);
+  // };
+  
+
+
+  // calculate items total
+  const calculateSubtotal = () => { 
+    const amount = cartItems.reduce(
+      (total, item) => total + item.selectedPlant.price * item.quantity,  0
     );
+    return amount; 
   };
+  
+  
+  // const calculateSubtotal: () => number = () => {
+  //   return cartItems.reduce(
+  //     (total, item) =>
+  //       total +item.selectedPlant.price * Number(item.quantity),
+  //     0
+  //   );
+  // };
 
   const subTotal: number = calculateSubtotal();
 
@@ -167,7 +190,7 @@ function Cart() {
                                   {item.quantity &&
                                     item.selectedPlant.price &&
                                     (
-                                      item.quantity * parseFloat(item.selectedPlant.price)
+                                      item.quantity * item.selectedPlant.price
                                     ).toFixed(2)}
                                 </td>
                               </tr>

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { CiHeart, CiShoppingCart } from "react-icons/ci";
 import { FaSearchPlus } from "react-icons/fa";
 import Link from "next/link";
-
+import { products } from "../../../data";
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -15,107 +15,7 @@ const josefinSans = Josefin_Sans({
 
 
 
-
-export  const  products =[
-    {
-        id : 16 ,
-        name : 'Vel elit euismod',
-        price : '26.00 ',
-        image : '/shop/product16.png' 
-    },
-
-    {
-        id : 17 ,
-        name : 'Ultricies condimentum imperdiet',
-        price : '26.00 ',
-        image : '/shop/product17.png' 
-    },
-
-    {
-        id : 18 ,
-        name : 'Vitae suspendisse sed',
-        price : '26.00 ',
-        image : '/shop/product18.png' 
-    },
-
-    {
-        id : 19 ,
-        name : 'Sed at fermentum',
-        price : '26.00 ',
-        image : '/shop/product19.png' 
-    },
-
-    {
-        id : 20 ,
-        name : 'Fusce pellentesque at',
-        price : '26.00 ',
-        image : '/shop/product20.png' 
-    },
-
-    {
-        id : 21 ,
-        name : 'Vestibulum magna laoreet',
-        price : '26.00 ',
-        image : '/shop/product21.png' 
-    },
-
-    {
-        id : 22 ,
-        name : 'Sollicitudin amet orci',
-        price : '26.00 ',
-        image : '/shop/product22.png' 
-    },
-
-    {
-        id : 23 ,
-        name : 'Ultrices mauris sit',
-        price : '26.00 ',
-        image : '/shop/product23.png' 
-    },
-    {
-        id : 24 ,
-        name : 'Pellentesque condimentum ac',
-        price : '26.00 ',
-        image : '/shop/product24.png' 
-    },
-
-
-    {
-        id : 25 ,
-        name : 'Cras scelerisque velit',
-        price : '26.00 ',
-        image : '/shop/product25.png' 
-    },
-    
-
-    {
-        id : 26 ,
-        name : 'Lectus vulputate faucibus',
-        price : '26.00 ',
-        image : '/shop/product26.png' 
-    },
-
-
-    {
-        id : 27 ,
-        name : 'Purus risus, ut',
-        price : '26.00 ',
-        image : '/shop/product27.png' 
-    },
-]
-
-
-
-
-
-
-
-
-
-
-
-
-export default function Shop() {
+export default function  Shop()  {
   return (
     <main className="max-w-[1920px] mx-auto">
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center ">

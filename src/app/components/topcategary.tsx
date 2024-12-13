@@ -3,38 +3,14 @@ import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { topCategary } from "../../../data";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 
-export const topCategary = [
-  {
-    id: 12,
-    name: "Mini LCW Chair",
-    price: "56.00",
-    image: "/images/featureProducts/product1.png",
-  },
-  {
-    id: 13,
-    name: "Mini LCW Chair",
-    price: "56.00",
-    image: "/images/featureProducts/product2.png",
-  },
-  {
-    id: 14,
-    name: "Mini LCW Chair",
-    price: "56.00",
-    image: "/images/featureProducts/product3.png",
-  },
-  {
-    id: 15,
-    name: "Mini LCW Chair",
-    price: "56.00",
-    image: "/images/featureProducts/product4.png",
-  },
-];
+
 
 export default function TopCategary() {
   return (

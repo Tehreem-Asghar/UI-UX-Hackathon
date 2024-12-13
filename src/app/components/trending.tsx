@@ -2,38 +2,14 @@ import React from "react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { trending } from "../../../data";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 
-export const trending = [
-  {
-    id: 8,
-    name: "Cantilever chair",
-    price: "42.00",
-    image: "/images/trending/Cantileverchair1.png",
-  },
-  {
-    id: 9,
-    name: "Cantilever chair",
-    price: "42.00",
-    image: "/images/trending/Cantileverchair2.png",
-  },
-  {
-    id: 10,
-    name: "Cantilever chair",
-    price: "42.00",
-    image: "/images/trending/Cantileverchair3.png",
-  },
-  {
-    id: 11,
-    name: "Cantilever chair",
-    price: "42.00",
-    image: "/images/trending/Cantileverchair4.png",
-  },
-];
+
 
 export default function Trending() {
   return (

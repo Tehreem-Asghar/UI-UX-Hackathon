@@ -5,52 +5,13 @@ import { FaSearchPlus } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa6";
 import { LuShoppingCart } from "react-icons/lu";
 import Link from "next/link";
-
+import { latestProduct } from "../../../data";
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 
-export const latestProduct = [  
-   
-  {
-    id: 5,
-    name: "Comfort Handy Craft",
-    price: "42.00",
-    image: "/images/latestProducts/comfortHandy1.png",
-  },
-  {
-    id: 6,
-    name: "Comfort Handy Craft",
-    price: "42.00",
-    image: "/images/latestProducts/comfortHandy2.png",
-  },
-  {
-    id: 7,
-    name: "Comfort Handy Craft",
-    price: "42.00",
-    image: "/images/latestProducts/comfortHandy3.png",
-  },
-  {
-    id: 8,
-    name: "Comfort Handy Craft",
-    price: "42.00",
-    image: "/images/latestProducts/comfortHandy4.png",
-  },
-  {
-    id: 9,
-    name: "Comfort Handy Craft",
-    price: "42.00",
-    image: "/images/latestProducts/comfortHandy5.png",
-  },
-  {
-    id: 7,
-    name: "Comfort Handy Craft",
-    price: "42.00",
-    image: "/images/latestProducts/comfortHandy6.png",
-  },
 
-]
 
 function LatestProduct() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Josefin_Sans } from "next/font/google";
-import { featureProducts } from "../components/feature-produt";
+import { featureProducts , latestProduct ,trending ,topCategary ,products } from "../../../data";
 import Image from "next/image";
 import { FaInstagramSquare, FaStar } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
@@ -10,10 +10,10 @@ import { FaFacebook } from "react-icons/fa6";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa6";
 import TopCategary from "../components/topcategary";
-import { latestProduct } from "../components/latestProduct";
-import { trending } from "../components/trending";
-import { topCategary } from "../components/topcategary";
-import { products } from "../products/page";
+// import { latestProduct } from "../components/latestProduct";
+// import { trending } from "../components/trending";
+// import { topCategary } from "../components/topcategary";
+// import { products } from "../products/page";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -27,7 +27,7 @@ interface Params {
 interface PT {
   id: number;
   name: string;
-  price: string;
+  price: number;
   image: string;
 }
 
@@ -41,12 +41,12 @@ interface CartItem {
 function DettailPage({ params }: { params: Params }) {
   const { id } = params;
   const [quantity, setQuantity] = useState<number>(1);
-  const [addcard, setAddcart] = useState<boolean>(false);
+  // const [addcard, setAddcart] = useState<boolean>(false);
 
   const allProduct : PT[]= featureProducts.concat(latestProduct , trending , topCategary , products)
 
 
-  const product = allProduct.find((item) => String(item.id) === id);
+  const product  = allProduct.find((item) => String(item.id) === id);
   console.log(product);
   if (!product) {
     return (
@@ -60,7 +60,7 @@ function DettailPage({ params }: { params: Params }) {
 
 
 
-  const addToCard = () => {
+  const addToCard :()=> any = () => {
     if (product) {
       // Check if 'cart' already exists in localStorage
       const cartItems = localStorage.getItem("cart");
@@ -70,7 +70,7 @@ function DettailPage({ params }: { params: Params }) {
 
       // Check if the selected product is already in the cart
       const existingItem: CartItem | undefined = cart.find(
-        (item: CartItem) => item.selectedPlant.id === product.id
+        (item: CartItem) => item.selectedPlant?.id === product.id
       );
 
       if (existingItem) {
@@ -87,7 +87,7 @@ function DettailPage({ params }: { params: Params }) {
 
       // Save the updated cart back to localStorage
       localStorage.setItem("cart", JSON.stringify(cart));
-      setAddcart(true);
+      // setAddcart(true);
     }
   };
 
