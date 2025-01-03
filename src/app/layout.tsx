@@ -4,6 +4,18 @@ import "./globals.css";
 import TopHeader from "./components/topHeader";
 import SecondHeader from "./components/secondHeader";
 import Footer, { BottomFooter } from "./components/footer";
+import ContextProvider from "./contetxtProvider";
+
+
+// import {
+//   ClerkProvider,
+//   SignInButton,
+//   SignedIn,
+//   SignedOut,
+//   UserButton
+// } from '@clerk/nextjs'
+
+
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,14 +31,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // <ClerkProvider>
+
+     <html lang="en">
       <body className={inter.className}>
-        <TopHeader/>
+
+        
+      {/* <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn> */}
+        
+        <ContextProvider> 
+        {/* <TopHeader/> */}
         <SecondHeader/>
         {children}
+        </ContextProvider>
         <Footer/>
         <BottomFooter/>
+      
         </body>
     </html>
+    // {/* </ClerkProvider> */}
   );
 }

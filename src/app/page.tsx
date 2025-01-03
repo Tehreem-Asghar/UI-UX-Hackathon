@@ -9,19 +9,36 @@ import DiscountItem from "./components/discountItem";
 import TopCategary from "./components/topcategary";
 import Blogs from "./components/blogs";
 import Link from "next/link";
+import { client } from "@/sanity/lib/client";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 
-export default function Home() {
+
+
+async function  Subscribe() {
+    const res = await client.fetch(`*[_type == "subscribeLatestUpdate"]{
+      _id,
+     subscribtext,
+     buttontext,
+     buttonUrl,
+  }`); 
+    return res
+
+}
+
+
+export default async function Home() {
+
+  const subscribe  = await Subscribe()
   return (
-    <main className="max-w-[1920px] mx-auto">
+    <main className="max-w-[1920px] mx-auto ">
       <Slider />
       <section className="lg:mx-[100px] mx[30px] overflow-hidden">
-        <FeatureProdut />
-        <LatestProduct />
+        <FeatureProdut />  
+        <LatestProduct/>
         <ShopexOffer />
       </section>
 
@@ -80,7 +97,7 @@ export default function Home() {
         </div>
       </section>
       <section className="lg:mx-[100px] mx[30px] overflow-hidden">
-        <Trending />
+        <Trending/>
         <DiscountItem />
       </section>
       <TopCategary />
@@ -95,13 +112,11 @@ export default function Home() {
         />
         <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-4">
           <p className="font-bold text-[#151875] text-[24px] text-center sm:text-[32px]">
-            Get Latest Update By Subscribe
-            <br />
-            Our Newsletter
+            {subscribe[0].subscribtext}
           </p>
-          <Link href={'/shop'}>
+          <Link href={subscribe[0].buttonUrl}>
           <button className="p-7 h-10 w-[150px] flex justify-center items-center text-white bg-[#FB2E86]">
-            Shop Now
+            {subscribe[0].buttontext}
           </button>
           </Link>
         </div>
