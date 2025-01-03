@@ -33,6 +33,9 @@ function Blogs() {
           <h2
             className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
           >
+
+
+            
             Blog Page
           </h2>
           <span className="flex sm:justify-start justify-center font-medium">
