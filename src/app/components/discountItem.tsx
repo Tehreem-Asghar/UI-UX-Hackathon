@@ -12,7 +12,7 @@ const josefinSans = Josefin_Sans({
 function DiscountItem() {
   return (
     <main className='mt-16'>
-        <h1 className={`text-[32px] font-bold text-center  text-[#151875] ${josefinSans.className}`}>Discount Item</h1>
+        <h1 className={`text-[32px] font-bold text-center  mb-4  text-[#151875] ${josefinSans.className}`}>Discount Item</h1>
         <div className="text-[#151875] flex justify-center text-[14px] sm:text-[18px]  items-center gap-2 sm:gap-4 md:gap-10">
         <p className="text-[#FB4997] underline underline-offset-3">
         Wood Chair
@@ -20,7 +20,6 @@ function DiscountItem() {
         <p>Plastic Chair </p>
         <p>Sofa Colletion</p>     
       </div>
-
 
       <section>
         <div className='h-[400px]   mt-4  w-full flex justify-center items-center '>

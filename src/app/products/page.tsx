@@ -1,21 +1,61 @@
-import React from "react";
-import { Josefin_Sans } from "next/font/google";
+"use client";
+
+import React, { useContext, useState } from "react";
+import { client } from "@/sanity/lib/client";
+import Image from "next/image";
+import Link from "next/link";
+import { FaSearchPlus } from "react-icons/fa";
+import { CiHeart, CiShoppingCart } from "react-icons/ci";
+import { searchContext } from "../conntext";
 import { PiCirclesFourFill } from "react-icons/pi";
 import { TfiMenuAlt } from "react-icons/tfi";
-import Image from "next/image";
-import { CiHeart, CiShoppingCart } from "react-icons/ci";
-import { FaSearchPlus } from "react-icons/fa";
-import Link from "next/link";
-import { products } from "../../../data";
+import { Josefin_Sans } from "next/font/google";
+import { Skeleton } from "@/components/ui/skeleton";
+
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 
+interface Product {
+  newPrice: number;
+  title: string;
+  oldPrice: number;
+  description: string;
+  image: string;
+  _id: string;
+}
+
+export default function Shop() {
+  const searchQuery = useContext(searchContext);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [search, setSearch] = useState("");
+  React.useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await client.fetch(`*[_type == "products"]{
+        _id,
+        title,
+        newPrice,
+        oldPrice,
+        description,
+        "image": image.asset->url
+      }`);
+      setProducts(res);
+    };
+    fetchProducts();
+  }, []);
 
 
+   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+        
+      };
 
-export default function  Shop()  {
+  // Filter products based on search query
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.search.toLowerCase() || search.toLowerCase())
+  );
+
   return (
     <main className="max-w-[1920px] mx-auto">
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center ">
@@ -52,65 +92,119 @@ export default function  Shop()  {
               <input
                 type="text"
                 className="h-[25px] w-[55px] border border-[#E7E6EF]"
+                
               />
             </div>
 
             <div className="lg:flex  hidden items-center gap-2">
               <p className="text-[#3F509E] text-[14px]">Sort By:</p>
-              <select className="h-[30px] w-auto text-[#3F509E] p-1 border border-[#E7E6EF]" >
+              <select className="h-[30px] w-auto text-[#3F509E] p-1 border border-[#E7E6EF]">
                 <option value="volvo">Best match</option>
-                
               </select>
             </div>
 
-
             <div className="flex items-center gap-2">
               <p className="text-[#3F509E] hidden sm:block">View:</p>
-              <PiCirclesFourFill  className="text-[#3F509E]"  />
+              <PiCirclesFourFill className="text-[#3F509E]" />
               <TfiMenuAlt className="text-[#3F509E]" />
-
             </div>
 
-                <input  type="text" className="h-[25px] w-[100px] border border-[#E7E6EF]  sm:block  hidden"/>
+            <input
+              type="text"
+              className="h-[25px] w-[100px] border border-[#E7E6EF]  sm:block  hidden"
+              value={search}
+                onChange={handleSearchChange}
+            />
           </div>
         </div>
 
-
-
         <div className="my-5 w-full">
-             <div  className="w-full grid  sm:grid-cols-3 md:grid-cols-4 gap-3 items-center ">
-                {products.map((product)=> (
-                    <div key={product.id} className="w-full h-auto group grid  my-2 ">   
-                         <div className="h-[250px] w-full  relative bg-[#EBF4F3] flex justify-center items-center"> 
-                         <Image src={product.image} height={280} width={270} className="h-[169px] w-[169px]" alt={product.name}/>
-                        
-                           <div className="group-hover:grid gap-2 hidden  text-[#151875]  absolute bottom-4  left-2"> 
-                              <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full"> <Link href={`/${product.id}`}><CiShoppingCart/></Link> </div>
-                              <div  className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full"> <FaSearchPlus/></div>
-                              <div  className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full"><CiHeart/> </div>
-                           </div>
-                         </div>
+          <div className="w-full grid  sm:grid-cols-3 md:grid-cols-4 gap-3 items-center ">
+            {filteredProducts.length !== 0 ? (
+              <>
+                {filteredProducts.map((product: Product) => (
+                  <div
+                    key={product._id}
+                    className="w-full h-auto group grid  my-2 "
+                  >
+                    <div className="h-[250px] w-full  relative bg-[#EBF4F3] flex justify-center items-center">
+                      <Image
+                        src={product.image}
+                        height={280}
+                        width={270}
+                        className="h-[169px] w-[169px]"
+                        alt={product.title}
+                      />
 
+                      <div className="group-hover:grid gap-2 hidden  text-[#151875]  absolute bottom-4  left-2">
+                        <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
+                          {" "}
+                          <Link href={`/${product._id}`}>
+                            <CiShoppingCart />
+                          </Link>{" "}
+                        </div>
+                        <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
+                          {" "}
+                          <FaSearchPlus />
+                        </div>
+                        <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
+                          <CiHeart />{" "}
+                        </div>
+                      </div>
+                    </div>
 
-                         <div className="pt-3   h-auto"> 
-                            <h1 className="text-[#151875] font-bold text-[16px] text-center">{product.name}</h1>
-                            <div className="flex gap-2 justify-center items-center mt-1">
-                                <div className="h-[10px] w-[10px] rounded-full  bg-[#DE9034]"></div>
-                                <div   className="h-[10px] w-[10px]  rounded-full  bg-[#EC42A2]"></div>
-                                <div   className="h-[10px] w-[10px]   rounded-full bg-[#8568FF]"></div>
-                            </div>
-                            <div className="flex gap-2 justify-center items-center mt-1"><p className="text-[#151875]">${product.price}</p>  <p className="line-through text-[#FB2E86]">$42.00</p> </div>
-                         </div>
-                       </div>
-                ) )}
-             </div>
-      </div>
+                    <div className="pt-3   h-auto">
+                      <h1 className="text-[#151875] font-bold text-[16px] text-center">
+                        {product.title}
+                      </h1>
+                      <div className="flex gap-2 justify-center items-center mt-1">
+                        <div className="h-[10px] w-[10px] rounded-full  bg-[#DE9034]"></div>
+                        <div className="h-[10px] w-[10px]  rounded-full  bg-[#EC42A2]"></div>
+                        <div className="h-[10px] w-[10px]   rounded-full bg-[#8568FF]"></div>
+                      </div>
+                      <div className="flex gap-2 justify-center items-center mt-1">
+                        <p className="text-[#151875]">${product.newPrice}</p>{" "}
+                        <p className="line-through text-[#FB2E86]">
+                          ${product.oldPrice}.00
+                        </p>{" "}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {Array.from({ length: 8 }).map((product: any, index) => (
+                  <div key={index} className="w-full h-auto group grid  my-2 ">
+                    <div className="h-[250px] w-full  relative bg-[#EBF4F3] flex justify-center items-center">
+                      <Skeleton className="h-[169px] w-[169px] mt-16 mb-8 bg-gray-200 " />
+                    </div>
 
+                    <div className="   h-auto">
+                      <Skeleton className="h-4 w-[250px]  mt-16 mb-8 bg-gray-400 " />
 
-      <div className="h-[93px] sm:mx-[170px] mx-[30px]  mt-28 mb-4">
-               <Image src={'/images/tags/tags.png'}  height={93} width={400} alt="tag" className="h-[93px] w-full"/>
+                      <div className="flex gap-2 justify-center items-center mt-1">
+                        {" "}
+                        <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />{" "}
+                        <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />{" "}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
+        </div>
 
+        <div className="h-[93px] sm:mx-[170px] mx-[30px]  mt-28 mb-4">
+          <Image
+            src={"/images/tags/tags.png"}
+            height={93}
+            width={400}
+            alt="tag"
+            className="h-[93px] w-full"
+          />
+        </div>
       </section>
     </main>
   );

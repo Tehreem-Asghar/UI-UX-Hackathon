@@ -1,15 +1,16 @@
-"use client";
+
 import React, { useState } from "react";
 import { Josefin_Sans } from "next/font/google";
-import { featureProducts , latestProduct ,trending ,topCategary ,products } from "../../../data";
+// import { featureProducts , latestProduct ,trending ,topCategary ,products, topCategary } from "../../../data";
 import Image from "next/image";
 import { FaInstagramSquare, FaStar } from "react-icons/fa";
-import { Button } from "@/components/ui/button";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { FaFacebook } from "react-icons/fa6";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa6";
-import TopCategary from "../components/topcategary";
+import Categary from "../components/topcategary";
+import { client } from "@/sanity/lib/client";
+import AddtocardButton from "../components/addtocardButton";
 // import { latestProduct } from "../components/latestProduct";
 // import { trending } from "../components/trending";
 // import { topCategary } from "../components/topcategary";
@@ -25,10 +26,11 @@ interface Params {
 }
 
 interface PT {
-  id: number;
-  name: string;
-  price: number;
+  _id: number;
+ title: string;
+  newPrice: number;
   image: string;
+  oldPrice : number;
 }
 
 
@@ -38,15 +40,138 @@ interface CartItem {
 }
 
 
-function DettailPage({ params }: { params: Params }) {
+
+async function feaPro() {
+  const res = await client.fetch(`*[_type == "featureProducts"]{
+    _id,
+  title,
+    newPrice,
+    code,
+    oldPrice,
+    description,
+    "image" : image.asset -> url
+    
+}`); 
+  return res;
+}
+
+ async function getData() {
+      const res = await client.fetch(`*[_type == "shop"]{
+        _id,
+        title,
+        newPrice,
+        oldPrice,
+        description,
+        "image" : image.asset -> url
+        
+    }`);
+      return res;
+    }
+
+
+async function latePro() {
+  const res = await client.fetch(`*[_type == "latestProducts"]{
+     _id,
+  title,
+    newPrice,
+    oldPrice,
+    description,
+    "image" : image.asset -> url
+}`); 
+  return res;
+}
+
+async function   topCat() {
+  const res = await client.fetch(`*[_type == "topCategary"]{
+    _id,
+    title,
+    newPrice,
+    oldPrice,
+    description,
+    "image" : image.asset -> url
+    
+}`);
+  return res;
+}
+
+async function   products() {
+  const res = await client.fetch(`*[_type == "products"]{
+    _id,
+    title,
+    newPrice,
+    oldPrice,
+    description,
+    "image" : image.asset -> url
+    
+}`);
+  return res;
+}
+
+
+async function   trenPro() {
+  const res = await client.fetch(`*[_type == "trendingproduct"]{
+    _id,
+    title,
+    newPrice,
+    oldPrice,
+    description,
+    "image" : image.asset -> url
+    
+}`);
+  return res;
+}
+
+
+async function   discountproduct() {
+  const res = await client.fetch(`*[_type == "disCountProduct"]{
+    _id,
+    title,
+    newPrice,
+    oldPrice,
+    description,
+    "image" : image.asset -> url
+    
+}`);
+  return res;
+}
+
+
+
+
+async function offerProduct() {
+  const res = await client.fetch(
+    `*[_type == "offerProducts"]{
+       _id,
+    title,
+      newPrice,
+      oldPrice,
+      description,
+      "image" : image.asset -> url
+  }
+`,
+    {
+      "Cache-Control": "no-store", // No cache
+    }
+  );
+
+  return res;
+}
+
+async function DettailPage({ params }: { params: Params }) {
   const { id } = params;
-  const [quantity, setQuantity] = useState<number>(1);
-  // const [addcard, setAddcart] = useState<boolean>(false);
+  let featureProducts = await feaPro()
+  let latestProduct = await latePro()
+  let topCategary = await topCat()
+  let Product = await products()
+  let trendingproduct = await trenPro()
+  let discountPro = await discountproduct()
+  let offerPro = await offerProduct()
+  let  shop = await getData()
 
-  const allProduct : PT[]= featureProducts.concat(latestProduct , trending , topCategary , products)
+  const allProduct : PT[]= featureProducts.concat(latestProduct ,offerPro , shop, discountPro , topCategary , Product , trendingproduct)
+  console.log('All Product' ,allProduct);
 
-
-  const product  = allProduct.find((item) => String(item.id) === id);
+  const product  = allProduct.find((item : any) => String(item._id) === id);
   console.log(product);
   if (!product) {
     return (
@@ -55,42 +180,6 @@ function DettailPage({ params }: { params: Params }) {
       </div>
     );
   }
-
-
-
-
-
-  const addToCard :()=> any = () => {
-    if (product) {
-      // Check if 'cart' already exists in localStorage
-      const cartItems = localStorage.getItem("cart");
-
-      // If cart exists, parse it, otherwise initialize as an empty array
-      const cart: CartItem[] = cartItems ? JSON.parse(cartItems) : [];
-
-      // Check if the selected product is already in the cart
-      const existingItem: CartItem | undefined = cart.find(
-        (item: CartItem) => item.selectedPlant?.id === product.id
-      );
-
-      if (existingItem) {
-        // Update the quantity if the plant is already in the cart
-        existingItem.quantity += quantity;
-      } else {
-        // Add the new product with its quantity
-        const data: CartItem = {
-          selectedPlant: product,
-          quantity: quantity,
-        };
-        cart.push(data);
-      }
-
-      // Save the updated cart back to localStorage
-      localStorage.setItem("cart", JSON.stringify(cart));
-      // setAddcart(true);
-    }
-  };
-
 
   return (
     <main className="max-w-[1920px] mx-auto">
@@ -111,38 +200,42 @@ function DettailPage({ params }: { params: Params }) {
         <div className="  shadow-[#c3c3c5] shadow-2xl h-auto  w-full my-24 sm:my-36 flex  sm:flex-row  flex-col">
           <div className="sm:w-[50%] w-full p-3 flex gap-3">
             <div className="w-[151px]  md:grid gap-2 hidden  ">
-              <div className="w-full    h-[155px] bg-[#C4C4C4] flex justify-center items-center">
+              <div className="w-full    h-[155px] bg-inherit hover:bg-[#C4C4C4]  border border-[#e5e2e2] flex justify-center items-center">
                 <Image
                   src={product.image}
-                  height={155}
-                  width={151}
-                  alt={product.name}
+                  height={200}
+                  width={200}
+                  alt={product.title}
+                  className="h-[130px] w-[130px] p-2"
                 />
               </div>
-              <div className="w-full h-[155px] bg-[#C4C4C4] flex justify-center items-center">
+              {/* [#C4C4C4] */}
+              <div className="w-full h-[155px] bg-inherit hover:bg-[#C4C4C4]   border border-[#e5e2e2] flex justify-center items-center">
                 <Image
                   src={product.image}
                   height={155}
                   width={151}
-                  alt={product.name}
+                  alt={product.title}
+                    className="h-[130px] w-[130px] p-2"
                 />
               </div>
-              <div className="w-full h-[155px] bg-[#C4C4C4] flex justify-center items-center">
+              <div className="w-full h-[155px] bg-inherit hover:bg-[#C4C4C4]  border border-[#e5e2e2] flex justify-center items-center">
                 <Image
                   src={product.image}
                   height={155}
                   width={151}
-                  alt={product.name}
+                  alt={product.title}
+                    className="h-[130px] w-[130px] p-2"
                 />
               </div>
             </div>
-            <div className="sm:w-[375px] w-full   bg-[#C4C4C4]   flex justify-center items-center">
+            <div className="sm:w-[375px] w-full   bg-inherit hover:bg-[#C4C4C4]  border border-[#e5e2e2]  flex justify-center items-center">
               <Image
                 src={product.image}
                 height={487}
                 width={375}
-                alt={product.name}
-                className=" h-[400px] w-full sm:w-[300px]"
+                alt={product.title}
+                className=" h-[400px] w-full sm:w-[300px] p-3"
               />
             </div>
           </div>
@@ -150,7 +243,7 @@ function DettailPage({ params }: { params: Params }) {
             <section className="grid gap-5">
               <h1 className="text-[#0D134E] text-[25px] sm:text-[32px] font-bold">
                 {" "}
-                {product.name}
+                {product.title}
               </h1>
               <span className="flex  gap-3 items-center">
                 {" "}
@@ -160,8 +253,8 @@ function DettailPage({ params }: { params: Params }) {
                 (22)
               </span>
               <span className=" flex items-center gap-5 font-medium">
-                <p>${product.price}</p>{" "}
-                <p className="line-through  text-[#FB2E86]">${product.price}</p>{" "}
+                <p>${product.newPrice}</p>{" "}
+                <p className="line-through  text-[#FB2E86]">${product.oldPrice}</p>{" "}
               </span>
               <h2 className="text-[#0D134E] font-semibold">Color</h2>
               <p className="text-[#A9ACC6]">
@@ -169,10 +262,13 @@ function DettailPage({ params }: { params: Params }) {
                 tellus porttitor purus, et volutpat sit.
               </p>
               <span className="flex gap-4 items-center  ml-8 text-[#151875]">
-                {" "}
-                <Button  onClick={()=> addToCard()} className="bg-inherit hover:text-white hover:bg-[#FB2E86] text-[#151875]">
-                  Add To cart{" "}
-                </Button>{" "}
+                
+                {/* <Button  onClick={()=> addToCard()} className="bg-inherit hover:text-white hover:bg-[#FB2E86] text-[#151875]">
+                  Add To cart
+                
+                </Button> */}
+
+                <AddtocardButton product={product}/>
                 <IoMdHeartEmpty className="text-[28px] hover:text-red-600" />{" "}
               </span>
               <h1 className="text-[#0D134E] font-semibold">Categories:</h1>
@@ -229,7 +325,7 @@ function DettailPage({ params }: { params: Params }) {
           </div> 
           </div>
       </section>
-       <TopCategary />
+       {/* <Categary/> */}
           <div className="h-[93px] sm:mx-[170px] mx-[30px]  mb-4">
                <Image src={'/images/tags/tags.png'}  height={93} width={400} alt="tag" className="h-[93px] w-full"/>
           </div>

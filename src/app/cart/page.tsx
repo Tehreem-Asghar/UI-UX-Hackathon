@@ -12,10 +12,16 @@ const josefinSans = Josefin_Sans({
   weight: ["400", "700"],
 });
 
+// interface PT {
+//   id: number;
+//   name: string;
+//   price: number;
+//   image: string;
+// }
 interface PT {
-  id: number;
-  name: string;
-  price: number;
+  _id: number;
+ title: string;
+ newPrice: number;
   image: string;
 }
 
@@ -41,7 +47,7 @@ function Cart() {
   // Function to increase or decrease the quantity of a specific plant
   const handleQuantityChange = (id: number, increment: boolean) => {
     const updatedCart = cartItems.map((item) =>
-      item.selectedPlant.id === id
+      item.selectedPlant._id === id
         ? {
             ...item,
             quantity: increment
@@ -57,7 +63,7 @@ function Cart() {
   // Function to remove an item from the cart based on its ID
   const handleRemove = (id: number) => {
     const updatedCart = cartItems.filter(
-      (item) => item.selectedPlant.id !== id
+      (item) => item.selectedPlant._id !== id
     );
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -80,7 +86,7 @@ function Cart() {
   // calculate items total
   const calculateSubtotal = () => { 
     const amount = cartItems.reduce(
-      (total, item) => total + item.selectedPlant.price * item.quantity,  0
+      (total, item) => total + item.selectedPlant.newPrice * item.quantity,  0
     );
     return amount; 
   };
@@ -143,24 +149,24 @@ function Cart() {
                                       height={150}
                                       width={150}
                                       className="h-full w-full"
-                                      alt={item.selectedPlant.name}
+                                      alt={item.selectedPlant.title}
                                     />
                                     <div
-                                      onClick={() => handleRemove(item.selectedPlant.id)}
+                                      onClick={() => handleRemove(item.selectedPlant._id)}
                                       className="h-3 w-3 text-[9px] rounded-full p-1 flex justify-center items-center bg-[#1b1b1b] text-white absolute top-0 right-0"
                                     >
                                       x
                                     </div>
                                   </div>
                                   <div className="md:text-[16px] sm:text-[14px]  text-[12px]">
-                                    <h1>{item.selectedPlant.name}</h1>
+                                    <h1>{item.selectedPlant.title}</h1>
                                     <p className="text-[#A1A8C1]"> color:Brown</p>
                                     <p className="text-[#A1A8C1]">size:XL</p>
                                   </div>
                                 </td>
                                 {/* Product Price */}
                                 <td className="text-center text-[#1D3178] md:text-[16px] sm:text-[14px]  text-[12px]">
-                                  ${item.selectedPlant.price}
+                                  ${item.selectedPlant.newPrice}
                                 </td>
                                 {/* Quantity */}
                                 <td className="text-center">
@@ -168,7 +174,7 @@ function Cart() {
                                     <button
                                       className=" h-auto w-[10px] py-1 bg-gray-200 hover:bg-gray-300"
                                       onClick={() =>
-                                        handleQuantityChange(item.selectedPlant.id, false)
+                                        handleQuantityChange(item.selectedPlant._id, false)
                                       }
                                     >
                                       -
@@ -176,7 +182,7 @@ function Cart() {
                                     <span className=" py-1">{item.quantity}</span>
                                     <button
                                       onClick={() =>
-                                        handleQuantityChange(item.selectedPlant.id, true)
+                                        handleQuantityChange(item.selectedPlant._id, true)
                                       }
                                       className="h-auto w-[10px] py-1 bg-gray-200 hover:bg-gray-300"
                                     >
@@ -188,9 +194,9 @@ function Cart() {
                                 <td className="text-center text-[#1D3178]">
                                   ${" "}
                                   {item.quantity &&
-                                    item.selectedPlant.price &&
+                                    item.selectedPlant.newPrice &&
                                     (
-                                      item.quantity * item.selectedPlant.price
+                                      item.quantity * item.selectedPlant.newPrice
                                     ).toFixed(2)}
                                 </td>
                               </tr>

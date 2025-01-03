@@ -1,31 +1,135 @@
-import React from "react";
+"use client";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FaFacebook, FaPenFancy } from "react-icons/fa6";
 import { FaInstagramSquare, FaRegCalendarAlt } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
+import Link from "next/link";
+import { client } from "@/sanity/lib/client";
+import { format, setDate } from "date-fns";
+import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 
-const blogImage = [
-  {
-    image: "/images/blogs/blog4.png",
-    name: "Mauris at orci non vulputate diam tincidunt nec.",
-  },
-  {
-    image: "/images/blogs/blog5.png",
-    name: "Aenean vitae in aliquam ultrices lectus. Etiam.",
-  },
-  {
-    image: "/images/blogs/blog6.png",
-    name: "Sit nam congue feugiat nisl, mauris amet nisi.",
-  },
-];
 
 function Blogs() {
+ 
+  const [data, setdata] = useState([]);
+  const [offerPro, setofferPro] = useState([]);
+  const [recentblogs, setrecentblogs] = useState([]);
+  const [salePro, setsalePro] = useState([]);
+  const [search, setSearch] = useState<string>("");
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const salepro = salePro.filter((product: any) =>
+    product.blogtitle.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const recent = recentblogs.filter((product: any) =>
+    product.blogtitle.toLowerCase().includes(search.toLowerCase())
+  );
+ 
+
+  useEffect(() => {
+    async function Blog() {
+      const res = await client.fetch(
+        `*[_type == "blog"][3...6]{
+    _id,
+    blogtitle,
+     slug {
+      current
+    },
+     publishDate,
+    description,
+    "blogimage": blogimage.asset->url,
+    blogpoint[]{
+      title,
+      description
+    }
+  }`,
+        {
+          "Cache-Control": "no-store",
+        }
+      );
+
+      setdata(res);
+    }
+    Blog();
+
+    async function recentblog() {
+      const res = await client.fetch(
+        `*[_type == "recentblog"]{
+    _id,
+    blogtitle,
+    slug {
+      current
+    },
+    description,
+    publishDate,
+    "blogimage": blogimage.asset->url,
+    blogpoint[]{
+      title,
+      description
+    }
+  }
+  `
+      );
+
+      setrecentblogs(res);
+    }
+    recentblog();
+
+    async function offerProduct() {
+      const res = await client.fetch(
+        `*[_type == "offerProducts"]{
+         _id,
+      title,
+      
+        newPrice,
+        oldPrice,
+        description,
+        "image" : image.asset -> url
+    }
+  `,
+        {
+          "Cache-Control": "no-store", 
+        }
+      );
+
+      setofferPro(res);
+    }
+    offerProduct();
+    async function saleProduct() {
+      const res = await client.fetch(
+        `*[_type == "saleProduct"]{
+    _id,
+    blogtitle,
+    slug {
+      current
+    },
+    description,
+    publishDate,
+    "blogimage": blogimage.asset->url,
+    blogpoint[]{
+      title,
+      description
+    }
+  }
+  `
+      );
+
+      setsalePro(res);
+    }
+    saleProduct();
+  }, []);
+
   return (
     <main className="max-w-[1920px] mx-auto">
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center ">
@@ -45,10 +149,10 @@ function Blogs() {
       <section className="lg:mx-[170px] mx-[20px] sm:mx-[30px] screen4:mx-[25px] my-24 flex  ">
         <div className="w-full flex ">
           <div className="w-[70%] screen:w-[100%] ">
-            {blogImage.map((blog , index) => (
-              <div className="my-6"  key={index}>
+            {data.map((blog: any) => (
+              <div className="my-6" key={blog.id}>
                 <Image
-                  src={blog.image}
+                  src={blog.blogimage}
                   height={453}
                   width={600}
                   alt={"blog"}
@@ -63,33 +167,33 @@ function Blogs() {
                     </div>
                     <div className="flex items-center gap-3">
                       <FaRegCalendarAlt className="text-[#FFA454]" />
-                      <p className="text-[12px]">21 August, 2020</p>
+                      <p className="text-[12px]">
+                        {format(new Date(blog.publishDate), "MMM dd yyyy")}
+                      </p>
                     </div>
                   </div>
                   <h3 className="text-[#151875] text-[20px] font-bold mt-2">
-                    {blog.name}
+                    {blog.blogtitle}
                   </h3>
                   <p className="text-[#72718F] mt-4 text-[14px] leading-6">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Velit facilisis quis auctor pretium ipsum, eu rutrum.
-                    Condimentum eu malesuada vitae ultrices in in neque, porta
-                    dignissim. Adipiscing purus, cursus vulputate id id dictum
-                    at.
+                    {blog.description}
                   </p>
-                  <p className="text-[16px] mt-4 text-[#151875] ">Read More</p>
+                  <p className="text-[16px] mt-4 text-[#151875] ">
+                    <Link href={`/blog/${blog.slug.current}`}>Read More</Link>
+                  </p>
                 </div>
               </div>
             ))}
           </div>
           <div className="w-[30%] screen:hidden px-5  mt-5 py-5  ">
             <h1 className="text-[#151875] font-bold text-[22px]  "> Search</h1>
-
             <input
               type="text"
               placeholder="Search For Posts"
-              className="h-[45px] w-full  mt-4 border border-[#BDBDD8] p-2 "
+              className="h-[45px] w-full mt-4 border border-[#BDBDD8] p-2"
+              value={search}
+              onChange={handleSearchChange}
             />
-
             <div>
               <h1 className="text-[#151875] font-bold text-[22px] mt-6  ">
                 Categories
@@ -119,187 +223,186 @@ function Blogs() {
               <h1 className="text-[#151875] font-bold text-[22px] mt-16">
                 Recent Post
               </h1>
-              <div className="flex gap-3 mt-8 ">
-                <Image
-                  src={"/images/blogs/recent1.png"}
-                  height={51}
-                  width={70}
-                  alt="recent post"
-                  className="h-[50px] w-[70px] "
-                />
-                <div >
-                  <p className="text-[#3F509E] text-[14px]">
-                    It is a long established fact
-                  </p>
-                  <p className="text-[#8A8FB9] text-[11px]">Aug 09 2020</p>
-                </div>
-              </div>
+              {recent.length !== 0 ? (
+                <>
+                  {recent.map((blog: any) => {
+                    return (
+                      <div className="flex gap-3 mt-8 " key={blog._id}>
+                        <Image
+                          src={blog.blogimage}
+                          height={51}
+                          width={70}
+                          alt="recent post"
+                          className="h-[50px] w-[70px] "
+                        />
+                        <div>
+                          <Link href={`/blog/${blog.slug.current}`}>
+                            <p className="text-[#3F509E] text-[14px]  line-clamp-2">
+                              {blog.blogtitle}
+                            </p>
+                            <p className="text-[#8A8FB9] text-[11px]">
+                              {" "}
+                              {format(
+                                new Date(blog.publishDate),
+                                "MMM dd yyyy"
+                              )}
+                            </p>
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  <div className="flex gap-3 mt-8 ">
+                    <Skeleton className="h-[50px] w-[70px]" />
 
-              <div className="flex gap-3 mt-8">
-                <Image
-                  src={"/images/blogs/recent2.png"}
-                  height={51}
-                  width={70}
-                  alt="recent post"
-                  className="h-[50px] w-[70px]"
-                />
-                <div>
-                  <p className="text-[#3F509E] text-[14px]">
-                    It is a long established fact
-                  </p>
-                  <p className="text-[#8A8FB9] text-[11px]">Aug 09 2020</p>
-                </div>
-              </div>
+                    <div>
+                      <Skeleton className="h-4 w-[100px] mt-2" />
+                      <Skeleton className="h-4 w-[100px] mt-2" />
+                    </div>
+                  </div>
+                  <div className="flex gap-3 mt-8 ">
+                    <Skeleton className="h-[50px] w-[70px]" />
 
-              <div className="flex gap-3 mt-8">
-                <Image
-                  src={"/images/blogs/recent3.png"}
-                  height={51}
-                  width={70}
-                  alt="recent post"
-                  className="h-[50px] w-[70px]"
-                />
-                <div>
-                  <p className="text-[#3F509E] text-[14px]">
-                    It is a long established fact
-                  </p>
-                  <p className="text-[#8A8FB9] text-[11px]">Aug 09 2020</p>
-                </div>
-              </div>
+                    <div>
+                      <Skeleton className="h-4 w-[100px] mt-2" />
+                      <Skeleton className="h-4 w-[100px] mt-2" />
+                    </div>
+                  </div>
+                </>
+              )}
 
-              <div className="flex gap-3 mt-8">
-                <Image
-                  src={"/images/blogs/recent4.png"}
-                  height={51}
-                  width={70}
-                  alt="recent post"
-                  className="h-[50px] w-[70px]"
-                />
-                <div>
-                  <p className="text-[#3F509E] text-[14px]">
-                    It is a long established fact
-                  </p>
-                  <p className="text-[#8A8FB9] text-[11px]">Aug 09 2020</p>
-                </div>
-              </div>
-
-              
               <h1 className="text-[#151875] font-bold text-[22px] mt-16">
-              Sale Product
+                Sale Product
               </h1>
-              <div className="flex gap-3 mt-8">
-                <Image
-                  src={"/images/blogs/sale1.png"}
-                  height={51}
-                  width={70}
-                  alt="recent post"
-                  className="h-[50px] w-[70px]"
-                />
-                <div>
-                  <p className="text-[#3F509E] text-[14px]">
-                  Elit ornare in enim mauris.
-                  </p>
-                  <p className="text-[#8A8FB9] text-[11px]">Aug 09 2020</p>
-                </div>
-              </div>
+              { salepro.length !== 0 ? (
+                <>
+                  {salepro.map((produc: any) => {
+                    return (
+                      <div className="flex gap-3 mt-8" key={produc._id}>
+                        <Image
+                          src={produc.blogimage}
+                          height={51}
+                          width={70}
+                          alt="recent post"
+                          className="h-[50px] w-[70px]"
+                        />
+                        <div>
+                          <Link href={`/blog/${produc.slug.current}`}>
+                            <p className="text-[#3F509E] text-[14px] line-clamp-2">
+                              {produc.blogtitle}
+                            </p>
+                            <p className="text-[#8A8FB9] text-[11px]">
+                              {format(
+                                new Date(produc.publishDate),
+                                "MMM dd yyyy"
+                              )}
+                            </p>
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                <div className="flex gap-3 mt-8 ">
+                    <Skeleton className="h-[50px] w-[70px]" />
 
-              <div className="flex gap-3 mt-8">
-                <Image
-                  src={"/images/blogs/sale2.png"}
-                  height={51}
-                  width={70}
-                  alt="recent post"
-                  className="h-[50px] w-[70px]"
-                />
-                <div>
-                  <p className="text-[#3F509E] text-[14px]">
-                  Viverra pulvinar et enim.
-                  </p>
-                  <p className="text-[#8A8FB9] text-[11px]">Aug 09 2020</p>
-                </div>
-              </div>
+                    <div>
+                      <Skeleton className="h-4 w-[100px] mt-2" />
+                      <Skeleton className="h-4 w-[100px] mt-2" />
+                    </div>
+                  </div>
+                  <div className="flex gap-3 mt-8 ">
+                    <Skeleton className="h-[50px] w-[70px]" />
 
-              <div className="flex gap-3 mt-8">
-                <Image
-                  src={"/images/blogs/sale3.png"}
-                  height={51}
-                  width={70}
-                  alt="recent post"
-                  className="h-[50px] w-[70px]"
-                />
-                <div>
-                  <p className="text-[#3F509E] text-[14px]">
-                  Mattis varius donec fdsfd
-                  </p>
-                  <p className="text-[#8A8FB9] text-[11px]">Aug 09 2020</p>
-                </div>
-              </div>
+                    <div>
+                      <Skeleton className="h-4 w-[100px] mt-2" />
+                      <Skeleton className="h-4 w-[100px] mt-2" />
+                    </div>
+                  </div>
+                </>
+              )}
 
               <h1 className="text-[#151875] font-semibold text-[22px] mt-14">
                 Offer Product
               </h1>
 
               <div className="mt-12  grid grid-cols-2 gap-2">
-                      <div  className="w-[126px] h-auto">
-                        <Image src={'/images/blogs/offer1.png'}   height={80} width={126}  alt="offer" className="h-[80px]  w-[126px]"/>
-                          <h2 className="text-[#151875] text-[14px]">Duis lectus est.</h2>
-                          <p className="text-[#8A8FB9] text-[12px]"> $12.00 - $15.00</p>
-                      </div>
-
-                      <div  className="w-[126px] h-auto">
-                        <Image src={'/images/blogs/offer2.png'}   height={80} width={126}  alt="offer" className="h-[80px]  w-[126px]"/>
-                          <h2 className="text-[#151875] text-[14px]">Sed placerat.</h2>
-                          <p className="text-[#8A8FB9] text-[12px]"> $12.00 - $15.00</p>
-                      </div>
-
-                      <div  className="w-[126px] h-auto">
-                        <Image src={'/images/blogs/offer3.png'}   height={80} width={126}  alt="offer" className="h-[80px]  w-[126px]"/>
-                          <h2 className="text-[#151875] text-[14px]">Netus proin.</h2>
-                          <p className="text-[#8A8FB9] text-[12px]"> $12.00 - $15.00</p>
-                      </div>
-
-                      <div  className="w-[126px] h-auto">
-                        <Image src={'/images/blogs/offer4.png'}   height={80} width={126}  alt="offer" className="h-[80px]  w-[126px]"/>
-                          <h2 className="text-[#151875] text-[14px]">Platea in.</h2>
-                          <p className="text-[#8A8FB9] text-[12px]"> $12.00 - $15.00</p>
-                      </div>
+                {offerPro.map((pro: any ) => {
+                  return (
+                    <div className="w-[126px] h-auto" key={pro._id}>
+                      <Image
+                        src={pro.image}
+                        height={80}
+                        width={126}
+                        alt="offer"
+                        className="h-[80px]  w-[126px]"
+                      />
+                      <Link href={`/${pro._id}`}>
+                        <h2 className="text-[#151875] text-[14px]">
+                          {pro.title}
+                        </h2>
+                        <p className="text-[#8A8FB9] text-[12px]">
+                          {" "}
+                          ${pro.newPrice} - ${pro.oldPrice}
+                        </p>
+                      </Link>
+                    </div>
+                  );
+                })}
               </div>
 
               <h1 className="text-[#151875] font-semibold text-[22px] mt-10">
                 Follow
               </h1>
-                <div className="mt-4 flex items-center gap-2">
-                <FaFacebook className="text-blue-800"/>
-                <FaInstagramSquare className="text-pink-700"/>
-                <AiFillTwitterCircle  className="text-blue-400"/>
-                </div>
+              <div className="mt-4 flex items-center gap-2">
+                <FaFacebook className="text-blue-800" />
+                <FaInstagramSquare className="text-pink-700" />
+                <AiFillTwitterCircle className="text-blue-400" />
+              </div>
 
-                <h1 className="text-[#151875] font-semibold text-[22px] mt-7">
+              <h1 className="text-[#151875] font-semibold text-[22px] mt-7">
                 Tags
               </h1>
 
-
-               <div className="text-[#151875]  mt-4  grid grid-cols-3 gap-4">
-                 <p className="underline underline-offset-2">General</p>
-                <p className="text-[#FB2E86]  underline underline-offset-2">Atsanil</p>
+              <div className="text-[#151875]  mt-4  grid grid-cols-3 gap-4">
+                <p className="underline underline-offset-2">General</p>
+                <p className="text-[#FB2E86]  underline underline-offset-2">
+                  Atsanil
+                </p>
                 <p className="underline underline-offset-2">Insas.</p>
-                <p className="underline underline-offset-2" >Bibsaas</p>
+                <p className="underline underline-offset-2">Bibsaas</p>
                 <p className="underline underline-offset-2">Nulla.</p>
-               </div>
-
-
+              </div>
             </div>
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
           </div>
         </div>
-
-       
-
       </section>
 
       <div className="h-[93px] sm:mx-[170px] mx-[30px]  mt-28 mb-4">
-               <Image src={'/images/tags/tags.png'}  height={93} width={400} alt="tag" className="h-[93px] w-full"/>
-          </div>
-
+        <Image
+          src={"/images/tags/tags.png"}
+          height={93}
+          width={400}
+          alt="tag"
+          className="h-[93px] w-full"
+        />
+      </div>
     </main>
   );
 }

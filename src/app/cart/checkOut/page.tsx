@@ -14,9 +14,9 @@ const josefinSans = Josefin_Sans({
 
 
 interface PT {
-  id: number;
-  name: string;
-  price: string;
+  _id: number;
+ title: string;
+ newPrice: number;
   image: string;
 }
 
@@ -46,7 +46,7 @@ function OrderDone() {
   const calculateSubtotal: () => number = () => {
     return cartItems.reduce(
       (total, item) =>
-        total + Number(item.selectedPlant.price) * Number(item.quantity),
+        total + Number(item.selectedPlant.newPrice) * Number(item.quantity),
       0
     );
   };
@@ -186,17 +186,16 @@ function OrderDone() {
         <div className="lg:w-[40%]  w-full">
                {cartItems.map((items)=>(
                 <>
-                  <div  key={items.selectedPlant.id} className="h-[102px] bg-[#E1E1E4] px-2 w-full flex justify-between shadow-md mb-4">
+                  <div  key={items.selectedPlant._id} className="h-[102px] bg-[#E1E1E4] px-2 w-full flex justify-between shadow-md mb-4">
                    <div className="flex gap-2"> 
-                    <Image src={items.selectedPlant.image} height={87} width={83} alt={items.selectedPlant.name} className="h-[84px] w-[80px] "/>
+                    <Image src={items.selectedPlant.image} height={87} width={83} alt={items.selectedPlant.title} className="h-[84px] w-[80px] "/>
                        <div className="flex flex-col justify-center items-center">
-                        <h2 className="text-[12px]">{items.selectedPlant.name}</h2>
+                        <h2 className="text-[12px]">{items.selectedPlant.title}</h2>
                         <p className="text-[12px] text-[#A1A8C1]"> color:Brown</p>
                         <p className="text-[12px] text-[#A1A8C1]">size:Xl</p>
                        </div>
                    </div>
-                   <div className="flex justify-center items-center text-[#15245E]">{  `$${items.quantity &&items.selectedPlant.price &&(  items.quantity * parseFloat(items.selectedPlant.price) ).toFixed(2)}`}</div>
-               </div>
+                   <div className="flex justify-center items-center text-[#15245E]">{  `$${items.quantity &&items.selectedPlant.newPrice &&(  items.quantity *items.selectedPlant.newPrice).toFixed(2)}`}</div>               </div>
                 </>
               ))}
 

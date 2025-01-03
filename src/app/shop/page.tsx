@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { Josefin_Sans } from "next/font/google";
 import { PiCirclesFourFill } from "react-icons/pi";
 import { TfiMenuAlt } from "react-icons/tfi";
@@ -7,11 +8,22 @@ import { IoIosStar } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
 import { CiHeart, CiShoppingCart } from "react-icons/ci";
 import { FaSearchPlus } from "react-icons/fa";
+import { client } from "@/sanity/lib/client";
+import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
+
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
+
+
+
+
+
+
+
 
 const shop = [
   {
@@ -44,7 +56,53 @@ const shop = [
   },
 ];
 
-function Shop() {
+
+interface Product {
+  newPrice: number;
+  title: string;
+  oldPrice: number;
+  description: string;
+  image: string;
+  _id: string;
+}
+
+
+ function Shop() {
+
+   const [products, setProducts] = useState<Product[]>([]);
+    const [search, setSearch] = useState("");
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+          setSearch(e.target.value);
+          
+        };
+
+
+ // Filter products based on search query
+ const filteredProducts = products.filter((product) =>
+  product.title.toLowerCase().includes( search.toLowerCase())
+);
+
+  useEffect(() => {
+    async function getData() {
+      const res = await client.fetch(`*[_type == "shop"]{
+        _id,
+        title,
+        newPrice,
+        oldPrice,
+        description,
+        "image" : image.asset -> url
+        
+    }`);
+      setProducts(res);
+    }
+
+    getData();
+
+  }, []);
+
+
+
   return (
     <main className="max-w-[1920px] mx-auto">
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center ">
@@ -100,6 +158,8 @@ function Shop() {
             <input
               type="text"
               className="h-[25px] w-[100px] border border-[#E7E6EF]  sm:block  hidden"
+              value={search}
+                onChange={handleSearchChange}
             />
           </div>
         </div>
@@ -107,22 +167,25 @@ function Shop() {
 
       <section className="lg:mx-[170px] mx-[20px] sm:mx-[30px] screen4:mx-[25px] my-24 flex flex-col">
         <div>
-          {shop.map((shopItem) => (
-            <div className="flex  sm:flex-row  flex-col gap-5 w-full" key={shopItem.name}>
-              <div>
+
+        {filteredProducts.length !== 0 ? <>   {filteredProducts.map((shopItem : Product)  => (
+            <div className="flex  sm:flex-row  flex-col gap-5 w-full" key={shopItem.title}>
+              <div className="h-[217px] w-full sm:w-[30%]">
                 <Image
                   src={shopItem.image}
-                  alt={shopItem.name}
+                  alt={shopItem.title}
                   height={217}
                   width={313}
-                  className="h-[217px] w-full sm:w-[313px]"
+                  // className="h-[217px] w-full sm:w-[313px]"
+                  className="h-[217px] w-[100%]"
+
                 />
               </div>
-              <div className="grid items-center  py-9">
+              <div className="grid items-center w-full sm:w-[70%]  py-9">
                 <div className=" grid  gap-4  ">
                   <div className="w-auto flex items-center  gap-4">
                     <h1 className="text-[#111C85] text-[18px] font-bold">
-                      {shopItem.name}
+                      {shopItem.title}
                     </h1>
                     <div className="flex gap-1 justify-center items-center">
                       <div className="h-[10px] w-[10px] rounded-full bg-[#DE9034]"></div>
@@ -133,8 +196,8 @@ function Shop() {
 
                   <div className=" flex    items-center gap-6">
                     <div className="flex gap-2">
-                      <p className="text-[#111C85]">$26.00</p>
-                      <p className="line-through text-[#EC42A2] ">$52.00</p>
+                      <p className="text-[#111C85]">${shopItem.newPrice}</p>
+                      <p className="line-through text-[#EC42A2] ">${shopItem.oldPrice}</p>
                     </div>
 
                     <div className="flex gap-1">
@@ -145,12 +208,12 @@ function Shop() {
                       <FaStar className="text-[#B2B2B2]" />
                     </div>
                   </div>
-                  <p  className="text-[#9295AA]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est <br/> adipiscing in phasellus non in justo.</p>
+                  <p  className="text-[#9295AA]">{shopItem.description}</p>
                 
                 
                 
                   <div className=" flex gap-4 items-center  text-[#151875]  "> 
-                              <div className="h-[25px] w-[25px]"> <CiShoppingCart/> </div>
+                              <Link href={`/${shopItem._id}`} ><div className="h-[25px] w-[25px]"> <CiShoppingCart/> </div></Link>
                               <div  className="h-[25px] w-[25px] "><CiHeart/> </div>
                               <div  className="h-[25px] w-[25px] "> <FaSearchPlus/></div>
                               
@@ -159,7 +222,44 @@ function Shop() {
                 </div>
               </div>
             </div>
-          ))}
+          ))} </> : <>
+          
+          
+          
+         
+            <div className="flex  sm:flex-row  flex-col gap-5 w-full" >
+              <div className="h-[217px] w-full sm:w-[30%]">
+              <Skeleton className="h-[217px] w-[100%] " />
+              </div>
+              <div className="grid items-center w-full sm:w-[70%]  py-9">
+                <div className=" grid  gap-4  ">
+                   <Skeleton  className="h-4  w-full" />
+                   <Skeleton  className="h-4  w-full" />
+                   <Skeleton  className="h-4  w-full" />
+                   <Skeleton  className="h-4  w-full" />
+
+                </div>
+              </div>
+            </div>
+            <div className="flex  sm:flex-row  flex-col gap-5 w-full mt-3" >
+              <div className="h-[217px] w-full sm:w-[30%]">
+              <Skeleton className="h-[217px] w-[100%] " />
+              </div>
+              <div className="grid items-center w-full sm:w-[70%]  py-9">
+                <div className=" grid  gap-4  ">
+                   <Skeleton  className="h-4  w-full" />
+                   <Skeleton  className="h-4  w-full" />
+                   <Skeleton  className="h-4  w-full" />
+                   <Skeleton  className="h-4  w-full" />
+
+                </div>
+              </div>
+            </div>
+         
+          
+          
+          </>}
+        
         </div>
       </section>
       <div className="h-[93px] sm:mx-[170px] mx-[30px]  mb-14">
