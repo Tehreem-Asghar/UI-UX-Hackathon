@@ -35,7 +35,13 @@ const shop = defineType({
         title : "Image",
         validation: (Rule) => Rule.required(),
         
-    })
+    }),
+    defineField({
+        name: "stock",
+        type: "number",
+        title: "inventory/Stock",
+        validation: (Rule) => Rule.required(),
+      }),
 
 ]
 });

@@ -29,12 +29,7 @@ const featureProducts = defineType({
       title: "old Price",
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-         name: "inventory",
-         title: "Inventory",
-          type: "number",
-          validation: (Rule) => Rule.required(),
-        }),
+ 
     defineField({
       name: "description",
       type: "string",
@@ -45,6 +40,12 @@ const featureProducts = defineType({
       name: "image",
       type: "image",
       title: "Image",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "stock",
+      type: "number",
+      title: "inventory/Stock",
       validation: (Rule) => Rule.required(),
     }),
   ],

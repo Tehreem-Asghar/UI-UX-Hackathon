@@ -30,6 +30,7 @@ const  trendingProducts = defineType({
             title : "old Price",
             validation: (Rule) => Rule.required(),
         }),
+       
         
         defineField({
             name : "image",
@@ -37,7 +38,12 @@ const  trendingProducts = defineType({
             title : "Image",
             validation: (Rule) => Rule.required(),
             
-        })
+        }), defineField({
+            name: "stock",
+            type: "number",
+            title: "inventory/Stock",
+            validation: (Rule) => Rule.required(),
+          }),
 
     ]
 })

@@ -1,11 +1,24 @@
 import { defineType , defineField } from "sanity";
  
 
-const  Products = defineType({
-    name : "products",
+const  uniqueFeatures = defineType({
+    name : "uniqueFeatures",
     type : "document",
-    title : "Products",
+    title : "Unique Features",
     fields :[
+        defineField({
+            name : "uniqFuturetitle",
+            type : "string",
+            title : "Unique Features Title",
+            validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name : "listPoint",
+            type : "array",
+            title : "List of Points",
+            of : [{type : "string"}],
+            validation: (Rule) => Rule.required(),
+        }),
         defineField({
             name : "title",
             type : "string",
@@ -39,13 +52,13 @@ const  Products = defineType({
             
         }),
         defineField({
-            name: "stock",
-            type: "number",
-            title: "inventory/Stock",
-            validation: (Rule) => Rule.required(),
-          }),
+           name: "stock",
+           type: "number",
+           title: "inventory/Stock",
+           validation: (Rule) => Rule.required(),
+         }),
 
     ]
 })
 
-export default Products
+export default uniqueFeatures

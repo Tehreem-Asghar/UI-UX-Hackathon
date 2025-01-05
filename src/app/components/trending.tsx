@@ -290,7 +290,7 @@ export default function Trending() {
             />
           </div>
         ))}
-        {discountProducts.map((product) => (
+        {/* {discountProducts.map((product) => (
           <div key={product._id} className="w-[100%] h-auto flex p-3 flex-col justify-center items-center text-[#151875] shadow-md hover:bg-[#EEEFFB]">
             <div className="flex gap-5 mb-5">
               <div className="bg-[#EEEFFB] p-5">
@@ -310,7 +310,33 @@ export default function Trending() {
               </div>
             </div>
           </div>
-        ))}
+        ))} */}
+        <div className="w-[100%] h-auto flex  p-3 flex-col justify-center items-center  text-[#151875] shadow-md hover:bg-[#EEEFFB] ">
+
+          {discountProducts.map((product : any)=>{
+            return(
+              <>
+                 <div className="flex gap-5 mb-5">
+            <div className="bg-[#EEEFFB]  p-5">
+              <Image
+                src={product.image}
+                height={71}
+                width={64}
+                alt="chair"
+                className="h-[60px] w-[60px] "
+              />
+            </div>
+            <div>
+              <Link  href={`/${product._id}`}> 
+              <p>{product.title} </p>
+              <p className="font-bold">${product.newPrice}.00</p>
+              </Link>
+            </div>
+          </div>
+              </>
+            )
+           })}
+           </div>
       </section>
     </main>
   );

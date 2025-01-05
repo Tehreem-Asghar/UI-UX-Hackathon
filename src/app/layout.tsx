@@ -5,6 +5,7 @@ import TopHeader from "./components/topHeader";
 import SecondHeader from "./components/secondHeader";
 import Footer, { BottomFooter } from "./components/footer";
 import ContextProvider from "./contetxtProvider";
+import { Toaster } from "@/components/ui/sonner"
 
 
 // import {
@@ -49,6 +50,7 @@ export default function RootLayout({
         <SecondHeader/>
         {children}
         </ContextProvider>
+        <Toaster />
         <Footer/>
         <BottomFooter/>
       

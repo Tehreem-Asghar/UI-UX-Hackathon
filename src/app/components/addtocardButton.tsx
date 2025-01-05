@@ -2,12 +2,14 @@
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react'
 
+
 interface PT {
   _id: number;
  title: string;
   newPrice: number;
   image: string;
   oldPrice : number;
+  stock? : number   // ...............
 }
 
 

@@ -137,9 +137,6 @@ function Blogs() {
           <h2
             className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
           >
-
-
-            
             Blog Page
           </h2>
           <span className="flex sm:justify-start justify-center font-medium">
@@ -203,23 +200,29 @@ function Blogs() {
               </h1>
 
               <div className="grid grid-cols-2 gap-2 mt-3 ">
-                <button className="hover:text-white  text-[#3F509E] font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[122px] h-[30px]">
-                  Hobbies (14)
+                <button   onClick={()=> setSearch('Long-Lasting')} className="hover:text-white  text-[#3F509E] font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[122px] h-[30px]">
+                     {/* Hobbies (14) */}
+                     Long-Lasting
                 </button>
-                <button className="hover:text-white text-[#3F509E] font-semibold  hover:bg-[#F939BF] flex justify-center items-center w-[122px] h-[30px]">
-                  Womain (21)
+                <button onClick={()=>setSearch('Quality Furniture')}  className="hover:text-white text-[#3F509E] font-semibold  hover:bg-[#F939BF] flex justify-center items-center  w-[130px] h-[30px]">
+                  {/* Womain (21) */}
+                  Quality Furniture
                 </button>
-                <button className="hover:text-white text-[#3F509E] font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[122px] h-[30px]">
-                  womain (21)
+                <button   onClick={()=>setSearch('Office Furniture')} className="hover:text-white text-[#3F509E] font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[122px] h-[30px]">
+                  {/* womain (21) */}
+                  Office Furniture
                 </button>
-                <button className="hover:text-white  text-[#3F509E]  font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[122px] h-[30px]">
-                  womain (21)
+                <button   onClick={()=> setSearch('Custom-Made Furniture')}  className="hover:text-white  text-[#3F509E]  font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[130px]  h-[30px]">
+                  {/* womain (21) */}
+                  Custom-Made 
                 </button>
-                <button className="hover:text-white text-[#3F509E] font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[122px] h-[30px]">
-                  Womain (21)
+                <button   onClick={()=> setSearch('Cozy and Functional')} className="hover:text-white text-[#3F509E] font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[130px] h-[30px]">
+                  {/* Womain (21) */}
+                  Cozy  Functional
                 </button>
-                <button className="hover:text-white  text-[#3F509E] font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[122px] h-[30px]">
-                  Womain (21)
+                <button onClick={()=> setSearch('Dining Table')} className="hover:text-white  text-[#3F509E] font-semibold hover:bg-[#F939BF] flex justify-center items-center w-[122px] h-[30px]">
+                  {/* Womain (21) */}
+                  Dining Table
                 </button>
               </div>
 

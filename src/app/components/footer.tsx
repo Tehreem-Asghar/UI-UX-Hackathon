@@ -72,7 +72,7 @@ export default Footer
 
 export function BottomFooter(){
     return(
-        <div className='w-full h-[53px] flex justify-around items-center bg-white'>
+        <div className='w-full h-[20px] pb-6 flex justify-around items-center bg-white'>
             <p className='text-[#9DA0AE]'>©Webecy - All Rights Reserved</p>
             <div className='flex gap-3 items-center text-[25px]'>
             <FaFacebook className='text-[#151875] '/>

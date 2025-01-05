@@ -20,43 +20,6 @@ const josefinSans = Josefin_Sans({
 
 
 
-
-
-
-
-
-const shop = [
-  {
-    name: "Accumsan tincidunt",
-    image: "/shop/shop1.png",
-  },
-  {
-    name: "In nulla",
-    image: "/shop/shop2.png",
-  },
-  {
-    name: "Vel sem",
-    image: "/shop/shop3.png",
-  },
-  {
-    name: "Porttitor cum",
-    image: "/shop/shop4.png",
-  },
-  {
-    name: "Nunc in",
-    image: "/shop/shop5.png",
-  },
-  {
-    name: "Vitae facilisis",
-    image: "/shop/shop6.png",
-  },
-  {
-    name: "Curabitur lectus",
-    image: "/shop/shop7.png",
-  },
-];
-
-
 interface Product {
   newPrice: number;
   title: string;
@@ -71,6 +34,7 @@ interface Product {
 
    const [products, setProducts] = useState<Product[]>([]);
     const [search, setSearch] = useState("");
+    const [isOpen , setisOpen] = useState(true)
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           setSearch(e.target.value);
@@ -151,8 +115,8 @@ interface Product {
 
             <div className="flex items-center gap-2">
               <p className="text-[#3F509E] hidden sm:block">View:</p>
-              <PiCirclesFourFill className="text-[#3F509E]" />
-              <TfiMenuAlt className="text-[#3F509E]" />
+              <PiCirclesFourFill  onClick={()=> setisOpen(false)} className="text-[#3F509E]" />
+              <TfiMenuAlt   onClick={()=> setisOpen(true)}  className="text-[#3F509E]" />
             </div>
 
             <input
@@ -165,7 +129,10 @@ interface Product {
         </div>
       </section>
 
-      <section className="lg:mx-[170px] mx-[20px] sm:mx-[30px] screen4:mx-[25px] my-24 flex flex-col">
+
+       {isOpen ? <>
+       
+        <section className="lg:mx-[170px] mx-[20px] sm:mx-[30px] screen4:mx-[25px] my-24 flex flex-col">
         <div>
 
         {filteredProducts.length !== 0 ? <>   {filteredProducts.map((shopItem : Product)  => (
@@ -262,7 +229,73 @@ interface Product {
         
         </div>
       </section>
-      <div className="h-[93px] sm:mx-[170px] mx-[30px]  mb-14">
+       
+       
+       </> : 
+       
+       <div className="lg:mx-[170px] mx-[20px] sm:mx-[30px] screen4:mx-[25px] my-24 ">
+       
+       
+       
+       <div className="w-full grid  sm:grid-cols-3 md:grid-cols-4 gap-3 items-center   ">
+       {filteredProducts.map((shopItem : Product)  => (
+       <div
+                    key={shopItem._id}
+                    className="w-full h-auto group grid  my-2 "
+                  >
+                    <div className="h-[250px] w-full  relative bg-[#EBF4F3] flex justify-center items-center">
+                      <Image
+                        src={shopItem.image}
+                        height={280}
+                        width={270}
+                        className="h-full w-full"
+                        alt={shopItem.title}
+                      />
+
+                      <div className="group-hover:grid gap-2 hidden  text-[#151875]  absolute bottom-4  left-2">
+                        <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
+                          {" "}
+                          <Link href={`/${shopItem._id}`}>
+                            <CiShoppingCart />
+                          </Link>{" "}
+                        </div>
+                        <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
+                          {" "}
+                          <FaSearchPlus />
+                        </div>
+                        <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
+                          <CiHeart />{" "}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-3   h-auto">
+                    <Link href={`/${shopItem._id}`}>
+                      <h1 className="text-[#151875] font-bold text-[16px] text-center">
+                        {shopItem.title}
+                      </h1>
+                      </Link>
+                      <div className="flex gap-2 justify-center items-center mt-1">
+                        <div className="h-[10px] w-[10px] rounded-full  bg-[#DE9034]"></div>
+                        <div className="h-[10px] w-[10px]  rounded-full  bg-[#EC42A2]"></div>
+                        <div className="h-[10px] w-[10px]   rounded-full bg-[#8568FF]"></div>
+                      </div>
+                      <div className="flex gap-2 justify-center items-center mt-1">
+                        <p className="text-[#151875]">${shopItem.newPrice}</p>{" "}
+                        <p className="line-through text-[#FB2E86]">
+                          ${shopItem.oldPrice}.00
+                        </p>{" "}
+                      </div>
+                    </div>
+                  </div>
+       ))}
+       
+       
+       </div>
+       
+       </div>}
+
+      <div className="h-[93px] sm:mx-[170px] mx-[30px]  mt-11 mb-14">
                <Image src={'/images/tags/tags.png'}  height={93} width={400} alt="tag" className="h-[93px] w-full"/>
           </div>
     </main>

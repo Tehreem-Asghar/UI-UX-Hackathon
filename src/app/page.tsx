@@ -30,8 +30,27 @@ async function  Subscribe() {
 }
 
 
-export default async function Home() {
 
+async function uniqueFeatures() {
+  const res = await client.fetch(`*[_type == "uniqueFeatures"]{
+  _id,
+  uniqFuturetitle,
+  listPoint[],
+  title,
+  description,
+  newPrice,
+  oldPrice,
+  "image": image.asset->url
+}
+`); 
+  return res
+
+}
+
+
+
+export default async function Home() {
+  const uniqueFeature = await uniqueFeatures()
   const subscribe  = await Subscribe()
   return (
     <main className="max-w-[1920px] mx-auto ">
@@ -46,7 +65,7 @@ export default async function Home() {
         <div className="h-[400px]   mt-36  w-full flex justify-center items-center  bg-[#F1F0FF]">
           <div className="flex  flex-col md:flex-row gap-3 justify-center items-center ">
             <Image
-              src={"/images/sofa.png"}
+              src={uniqueFeature[0].image}
               width={558}
               height={550}
               alt="sofa"
@@ -56,43 +75,38 @@ export default async function Home() {
               <h1
                 className={`text-[#151875] font-bold text-[20px]  sm:text-[30px]  ${josefinSans.className}`}
               >
-                Unique Features Of leatest & <br />
-                Trending Poducts
+                {/* Unique Features Of leatest & <br />
+                Trending Poducts */}
+                {uniqueFeature[0].uniqFuturetitle}
               </h1>
 
-              <div className="flex items-center gap-3">
+              {uniqueFeature[0].listPoint.map((point : string , index : string)=>{
+              return (
+                <div className="flex items-center gap-3" key={index} >
                 {" "}
-                <div className="rounded-full bg-[#F52B70] p-1  h-1 w-1"></div>{" "}
+                <div className="rounded-full bg-[#2B2BF5] p-1  h-1 w-1"></div>
                 <p className="text-[#ACABC3]">
-                  All frames constructed with hardwood solids and laminates
-                </p>{" "}
+                       {point}                </p>
               </div>
-              <div className="flex items-center gap-3">
-                {" "}
-                <div className="rounded-full bg-[#2B2BF5] p-1  h-1 w-1"></div>{" "}
-                <p className="text-[#ACABC3]">
-                  Reinforced with double wood dowels, glue, screw - nails corner{" "}
-                  <br />
-                  blocks and machine nails
-                </p>{" "}
-              </div>
-              <div className="flex items-center gap-3">
-                {" "}
-                <div className="rounded-full bg-[#2BF5CC] p-1  h-1 w-1"></div>{" "}
-                <p className="text-[#ACABC3]">
-                  Arms, backs and seats are structurally reinforced
-                </p>{" "}
-              </div>
+              )
+              })}
+            
               <div className=" flex gap-9  items-center mt-4">
-                <button className="h-[45px] w-[150px] justify-center items-center text-white bg-[#FB2E86]">
+              <Link  href={`${uniqueFeature[0]._id}`}> <button className="h-[45px] w-[150px] justify-center items-center text-white bg-[#FB2E86]">
                   Add to Cart
                 </button>
+                </Link> 
                 <div className="text-[#151875] sm:text-[24px] text-[10px]">
-                  <p>B&B Italian Sofa </p>
-                  <p> $32.00</p>
+                  <p>{uniqueFeature[0].title} </p>
+                  <p> ${uniqueFeature[0].newPrice}.00</p>
                 </div>
               </div>
             </div>
+
+
+
+            
+
           </div>
         </div>
       </section>

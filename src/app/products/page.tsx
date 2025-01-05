@@ -11,6 +11,7 @@ import { PiCirclesFourFill } from "react-icons/pi";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { Josefin_Sans } from "next/font/google";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FaStar } from "react-icons/fa6";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function Shop() {
   const searchQuery = useContext(searchContext);
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
+  const [isOpen, setisOpen] = useState(true);
   React.useEffect(() => {
     const fetchProducts = async () => {
       const res = await client.fetch(`*[_type == "products"]{
@@ -45,15 +47,15 @@ export default function Shop() {
     fetchProducts();
   }, []);
 
-
-   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value);
-        
-      };
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
 
   // Filter products based on search query
   const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.search.toLowerCase() || search.toLowerCase())
+    product.title
+      .toLowerCase()
+      .includes(searchQuery.search.toLowerCase() || search.toLowerCase())
   );
 
   return (
@@ -92,7 +94,6 @@ export default function Shop() {
               <input
                 type="text"
                 className="h-[25px] w-[55px] border border-[#E7E6EF]"
-                
               />
             </div>
 
@@ -105,23 +106,238 @@ export default function Shop() {
 
             <div className="flex items-center gap-2">
               <p className="text-[#3F509E] hidden sm:block">View:</p>
-              <PiCirclesFourFill className="text-[#3F509E]" />
-              <TfiMenuAlt className="text-[#3F509E]" />
+              <PiCirclesFourFill
+                onClick={() => setisOpen(true)}
+                className="text-[#3F509E]"
+              />
+              <TfiMenuAlt
+                className="text-[#3F509E]"
+                onClick={() => setisOpen(false)}
+              />
             </div>
 
             <input
               type="text"
               className="h-[25px] w-[100px] border border-[#E7E6EF]  sm:block  hidden"
               value={search}
-                onChange={handleSearchChange}
+              onChange={handleSearchChange}
             />
           </div>
         </div>
 
         <div className="my-5 w-full">
-          <div className="w-full grid  sm:grid-cols-3 md:grid-cols-4 gap-3 items-center ">
+          {isOpen ? (
+            <>
+              <div className="w-full grid  sm:grid-cols-3 md:grid-cols-4 gap-3 items-center ">
+                {filteredProducts.length !== 0 ? (
+                  <>
+                    {filteredProducts.map((product: Product) => (
+                      <div
+                        key={product._id}
+                        className="w-full h-auto group grid  my-2 "
+                      >
+                        <div className="h-[250px] w-full  relative bg-[#EBF4F3] flex justify-center items-center">
+                          <Image
+                            src={product.image}
+                            height={280}
+                            width={270}
+                            className="h-[169px] w-[169px]"
+                            alt={product.title}
+                          />
+
+                          <div className="group-hover:grid gap-2 hidden  text-[#151875]  absolute bottom-4  left-2">
+                            <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
+                              {" "}
+                              <Link href={`/${product._id}`}>
+                                <CiShoppingCart />
+                              </Link>{" "}
+                            </div>
+                            <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
+                              {" "}
+                              <FaSearchPlus />
+                            </div>
+                            <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
+                              <CiHeart />{" "}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="pt-3   h-auto">
+                          <Link href={`${product._id}`}>
+                            <h1 className="text-[#151875] font-bold text-[16px] text-center">
+                              {product.title}
+                            </h1>
+                          </Link>
+                          <div className="flex gap-2 justify-center items-center mt-1">
+                            <div className="h-[10px] w-[10px] rounded-full  bg-[#DE9034]"></div>
+                            <div className="h-[10px] w-[10px]  rounded-full  bg-[#EC42A2]"></div>
+                            <div className="h-[10px] w-[10px]   rounded-full bg-[#8568FF]"></div>
+                          </div>
+                          <div className="flex gap-2 justify-center items-center mt-1">
+                            <p className="text-[#151875]">
+                              ${product.newPrice}
+                            </p>{" "}
+                            <p className="line-through text-[#FB2E86]">
+                              ${product.oldPrice}.00
+                            </p>{" "}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {Array.from({ length: 8 }).map((product: any, index) => (
+                      <div
+                        key={index}
+                        className="w-full h-auto group grid  my-2 "
+                      >
+                        <div className="h-[250px] w-full  relative bg-[#EBF4F3] flex justify-center items-center">
+                          <Skeleton className="h-[169px] w-[169px] mt-16 mb-8 bg-gray-200 " />
+                        </div>
+
+                        <div className="   h-auto">
+                          <Skeleton className="h-4 w-[250px]  mt-16 mb-8 bg-gray-400 " />
+
+                          <div className="flex gap-2 justify-center items-center mt-1">
+                            {" "}
+                            <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />{" "}
+                            <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />{" "}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <section className=" mt-11">
+                <div>
+                  {filteredProducts.length !== 0 ? (
+                    <>
+                      {" "}
+                      {filteredProducts.map((product: Product) => (
+                       
+                        <div
+                          className="flex  sm:flex-row   flex-col gap-5 w-full"
+                          key={product.title}
+                        >
+                          <div className="h-[217px] w-full     sm:w-[30%]">
+                            <Image
+                              src={product.image}
+                              alt={product.title}
+                              height={217}
+                              width={313}
+                              // className="h-[217px] w-full sm:w-[313px]"
+                              className="h-[217px] w-[100%]  "
+                            />
+                          </div>
+                          <div className="grid items-center w-full sm:w-[70%]  py-9">
+                            <div className=" grid  gap-4  ">
+                              <div className="w-auto flex items-center  gap-4">
+                                
+                                  <h1 className="text-[#111C85] text-[18px] font-bold">
+                                    {product.title}
+                                  </h1>
+                                
+                                <div className="flex gap-1 justify-center items-center">
+                                  <div className="h-[10px] w-[10px] rounded-full bg-[#DE9034]"></div>
+                                  <div className="h-[10px] w-[10px] rounded-full bg-[#EC42A2]"></div>
+                                  <div className="h-[10px] w-[10px] rounded-full bg-[#8568FF]"></div>
+                                </div>
+                              </div>
+
+                              <div className=" flex    items-center gap-6">
+                                <div className="flex gap-2">
+                                  <p className="text-[#111C85]">
+                                    ${product.newPrice}
+                                  </p>
+                                  <p className="line-through text-[#EC42A2] ">
+                                    ${product.oldPrice}
+                                  </p>
+                                </div>
+
+                                <div className="flex gap-1">
+                                  <FaStar className="text-[#FFC416]" />
+                                  <FaStar className="text-[#FFC416]" />
+                                  <FaStar className="text-[#FFC416]" />
+                                  <FaStar className="text-[#FFC416]" />
+                                  <FaStar className="text-[#B2B2B2]" />
+                                </div>
+                              </div>
+                              <Link href={`${product._id}`}>
+                            
+                                <p className="text-[#9295AA]">
+                                  {product.description}
+                                </p>
+                              </Link>
+
+                              <div className=" flex gap-4 items-center  text-[#151875]  ">
+                                <Link href={`/${product._id}`}>
+                                  <div className="h-[25px] w-[25px]">
+                                    {" "}
+                                    <CiShoppingCart />{" "}
+                                  </div>
+                                </Link>
+                                <div className="h-[25px] w-[25px] ">
+                                  <CiHeart />{" "}
+                                </div>
+                                <div className="h-[25px] w-[25px] ">
+                                  {" "}
+                                  <FaSearchPlus />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}{" "}
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex  sm:flex-row  flex-col gap-5 w-full">
+                        <div className="h-[217px] w-full sm:w-[30%]">
+                          <Skeleton className="h-[217px] w-[100%] " />
+                        </div>
+                        <div className="grid items-center w-full sm:w-[70%]  py-9">
+                          <div className=" grid  gap-4  ">
+                            <Skeleton className="h-4  w-full" />
+                            <Skeleton className="h-4  w-full" />
+                            <Skeleton className="h-4  w-full" />
+                            <Skeleton className="h-4  w-full" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex  sm:flex-row  flex-col gap-5 w-full mt-3">
+                        <div className="h-[217px] w-full sm:w-[30%]">
+                          <Skeleton className="h-[217px] w-[100%] " />
+                        </div>
+                        <div className="grid items-center w-full sm:w-[70%]  py-9">
+                          <div className=" grid  gap-4  ">
+                            <Skeleton className="h-4  w-full" />
+                            <Skeleton className="h-4  w-full" />
+                            <Skeleton className="h-4  w-full" />
+                            <Skeleton className="h-4  w-full" />
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </section>
+            </>
+          )}
+          {/* <div className="w-full grid  sm:grid-cols-3 md:grid-cols-4 gap-3 items-center ">
+
             {filteredProducts.length !== 0 ? (
+              
               <>
+
+
+
+                
+
                 {filteredProducts.map((product: Product) => (
                   <div
                     key={product._id}
@@ -193,7 +409,7 @@ export default function Shop() {
                 ))}
               </>
             )}
-          </div>
+          </div> */}
         </div>
 
         <div className="h-[93px] sm:mx-[170px] mx-[30px]  mt-28 mb-4">

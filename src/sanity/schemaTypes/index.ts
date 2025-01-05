@@ -17,6 +17,7 @@ import about from "./about";
 import shop from "./shop";
 import contact from "./contact";
 import clientSayes from "./clientSayes";
+import uniqueFeatures from "./uniqueFeatures";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -37,6 +38,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     about,
     shop,
     contact,
-    clientSayes
+    clientSayes,
+    uniqueFeatures
   ],
 };

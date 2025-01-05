@@ -5,6 +5,7 @@ import { IoCheckbox } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { client } from "@/sanity/lib/client";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -12,12 +13,12 @@ const josefinSans = Josefin_Sans({
 });
 
 
-
 interface PT {
-  _id: number;
+  _id: string;
  title: string;
  newPrice: number;
   image: string;
+  stock? : number
 }
 
 interface CartItem {
@@ -31,6 +32,7 @@ function OrderDone() {
 
   // State to store the cart items
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  
 
   // Get data from localStorage and save it in the state
   useEffect(() => {
@@ -55,6 +57,36 @@ function OrderDone() {
 
   const SHIPPING_COST = 200; // Example flat shipping cost
   const total = calculateSubtotal() + SHIPPING_COST;
+
+
+
+  
+
+const handleUpdate = async () => {
+  try {
+      const updatePromises = cartItems.map(async (item) => {
+          if (item.selectedPlant.stock && item.quantity && item.selectedPlant._id) {
+              // Ensure stock and quantity are numbers before updating
+              await client.patch(item.selectedPlant._id).set({
+                  stock: item.selectedPlant.stock - item.quantity
+              }).commit();
+          }
+      });
+
+      // Wait for all update operations to complete
+      await Promise.all(updatePromises);
+
+      // After updates, clear the local storage
+      localStorage.clear();
+
+      // Notify user that update was successful
+      alert("Data updated successfully!");
+      console.log("Stock has been updated successfully!");
+  } catch (error) {
+      console.error("Error updating stock:", error);
+  }
+};
+
 
   return (
     <main className="max-w-[1920px] mx-auto">
@@ -86,7 +118,7 @@ function OrderDone() {
 
         <div className="flex gap-3 lg:flex-row flex-col  h-auto mt-3  mb-44">
           <div className="w-full bg-[#F8F8FD]  py-6  px-4">
-            <div className="flex justify-between">
+            <div className="flex justify-between  md:flex-row  flex-col">
               <h1 className="text-[16px]  text-[#1D3178] font-bold">
                 Contact Information
               </h1>
@@ -224,11 +256,14 @@ function OrderDone() {
                           </p>
                         </div>
           
-                        <Button asChild  onClick={()=> localStorage.clear()} className="h-[40px] w-full bg-[#19D16F] mt-4 hover:bg-[#19D16F] text-white">
+                        <Button asChild  onClick={()=>  handleUpdate()} className="h-[40px] w-full bg-[#19D16F] mt-4 hover:bg-[#19D16F] text-white">
                            <Link href={'/cart/checkOut/orderDone'}>
                            Confirm Order
                            </Link>
                         </Button>
+
+
+
                       </div>
           </div>
         </div>

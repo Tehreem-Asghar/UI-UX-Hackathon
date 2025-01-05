@@ -39,11 +39,12 @@ function FeatureProdut() {
         _id,
         title,
         newPrice,
-        inventory,
+        stock,
         code,
         oldPrice,
         description,
-        "image" : image.asset -> url
+        "image" : image.asset -> url,
+        
         
     }`);
       setProducts(res);
@@ -107,7 +108,7 @@ function FeatureProdut() {
                     </p>
 
                     <p className="text-[#151875] group-hover:text-white pb-4">
-                      ${product.newPrice} -  {product.inventory}
+                      ${product.newPrice}
                     </p>
                   </div>
                 </div>

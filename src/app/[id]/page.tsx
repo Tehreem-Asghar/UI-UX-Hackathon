@@ -1,20 +1,17 @@
 
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { Josefin_Sans } from "next/font/google";
-// import { featureProducts , latestProduct ,trending ,topCategary ,products, topCategary } from "../../../data";
 import Image from "next/image";
 import { FaInstagramSquare, FaStar } from "react-icons/fa";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { FaFacebook } from "react-icons/fa6";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa6";
-import Categary from "../components/topcategary";
+// import Categary from "../components/topcategary";
 import { client } from "@/sanity/lib/client";
 import AddtocardButton from "../components/addtocardButton";
-// import { latestProduct } from "../components/latestProduct";
-// import { trending } from "../components/trending";
-// import { topCategary } from "../components/topcategary";
-// import { products } from "../products/page";
+// import { revalidate } from "../about/page";
+// import { revalidate } from "../about/page";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -25,12 +22,19 @@ interface Params {
   id: string;
 }
 
+
+
+// export const revalidate =  3
+export const revalidate = 3; // This should work fine in Next.js
+
 interface PT {
   _id: number;
  title: string;
   newPrice: number;
   image: string;
   oldPrice : number;
+  stock? : number;
+  description : string
 }
 
 
@@ -39,7 +43,7 @@ interface CartItem {
   quantity: number;
 }
 
-
+// export const revalidateTime = 60
 
 async function feaPro() {
   const res = await client.fetch(`*[_type == "featureProducts"]{
@@ -49,11 +53,30 @@ async function feaPro() {
     code,
     oldPrice,
     description,
-    "image" : image.asset -> url
+    "image" : image.asset -> url,
+    stock
     
 }`); 
   return res;
 }
+
+async function uniqueFeatures() {
+  const res = await client.fetch(`*[_type == "uniqueFeatures"]{
+  _id,
+
+  
+  title,
+  description,
+  newPrice,
+  oldPrice,
+  "image": image.asset->url,
+  stock
+}
+`); 
+  return res
+
+}
+
 
  async function getData() {
       const res = await client.fetch(`*[_type == "shop"]{
@@ -62,7 +85,8 @@ async function feaPro() {
         newPrice,
         oldPrice,
         description,
-        "image" : image.asset -> url
+        "image" : image.asset -> url,
+        stock
         
     }`);
       return res;
@@ -76,7 +100,8 @@ async function latePro() {
     newPrice,
     oldPrice,
     description,
-    "image" : image.asset -> url
+    "image" : image.asset -> url,
+    stock
 }`); 
   return res;
 }
@@ -88,7 +113,8 @@ async function   topCat() {
     newPrice,
     oldPrice,
     description,
-    "image" : image.asset -> url
+    "image" : image.asset -> url,
+    stock
     
 }`);
   return res;
@@ -101,7 +127,8 @@ async function   products() {
     newPrice,
     oldPrice,
     description,
-    "image" : image.asset -> url
+    "image" : image.asset -> url,
+    stock
     
 }`);
   return res;
@@ -115,7 +142,8 @@ async function   trenPro() {
     newPrice,
     oldPrice,
     description,
-    "image" : image.asset -> url
+    "image" : image.asset -> url,
+    stock
     
 }`);
   return res;
@@ -129,7 +157,8 @@ async function   discountproduct() {
     newPrice,
     oldPrice,
     description,
-    "image" : image.asset -> url
+    "image" : image.asset -> url,
+    stock
     
 }`);
   return res;
@@ -146,7 +175,8 @@ async function offerProduct() {
       newPrice,
       oldPrice,
       description,
-      "image" : image.asset -> url
+      "image" : image.asset -> url,
+      stock
   }
 `,
     {
@@ -167,9 +197,10 @@ async function DettailPage({ params }: { params: Params }) {
   let discountPro = await discountproduct()
   let offerPro = await offerProduct()
   let  shop = await getData()
+  let uniqueFeature = await uniqueFeatures()
 
-  const allProduct : PT[]= featureProducts.concat(latestProduct ,offerPro , shop, discountPro , topCategary , Product , trendingproduct)
-  console.log('All Product' ,allProduct);
+  const allProduct : PT[]= featureProducts.concat(latestProduct ,offerPro ,uniqueFeature , shop, discountPro , topCategary , Product , trendingproduct)
+  
 
   const product  = allProduct.find((item : any) => String(item._id) === id);
   console.log(product);
@@ -258,23 +289,21 @@ async function DettailPage({ params }: { params: Params }) {
               </span>
               <h2 className="text-[#0D134E] font-semibold">Color</h2>
               <p className="text-[#A9ACC6]">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-                tellus porttitor purus, et volutpat sit.
+                {product.description}
+                {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+                tellus porttitor purus, et volutpat sit. */}
               </p>
               <span className="flex gap-4 items-center  ml-8 text-[#151875]">
-                
-                {/* <Button  onClick={()=> addToCard()} className="bg-inherit hover:text-white hover:bg-[#FB2E86] text-[#151875]">
-                  Add To cart
-                
-                </Button> */}
+               
 
                 <AddtocardButton product={product}/>
                 <IoMdHeartEmpty className="text-[28px] hover:text-red-600" />{" "}
               </span>
               <h1 className="text-[#0D134E] font-semibold">Categories:</h1>
               <h1 className="text-[#0D134E] font-semibold">Tags</h1>
+              <h1 className="text-[#0D134E] font-semibold">Stock  : {product.stock}</h1>
+
               <span className="flex items-center  gap-4">
-                <h1 className="text-[#0D134E] font-semibold">Tags</h1>{" "}
                 <span className="flex items-center gap-2">
                   {" "}
                   <FaFacebook className="text-[#151875] " />
