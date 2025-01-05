@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
+import { useRouter } from "next/navigation";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -32,6 +33,8 @@ function OrderDone() {
 
   // State to store the cart items
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const router = useRouter();
+
   
 
   // Get data from localStorage and save it in the state
@@ -82,6 +85,7 @@ const handleUpdate = async () => {
       // Notify user that update was successful
       alert("Data updated successfully!");
       console.log("Stock has been updated successfully!");
+      router.push('/cart/checkOut/orderDone');
   } catch (error) {
       console.error("Error updating stock:", error);
   }
@@ -256,10 +260,10 @@ const handleUpdate = async () => {
                           </p>
                         </div>
           
-                        <Button asChild  onClick={()=>  handleUpdate()} className="h-[40px] w-full bg-[#19D16F] mt-4 hover:bg-[#19D16F] text-white">
-                           <Link href={'/cart/checkOut/orderDone'}>
+                        <Button   onClick={()=>  handleUpdate()} className="h-[40px] w-full bg-[#19D16F] mt-4 hover:bg-[#19D16F] text-white">
+                          
                            Confirm Order
-                           </Link>
+                          
                         </Button>
 
 

@@ -1,6 +1,8 @@
 'use client'
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
+import { toast } from 'sonner';
 
 
 interface PT {
@@ -22,9 +24,27 @@ interface CartItem {
 function AddtocardButton( {product} : any) {
 
   const [quantity, setQuantity] = useState<number>(1);
+ const router = useRouter()
 
+
+
+  // Custom Button Component for the action
+  const ViewCartButton = () => (
+    <button
+      onClick={() => router.push('/cart')}
+      className="bg-[#FB2E86] text-white   py-2 px-4 rounded "
+    >
+      View Cart
+    </button>
+  );
   
   const addToCard :()=> any = () => {
+
+
+
+    
+
+
     if (product) {
       // Check if 'cart' already exists in localStorage
       const cartItems = localStorage.getItem("cart");
@@ -51,7 +71,11 @@ function AddtocardButton( {product} : any) {
 
       // Save the updated cart back to localStorage
       localStorage.setItem("cart", JSON.stringify(cart));
-      // setAddcart(true);
+      toast("Item successfully added to the cart!", {
+        description:
+          "You can continue shopping or proceed to checkout from the cart page.",
+          action:<ViewCartButton/>
+      })
     }
   };
 

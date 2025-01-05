@@ -7,7 +7,7 @@ import { IoCheckbox } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-import { toast } from "sonner"; //...............
+import { toast } from "sonner"; 
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],

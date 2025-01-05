@@ -1,5 +1,4 @@
 
-// import React, { useState } from "react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FaInstagramSquare, FaStar } from "react-icons/fa";
@@ -7,11 +6,9 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { FaFacebook } from "react-icons/fa6";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa6";
-// import Categary from "../components/topcategary";
 import { client } from "@/sanity/lib/client";
 import AddtocardButton from "../components/addtocardButton";
-// import { revalidate } from "../about/page";
-// import { revalidate } from "../about/page";
+
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -23,9 +20,7 @@ interface Params {
 }
 
 
-
-// export const revalidate =  3
-export const revalidate = 3; // This should work fine in Next.js
+export const revalidate = 3; 
 
 interface PT {
   _id: number;
@@ -33,7 +28,7 @@ interface PT {
   newPrice: number;
   image: string;
   oldPrice : number;
-  stock? : number;
+  stock : number;
   description : string
 }
 
