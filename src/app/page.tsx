@@ -16,6 +16,7 @@ const josefinSans = Josefin_Sans({
   weight: ["400", "700"],
 });
 
+export const revalidate = 60
 
 
 async function  Subscribe() {
