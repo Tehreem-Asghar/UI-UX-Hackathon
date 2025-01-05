@@ -110,9 +110,9 @@ function SecondHeader() {
         </div>
 
    <div className="lg:hidden flex gap-5">
-        <span className="w-[30px]    h-[30px] text-[#FB2E86] flex justify-center items-center">
+      {/* <span className="w-[30px]    h-[30px] text-[#FB2E86] flex justify-center items-center">
           <IoSearch className="h-[20px] w-[20px]" />
-        </span> 
+        </span>  */}
          <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline"  ><SlMenu className="text-[#FB2E86]"/></Button>
