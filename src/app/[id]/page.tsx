@@ -1,4 +1,3 @@
-
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FaInstagramSquare, FaStar } from "react-icons/fa";
@@ -9,7 +8,6 @@ import { FaArrowRight } from "react-icons/fa6";
 import { client } from "@/sanity/lib/client";
 import AddtocardButton from "../components/addtocardButton";
 
-
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -19,19 +17,17 @@ interface Params {
   id: string;
 }
 
-
-export const revalidate = 3; 
+export const revalidate = 3;
 
 interface PT {
   _id: number;
- title: string;
+  title: string;
   newPrice: number;
   image: string;
-  oldPrice : number;
-  stock : number;
-  description : string
+  oldPrice: number;
+  stock: number;
+  description: string;
 }
-
 
 interface CartItem {
   selectedPlant: PT;
@@ -51,15 +47,13 @@ async function feaPro() {
     "image" : image.asset -> url,
     stock
     
-}`); 
+}`);
   return res;
 }
 
 async function uniqueFeatures() {
   const res = await client.fetch(`*[_type == "uniqueFeatures"]{
   _id,
-
-  
   title,
   description,
   newPrice,
@@ -67,14 +61,12 @@ async function uniqueFeatures() {
   "image": image.asset->url,
   stock
 }
-`); 
-  return res
-
+`);
+  return res;
 }
 
-
- async function getData() {
-      const res = await client.fetch(`*[_type == "shop"]{
+async function getData() {
+  const res = await client.fetch(`*[_type == "shop"]{
         _id,
         title,
         newPrice,
@@ -84,9 +76,8 @@ async function uniqueFeatures() {
         stock
         
     }`);
-      return res;
-    }
-
+  return res;
+}
 
 async function latePro() {
   const res = await client.fetch(`*[_type == "latestProducts"]{
@@ -97,11 +88,11 @@ async function latePro() {
     description,
     "image" : image.asset -> url,
     stock
-}`); 
+}`);
   return res;
 }
 
-async function   topCat() {
+async function topCat() {
   const res = await client.fetch(`*[_type == "topCategary"]{
     _id,
     title,
@@ -115,7 +106,7 @@ async function   topCat() {
   return res;
 }
 
-async function   products() {
+async function products() {
   const res = await client.fetch(`*[_type == "products"]{
     _id,
     title,
@@ -129,8 +120,7 @@ async function   products() {
   return res;
 }
 
-
-async function   trenPro() {
+async function trenPro() {
   const res = await client.fetch(`*[_type == "trendingproduct"]{
     _id,
     title,
@@ -144,8 +134,7 @@ async function   trenPro() {
   return res;
 }
 
-
-async function   discountproduct() {
+async function discountproduct() {
   const res = await client.fetch(`*[_type == "disCountProduct"]{
     _id,
     title,
@@ -158,9 +147,6 @@ async function   discountproduct() {
 }`);
   return res;
 }
-
-
-
 
 async function offerProduct() {
   const res = await client.fetch(
@@ -184,20 +170,28 @@ async function offerProduct() {
 
 async function DettailPage({ params }: { params: Params }) {
   const { id } = params;
-  let featureProducts = await feaPro()
-  let latestProduct = await latePro()
-  let topCategary = await topCat()
-  let Product = await products()
-  let trendingproduct = await trenPro()
-  let discountPro = await discountproduct()
-  let offerPro = await offerProduct()
-  let  shop = await getData()
-  let uniqueFeature = await uniqueFeatures()
+  let featureProducts = await feaPro();
+  let latestProduct = await latePro();
+  let topCategary = await topCat();
+  let Product = await products();
+  let trendingproduct = await trenPro();
+  let discountPro = await discountproduct();
+  let offerPro = await offerProduct();
+  let shop = await getData();
+  let uniqueFeature = await uniqueFeatures();
 
-  const allProduct : PT[]= featureProducts.concat(latestProduct ,offerPro ,uniqueFeature , shop, discountPro , topCategary , Product , trendingproduct)
-  
+  const allProduct: PT[] = featureProducts.concat(
+    latestProduct,
+    offerPro,
+    uniqueFeature,
+    shop,
+    discountPro,
+    topCategary,
+    Product,
+    trendingproduct
+  );
 
-  const product  = allProduct.find((item : any) => String(item._id) === id);
+  const product = allProduct.find((item: any) => String(item._id) === id);
   console.log(product);
   if (!product) {
     return (
@@ -242,7 +236,7 @@ async function DettailPage({ params }: { params: Params }) {
                   height={155}
                   width={151}
                   alt={product.title}
-                    className="h-[130px] w-[130px] p-2"
+                  className="h-[130px] w-[130px] p-2"
                 />
               </div>
               <div className="w-full h-[155px] bg-inherit hover:bg-[#C4C4C4]  border border-[#e5e2e2] flex justify-center items-center">
@@ -251,7 +245,7 @@ async function DettailPage({ params }: { params: Params }) {
                   height={155}
                   width={151}
                   alt={product.title}
-                    className="h-[130px] w-[130px] p-2"
+                  className="h-[130px] w-[130px] p-2"
                 />
               </div>
             </div>
@@ -280,7 +274,9 @@ async function DettailPage({ params }: { params: Params }) {
               </span>
               <span className=" flex items-center gap-5 font-medium">
                 <p>${product.newPrice}</p>{" "}
-                <p className="line-through  text-[#FB2E86]">${product.oldPrice}</p>{" "}
+                <p className="line-through  text-[#FB2E86]">
+                  ${product.oldPrice}
+                </p>{" "}
               </span>
               <h2 className="text-[#0D134E] font-semibold">Color</h2>
               <p className="text-[#A9ACC6]">
@@ -289,14 +285,14 @@ async function DettailPage({ params }: { params: Params }) {
                 tellus porttitor purus, et volutpat sit. */}
               </p>
               <span className="flex gap-4 items-center  ml-8 text-[#151875]">
-               
-
-                <AddtocardButton product={product}/>
+                <AddtocardButton product={product} />
                 <IoMdHeartEmpty className="text-[28px] hover:text-red-600" />{" "}
               </span>
               <h1 className="text-[#0D134E] font-semibold">Categories:</h1>
               <h1 className="text-[#0D134E] font-semibold">Tags</h1>
-              <h1 className="text-[#0D134E] font-semibold">Stock  : {product.stock}</h1>
+              <h1 className="text-[#0D134E] font-semibold">
+                Stock : {product.stock}
+              </h1>
 
               <span className="flex items-center  gap-4">
                 <span className="flex items-center gap-2">
@@ -307,52 +303,88 @@ async function DettailPage({ params }: { params: Params }) {
                 </span>{" "}
               </span>
             </section>
-
-      
           </div>
         </div>
       </section>
 
       <section className="h-auto  w-full  bg-[#F6F5FF] mb-24 sm:mb-36 ">
         <div className="sm:mx-[170px] mx-[30px] py-20 overflow-hidden ">
-           <div className="flex gap-2 sm:gap-3 lg:gap-7 text-[#151875]  mb-7 text-[11px] sm:text-[14px] lg::text-[24px] font-semibold ">
-             <p className="underline underline-offset-4">Description</p>
-             <p>Additional Info </p>
-             <p>Reviews</p>
-             <p>Video</p>
-           </div>
-           
-           <div className="grid gap-4">
-                <h1 className=" text-[#151875]  font-semibold text-[22px]">Varius tempor.</h1>
-                <p  className="text-[#A9ACC6]">Aliquam dis vulputate vulputate integer sagittis. Faucibus dolor ornare faucibus vel sed et eleifend habitasse amet. Montes, mauris varius ac est bibendum. Scelerisque a, risus ac ante. Velit consectetur neque, elit, aliquet. Non varius proin sed urna, egestas consequat laoreet diam tincidunt. Magna eget faucibus cras justo, tortor sed donec tempus. Imperdiet consequat, quis diam arcu, nulla lobortis justo netus dis. Eu in fringilla vulputate nunc nec. Dui, massa viverr .</p>
-                <h1 className=" text-[#151875]  font-semibold text-[22px]">More details</h1>
+          <div className="flex gap-2 sm:gap-3 lg:gap-7 text-[#151875]  mb-7 text-[11px] sm:text-[14px] lg::text-[24px] font-semibold ">
+            <p className="underline underline-offset-4">Description</p>
+            <p>Additional Info </p>
+            <p>Reviews</p>
+            <p>Video</p>
+          </div>
 
-                <div className="grid gap-3">
-                 <div className="flex gap-2 items-center">
-                 <FaArrowRight />
-                   <p className="text-[#A9ACC6] text-[13px]"> Aliquam dis vulputate vulputate integer sagittis. Faucibus ds diam arcu, nulla lobortis justo netus dis. Eu in fringilla vulputate nunc nec. Dui, massa viverr .</p>
-                 </div>
-                 <div className="flex gap-2 items-center">
-                 <FaArrowRight />
-                   <p className="text-[#A9ACC6] text-[13px]"> Aliquam dis vulputate vulputate integer sagittis. Faucibus ds diam arcu, nulla lobortis justo netus dis. Eu in fringilla vulputate nunc nec. Dui, massa viverr .</p>
-                 </div>
-                 <div className="flex gap-2 items-center">
-                 <FaArrowRight />
-                   <p className="text-[#A9ACC6] text-[13px]"> Aliquam dis vulputate vulputate integer sagittis. Faucibus ds diam arcu, nulla lobortis justo netus dis. Eu in fringilla vulputate nunc nec. Dui, massa viverr .</p>
-                 </div>
-                 <div className="flex gap-2 items-center">
-                 <FaArrowRight />
-                   <p className="text-[#A9ACC6] text-[13px]"> Aliquam dis vulputate vulputate integer sagittis. Faucibus ds diam arcu, nulla lobortis justo netus dis. Eu in fringilla vulputate nunc nec. Dui, massa viverr .</p>
-                 </div>
-                </div>
-          
-          </div> 
+          <div className="grid gap-4">
+            <h1 className=" text-[#151875]  font-semibold text-[22px]">
+              Varius tempor.
+            </h1>
+            <p className="text-[#A9ACC6]">
+              Aliquam dis vulputate vulputate integer sagittis. Faucibus dolor
+              ornare faucibus vel sed et eleifend habitasse amet. Montes, mauris
+              varius ac est bibendum. Scelerisque a, risus ac ante. Velit
+              consectetur neque, elit, aliquet. Non varius proin sed urna,
+              egestas consequat laoreet diam tincidunt. Magna eget faucibus cras
+              justo, tortor sed donec tempus. Imperdiet consequat, quis diam
+              arcu, nulla lobortis justo netus dis. Eu in fringilla vulputate
+              nunc nec. Dui, massa viverr .
+            </p>
+            <h1 className=" text-[#151875]  font-semibold text-[22px]">
+              More details
+            </h1>
+
+            <div className="grid gap-3">
+              <div className="flex gap-2 items-center">
+                <FaArrowRight />
+                <p className="text-[#A9ACC6] text-[13px]">
+                  {" "}
+                  Aliquam dis vulputate vulputate integer sagittis. Faucibus ds
+                  diam arcu, nulla lobortis justo netus dis. Eu in fringilla
+                  vulputate nunc nec. Dui, massa viverr .
+                </p>
+              </div>
+              <div className="flex gap-2 items-center">
+                <FaArrowRight />
+                <p className="text-[#A9ACC6] text-[13px]">
+                  {" "}
+                  Aliquam dis vulputate vulputate integer sagittis. Faucibus ds
+                  diam arcu, nulla lobortis justo netus dis. Eu in fringilla
+                  vulputate nunc nec. Dui, massa viverr .
+                </p>
+              </div>
+              <div className="flex gap-2 items-center">
+                <FaArrowRight />
+                <p className="text-[#A9ACC6] text-[13px]">
+                  {" "}
+                  Aliquam dis vulputate vulputate integer sagittis. Faucibus ds
+                  diam arcu, nulla lobortis justo netus dis. Eu in fringilla
+                  vulputate nunc nec. Dui, massa viverr .
+                </p>
+              </div>
+              <div className="flex gap-2 items-center">
+                <FaArrowRight />
+                <p className="text-[#A9ACC6] text-[13px]">
+                  {" "}
+                  Aliquam dis vulputate vulputate integer sagittis. Faucibus ds
+                  diam arcu, nulla lobortis justo netus dis. Eu in fringilla
+                  vulputate nunc nec. Dui, massa viverr .
+                </p>
+              </div>
+            </div>
           </div>
+        </div>
       </section>
-       {/* <Categary/> */}
-          <div className="h-[93px] sm:mx-[170px] mx-[30px]  mb-4">
-               <Image src={'/images/tags/tags.png'}  height={93} width={400} alt="tag" className="h-[93px] w-full"/>
-          </div>
+      {/* <Categary/> */}
+      <div className="h-[93px] sm:mx-[170px] mx-[30px]  mb-4">
+        <Image
+          src={"/images/tags/tags.png"}
+          height={93}
+          width={400}
+          alt="tag"
+          className="h-[93px] w-full"
+        />
+      </div>
     </main>
   );
 }

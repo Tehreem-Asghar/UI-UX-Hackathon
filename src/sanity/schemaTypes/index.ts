@@ -35,9 +35,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     offerProduct,
     recentblogs,
     saleProduct,
-    about,
+   
     shop,
-    contact,
+  
     clientSayes,
     uniqueFeatures
   ],

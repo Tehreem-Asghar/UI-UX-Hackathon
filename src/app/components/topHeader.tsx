@@ -22,14 +22,14 @@ function TopHeader() {
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <p className="flex items-center gap-1">
-          English
-          <FaAngleDown />
-        </p>
-        <p className="flex items-center gap-1">
-          USD
-          <FaAngleDown />
-        </p>
+      <select className="bg-[#7E33E0]">
+          <option value="english"> English</option>
+          <option value="urdu">Urdu</option>
+        </select>
+
+        <select className="bg-[#7E33E0]">
+          <option value="english">USD</option>
+        </select>
         <p >
           <Link href={'/login'} className="flex items-center gap-1"> Login
           <FiUser />

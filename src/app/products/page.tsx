@@ -400,9 +400,9 @@ export default function Shop() {
                       <Skeleton className="h-4 w-[250px]  mt-16 mb-8 bg-gray-400 " />
 
                       <div className="flex gap-2 justify-center items-center mt-1">
-                        {" "}
-                        <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />{" "}
-                        <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />{" "}
+                      
+                        <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />
+                        <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />
                       </div>
                     </div>
                   </div>

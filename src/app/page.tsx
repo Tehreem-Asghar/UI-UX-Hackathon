@@ -11,6 +11,8 @@ import Blogs from "./components/blogs";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 
+
+
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -51,6 +53,7 @@ async function uniqueFeatures() {
 
 
 export default async function Home() {
+
   const uniqueFeature = await uniqueFeatures()
   const subscribe  = await Subscribe()
   return (
@@ -72,6 +75,7 @@ export default async function Home() {
               alt="sofa"
               className="lg:h-[400px] lg:w-[400px] md:h-[250px] md:w-[250px] md:block  h-[200px] w-[200px]  hidden"
             />
+
             <div className="grid gap-3 mx-5 sm:mx-0">
               <h1
                 className={`text-[#151875] font-bold text-[20px]  sm:text-[30px]  ${josefinSans.className}`}

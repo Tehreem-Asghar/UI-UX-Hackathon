@@ -1,50 +1,38 @@
-'use client'
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
-import { toast } from 'sonner';
-
+"use client";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "sonner";
 
 interface PT {
   _id: number;
- title: string;
+  title: string;
   newPrice: number;
   image: string;
-  oldPrice : number;
-  stock? : number   // ...............
+  oldPrice: number;
+  stock?: number; // ...............
 }
-
 
 interface CartItem {
   selectedPlant: PT;
   quantity: number;
 }
 
-
-function AddtocardButton( {product} : any) {
-
+function AddtocardButton({ product }: any) {
   const [quantity, setQuantity] = useState<number>(1);
- const router = useRouter()
-
-
+  const router = useRouter();
 
   // Custom Button Component for the action
   const ViewCartButton = () => (
     <button
-      onClick={() => router.push('/cart')}
+      onClick={() => router.push("/cart")}
       className="bg-[#FB2E86] text-white   py-2 px-4 rounded "
     >
       View Cart
     </button>
   );
-  
-  const addToCard :()=> any = () => {
 
-
-
-    
-
-
+  const addToCard: () => any = () => {
     if (product) {
       // Check if 'cart' already exists in localStorage
       const cartItems = localStorage.getItem("cart");
@@ -74,17 +62,19 @@ function AddtocardButton( {product} : any) {
       toast("Item successfully added to the cart!", {
         description:
           "You can continue shopping or proceed to checkout from the cart page.",
-          action:<ViewCartButton/>
-      })
+        action: <ViewCartButton />,
+      });
     }
   };
 
   return (
-    <Button  onClick={()=> addToCard()} className="bg-inherit hover:text-white hover:bg-[#FB2E86] text-[#151875]">
-                  Add To cart
-                </Button>
-  )
-
+    <Button
+      onClick={() => addToCard()}
+      className="bg-inherit hover:text-white hover:bg-[#FB2E86] text-[#151875]"
+    >
+      Add To cart
+    </Button>
+  );
 }
 
-export default AddtocardButton
+export default AddtocardButton;
