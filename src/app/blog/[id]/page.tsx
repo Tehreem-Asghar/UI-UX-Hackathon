@@ -4,7 +4,6 @@ import Image from "next/image";
 import { FaFacebook, FaPenFancy } from "react-icons/fa6";
 import { FaInstagramSquare, FaRegCalendarAlt } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
-import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import { format } from "date-fns";
 import Vlogs from "@/app/components/blogdetail";

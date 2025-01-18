@@ -18,12 +18,17 @@ const josefinSans = Josefin_Sans({
 });
 
 interface PT {
-  _id: string;
-  title: string;
-  newPrice: number;
+  price: string;
+  name: string;
+  discountPercentage: number;
+  description: string;
   image: string;
-  stock?: number;
+  _id: string;
+  stockLevel: number;
+  category :string;
+  tags :string[]
 }
+
 
 interface CartItem {
   selectedPlant: PT;
@@ -145,7 +150,7 @@ function OrderDone() {
   const calculateSubtotal: () => number = () => {
     return cartItems.reduce(
       (total, item) =>
-        total + Number(item.selectedPlant.newPrice) * Number(item.quantity),
+        total + Number(item.selectedPlant.price) * Number(item.quantity),
       0
     );
   };
@@ -159,7 +164,7 @@ function OrderDone() {
     try {
       const updatePromises = cartItems.map(async (item) => {
         if (
-          item.selectedPlant.stock &&
+          item.selectedPlant.stockLevel &&
           item.quantity &&
           item.selectedPlant._id
         ) {
@@ -167,7 +172,7 @@ function OrderDone() {
           await client
             .patch(item.selectedPlant._id)
             .set({
-              stock: item.selectedPlant.stock - item.quantity,
+              stockLevel: item.selectedPlant.stockLevel - item.quantity,
             })
             .commit();
         }
@@ -492,18 +497,18 @@ function OrderDone() {
                       src={items.selectedPlant.image}
                       height={87}
                       width={83}
-                      alt={items.selectedPlant.title}
+                      alt={items.selectedPlant.name}
                       className="h-[84px] w-[80px] "
                     />
                     <div className="flex flex-col justify-center items-center">
                       <h2 className="text-[12px]">
-                        {items.selectedPlant.title}
+                        {items.selectedPlant.name}
                       </h2>
                       <p className="text-[12px] text-[#A1A8C1]"> color:Brown</p>
                       <p className="text-[12px] text-[#A1A8C1]">size:Xl</p>
                     </div>
                   </div>
-                  <div className="flex justify-center items-center text-[#15245E]">{`$${items.quantity && items.selectedPlant.newPrice && (items.quantity * items.selectedPlant.newPrice).toFixed(2)}`}</div>{" "}
+                  <div className="flex justify-center items-center text-[#15245E]">{`$${items.quantity && Number(items.selectedPlant.price) && (items.quantity * Number(items.selectedPlant.price)).toFixed(2)}`}</div>{" "}
                 </div>
               </>
             ))}

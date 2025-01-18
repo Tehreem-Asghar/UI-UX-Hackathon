@@ -88,20 +88,19 @@ function Blogs() {
 
     async function offerProduct() {
       const res = await client.fetch(
-        `*[_type == "offerProducts"]{
-         _id,
-      title,
-      
-        newPrice,
-        oldPrice,
-        description,
-        "image" : image.asset -> url
-    }
-  `,
-        {
-          "Cache-Control": "no-store", 
-        }
-      );
+        `*[_type == "product" && "offerProduct" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
+}
+  `);
 
       setofferPro(res);
     }
@@ -350,11 +349,11 @@ function Blogs() {
                       />
                       <Link href={`/${pro._id}`}>
                         <h2 className="text-[#151875] text-[14px]">
-                          {pro.title}
+                          {pro.name}
                         </h2>
                         <p className="text-[#8A8FB9] text-[12px]">
                           {" "}
-                          ${pro.newPrice} - ${pro.oldPrice}
+                          {pro.price}  {pro.discountPercentage}%
                         </p>
                       </Link>
                     </div>

@@ -16,15 +16,15 @@ const josefinSans = Josefin_Sans({
 });
 
 
-
 interface Product {
-  newPrice: number;
-  title: string;
-  oldPrice: number;
+  price: string;
+  name: string;
+  discountPercentage: number;
   description: string;
   image: string;
   _id: string;
 }
+
 
  function LatestProduct() {
 
@@ -38,20 +38,24 @@ const searchQuery = useContext(searchContext)
 
  // Filter products based on search query
  const filteredProducts = latestProduct.filter((product) =>
-  product.title.toLowerCase().includes(searchQuery.search.toLowerCase())
+  product.name.toLowerCase().includes(searchQuery.search.toLowerCase())
 );
 
 useEffect(()=>{
 
   async function getData() {
-    const res = await client.fetch(`*[_type == "latestProducts"]{
-       _id,
-    title,
-      newPrice,
-      oldPrice,
-      description,
-      "image" : image.asset -> url
-  }`); 
+    const res = await client.fetch(`*[_type == "product" && "latest" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
+}`); 
   setlatestProduct(res);
 
   }
@@ -112,10 +116,10 @@ getData()
            </div>
            
            <div className="flex  w-[100%]  justify-between items-center  my-3  px-6    " >
-           <Link href={`/${product._id}`}>  <p className="text-[#151875] text-[12px] sm:text-[15px]">{product.title}</p> </Link>
+           <Link href={`/${product._id}`}>  <p className="text-[#151875] text-[12px] sm:text-[15px]">{product.name}</p> </Link>
              <div className="flex gap-3 text-[12px] sm:text[15px]">
-               <p className="text-[#151875]">${product.newPrice}</p>
-               <p className="text-[#FB2448] line-through">${product.oldPrice}.00</p>
+               <p className="text-[#151875]">${product.price}</p>
+               <p className="text-[#FB2448] ">{product.discountPercentage}%</p>
              </div>
            </div>
            

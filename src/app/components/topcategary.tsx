@@ -14,9 +14,9 @@ const josefinSans = Josefin_Sans({
 });
 
 interface TopCategary {
-  newPrice: number;
-  title: string;
-  oldPrice: number;
+  price: string;
+  name: string;
+  discountPercentage: number;
   description: string;
   image: string;
   _id: string;
@@ -28,15 +28,18 @@ export default function TopCategary() {
 
   useEffect(() => {
     async function getData() {
-      const res = await client.fetch(`*[_type == "topCategary"]{
-        _id,
-        title,
-        newPrice,
-        oldPrice,
-        description,
-        "image" : image.asset -> url
-        
-    }`);
+      const res = await client.fetch(`*[_type == "product" && "topCategory" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
+}`);
       setTopCategary(res);
     }
 
@@ -45,7 +48,7 @@ export default function TopCategary() {
 
   // Filter products based on search query
   const filteredProducts = topCategary.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.search.toLowerCase())
+    product.name.toLowerCase().includes(searchQuery.search.toLowerCase())
   );
 
   return (
@@ -82,9 +85,9 @@ export default function TopCategary() {
                       </Button>
                     </div>
                     <div className="flex  w-[100%] flex-col justify-center items-center gap-3 mt-3  text-[#151875]  ">
-                      <h2 className="font-bold">{product.title}</h2>
+                      <h2 className="font-bold  text-center line-clamp-1">{product.name}</h2>
                       <div className="flex mb-4 gap-3">
-                        <p>${product.newPrice}</p>
+                        <p>${product.price}</p>
                       </div>
                     </div>
                   </div>

@@ -21,9 +21,9 @@ const josefinSans = Josefin_Sans({
 
 
 interface Product {
-  newPrice: number;
-  title: string;
-  oldPrice: number;
+  price: string;
+  name: string;
+  discountPercentage: number;
   description: string;
   image: string;
   _id: string;
@@ -44,20 +44,23 @@ interface Product {
 
  // Filter products based on search query
  const filteredProducts = products.filter((product) =>
-  product.title.toLowerCase().includes( search.toLowerCase())
+  product.name.toLowerCase().includes( search.toLowerCase())
 );
 
   useEffect(() => {
     async function getData() {
-      const res = await client.fetch(`*[_type == "shop"]{
-        _id,
-        title,
-        newPrice,
-        oldPrice,
-        description,
-        "image" : image.asset -> url
-        
-    }`);
+      const res = await client.fetch(`*[_type == "product" && "shops" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
+}`);
       setProducts(res);
     }
 
@@ -136,11 +139,11 @@ interface Product {
         <div>
 
         {filteredProducts.length !== 0 ? <>   {filteredProducts.map((shopItem : Product)  => (
-            <div className="flex  sm:flex-row  flex-col gap-5 w-full" key={shopItem.title}>
+            <div className="flex  sm:flex-row  flex-col gap-5 w-full" key={shopItem.name}>
               <div className="h-[217px] w-full sm:w-[30%]">
                 <Image
                   src={shopItem.image}
-                  alt={shopItem.title}
+                  alt={shopItem.name}
                   height={217}
                   width={313}
                   // className="h-[217px] w-full sm:w-[313px]"
@@ -152,7 +155,7 @@ interface Product {
                 <div className=" grid  gap-4  ">
                   <div className="w-auto flex items-center  gap-4">
                     <h1 className="text-[#111C85] text-[18px] font-bold">
-                      {shopItem.title}
+                      {shopItem.name}
                     </h1>
                     <div className="flex gap-1 justify-center items-center">
                       <div className="h-[10px] w-[10px] rounded-full bg-[#DE9034]"></div>
@@ -163,8 +166,8 @@ interface Product {
 
                   <div className=" flex    items-center gap-6">
                     <div className="flex gap-2">
-                      <p className="text-[#111C85]">${shopItem.newPrice}</p>
-                      <p className="line-through text-[#EC42A2] ">${shopItem.oldPrice}</p>
+                      <p className="text-[#111C85]">${shopItem.price}</p>
+                      <p className="line-through text-[#EC42A2] ">${shopItem.price}</p>
                     </div>
 
                     <div className="flex gap-1">
@@ -249,7 +252,7 @@ interface Product {
                         height={280}
                         width={270}
                         className="h-full w-full"
-                        alt={shopItem.title}
+                        alt={shopItem.name}
                       />
 
                       <div className="group-hover:grid gap-2 hidden  text-[#151875]  absolute bottom-4  left-2">
@@ -272,7 +275,7 @@ interface Product {
                     <div className="pt-3   h-auto">
                     <Link href={`/${shopItem._id}`}>
                       <h1 className="text-[#151875] font-bold text-[16px] text-center">
-                        {shopItem.title}
+                        {shopItem.name}
                       </h1>
                       </Link>
                       <div className="flex gap-2 justify-center items-center mt-1">
@@ -281,9 +284,9 @@ interface Product {
                         <div className="h-[10px] w-[10px]   rounded-full bg-[#8568FF]"></div>
                       </div>
                       <div className="flex gap-2 justify-center items-center mt-1">
-                        <p className="text-[#151875]">${shopItem.newPrice}</p>{" "}
+                        <p className="text-[#151875]">${shopItem.price}</p>{" "}
                         <p className="line-through text-[#FB2E86]">
-                          ${shopItem.oldPrice}.00
+                          ${shopItem.price}
                         </p>{" "}
                       </div>
                     </div>

@@ -14,13 +14,19 @@ const josefinSans = Josefin_Sans({
   weight: ["400", "700"],
 });
 
+
 interface PT {
-  _id: number;
-  title: string;
-  newPrice: number;
+  price: string;
+  name: string;
+  discountPercentage: number;
+  description: string;
   image: string;
-  stock?: number;
+  _id: string;
+  stockLevel: number;
+  category :string;
+  tags :string[]
 }
+
 
 interface CartItem {
   selectedPlant: PT;
@@ -42,13 +48,13 @@ function Cart() {
   }, []);
 
   // Function to increase or decrease the quantity of a specific plant
-  const handleQuantityChange = (id: number, increment: boolean) => {
+  const handleQuantityChange = (id: string, increment: boolean) => {
     const updatedCart = cartItems.map((item) =>
-      item.selectedPlant._id === id
+      item.selectedPlant._id === String(id)
         ? {
             ...item,
             quantity: increment
-              ? Math.min(item.quantity + 1, item.selectedPlant?.stock ?? 0)
+              ? Math.min(item.quantity + 1, item.selectedPlant?.stockLevel ?? 0)
               : Math.max(1, item.quantity - 1),
           }
         : item
@@ -58,9 +64,9 @@ function Cart() {
   };
 
   // Function to remove an item from the cart based on its ID
-  const handleRemove = (id: number) => {
+  const handleRemove = (id: string) => {
     const updatedCart = cartItems.filter(
-      (item) => item.selectedPlant._id !== id
+      (item) => item.selectedPlant._id !== String(id)
     );
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -69,7 +75,7 @@ function Cart() {
   // calculate items total
   const calculateSubtotal = () => {
     const amount = cartItems.reduce(
-      (total, item) => total + item.selectedPlant.newPrice * item.quantity,
+      (total, item) => total + Number(item.selectedPlant.price) * item.quantity,
       0
     );
     return amount;
@@ -78,7 +84,7 @@ function Cart() {
   const subTotal: number = calculateSubtotal();
 
   const SHIPPING_COST = 200; // Example flat shipping cost
-  const total = calculateSubtotal() + SHIPPING_COST;
+  const total = calculateSubtotal() 
 
   // JSX Render
   return (
@@ -123,11 +129,11 @@ function Cart() {
                               height={150}
                               width={150}
                               className="h-full w-full"
-                              alt={item.selectedPlant.title}
+                              alt={item.selectedPlant.name}
                             />
                             <div
                               onClick={() =>
-                                handleRemove(item.selectedPlant._id)
+                                handleRemove(String(item.selectedPlant._id))
                               }
                               className="h-3 w-3 text-[9px] rounded-full p-1 flex justify-center items-center bg-[#1b1b1b] text-white absolute top-0 right-0"
                             >
@@ -135,14 +141,14 @@ function Cart() {
                             </div>
                           </div>
                           <div className="md:text-[16px] sm:text-[14px]  text-[12px]">
-                            <h1>{item.selectedPlant.title}</h1>
+                            <h1>{item.selectedPlant.name}</h1>
                             <p className="text-[#A1A8C1]"> color:Brown</p>
                             <p className="text-[#A1A8C1]">size:XL</p>
                           </div>
                         </td>
                         {/* Product Price */}
                         <td className="text-center text-[#1D3178] md:text-[16px] sm:text-[14px]  text-[12px]">
-                          ${item.selectedPlant.newPrice}
+                          ${item.selectedPlant.price}
                         </td>
                         {/* Quantity */}
                         <td className="text-center">
@@ -151,7 +157,7 @@ function Cart() {
                               className=" h-auto w-[10px] py-1 bg-gray-200 hover:bg-gray-300"
                               onClick={() =>
                                 handleQuantityChange(
-                                  item.selectedPlant._id,
+                                  String(item.selectedPlant._id),
                                   false
                                 )
                               }
@@ -160,14 +166,14 @@ function Cart() {
                             </button>
                             <span className=" py-1">{item.quantity}</span>
                             {item.quantity <
-                            (item.selectedPlant.stock
-                              ? item.selectedPlant.stock
+                            (item.selectedPlant.stockLevel
+                              ? item.selectedPlant.stockLevel
                               : 0) ? (
                               <>
                                 <button
                                   onClick={() =>
                                     handleQuantityChange(
-                                      item.selectedPlant._id,
+                                      String(item.selectedPlant._id),
                                       true
                                     )
                                   }
@@ -181,7 +187,7 @@ function Cart() {
                                 <button
                                   // variant="outline"
                                   onClick={() =>
-                                    toast("Stock Limit Reached", {
+                                    toast("Out of Stock", {
                                       description:
                                         "Oops! You've reached the maximum stock available for this item.",
                                       action: {
@@ -205,9 +211,9 @@ function Cart() {
                         <td className="text-center text-[#1D3178]">
                           ${" "}
                           {item.quantity &&
-                            item.selectedPlant.newPrice &&
+                            item.selectedPlant.price &&
                             (
-                              item.quantity * item.selectedPlant.newPrice
+                              item.quantity * Number(item.selectedPlant.price)
                             ).toFixed(2)}
                         </td>
                       </tr>

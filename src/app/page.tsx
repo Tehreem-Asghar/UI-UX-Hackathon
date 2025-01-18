@@ -35,15 +35,17 @@ async function  Subscribe() {
 
 
 async function uniqueFeatures() {
-  const res = await client.fetch(`*[_type == "uniqueFeatures"]{
+  const res = await client.fetch(`*[_type == "product" && "uniqueFeatures" in tags]{
   _id,
-  uniqFuturetitle,
-  listPoint[],
-  title,
+  name,
+  "image" : image.asset -> url,
+  price,
   description,
-  newPrice,
-  oldPrice,
-  "image": image.asset->url
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
 }
 `); 
   return res
@@ -77,24 +79,13 @@ export default async function Home() {
             />
 
             <div className="grid gap-3 mx-5 sm:mx-0">
-              <h1
-                className={`text-[#151875] font-bold text-[20px]  sm:text-[30px]  ${josefinSans.className}`}
-              >
-                {/* Unique Features Of leatest & <br />
-                Trending Poducts */}
-                {uniqueFeature[0].uniqFuturetitle}
-              </h1>
+            <h1  className={`text-[#151875] font-bold text-[20px]  sm:text-[30px]  ${josefinSans.className}`}>Unique Features Of leatest & <br/>
+              Trending Poducts</h1>
 
-              {uniqueFeature[0].listPoint.map((point : string , index : string)=>{
-              return (
-                <div className="flex items-center gap-3" key={index} >
-                {" "}
-                <div className="rounded-full bg-[#2B2BF5] p-1  h-1 w-1"></div>
-                <p className="text-[#ACABC3]">
-                       {point}                </p>
-              </div>
-              )
-              })}
+              <div className='flex items-center gap-3'> <div className='rounded-full bg-[#F52B70] p-1  h-1 w-1'></div> <p className='text-[#ACABC3]'>All frames constructed with hardwood solids and laminates</p> </div>
+              <div className='flex items-center gap-3'> <div className='rounded-full bg-[#2B2BF5] p-1  h-1 w-1'></div> <p className='text-[#ACABC3]'>Reinforced with double wood dowels, glue, screw - nails corner <br/>
+              blocks and machine nails</p> </div>
+              <div className='flex items-center gap-3'> <div className='rounded-full bg-[#2BF5CC] p-1  h-1 w-1'></div> <p className='text-[#ACABC3]'>Arms, backs and seats are structurally reinforced</p> </div>
             
               <div className=" flex gap-9  items-center mt-4">
               <Link  href={`${uniqueFeature[0]._id}`}> <button className="h-[45px] w-[150px] justify-center items-center text-white bg-[#FB2E86]">
@@ -102,8 +93,8 @@ export default async function Home() {
                 </button>
                 </Link> 
                 <div className="text-[#151875] sm:text-[24px] text-[10px]">
-                  <p>{uniqueFeature[0].title} </p>
-                  <p> ${uniqueFeature[0].newPrice}.00</p>
+                  <p>{uniqueFeature[0].name.split(" ").slice(0, 2).join(" ")} </p>
+                  <p> ${uniqueFeature[0].price}.00</p>
                 </div>
               </div>
             </div>

@@ -19,15 +19,23 @@ interface Params {
 
 export const revalidate = 3;
 
+
+
 interface PT {
-  _id: number;
-  title: string;
-  newPrice: number;
-  image: string;
-  oldPrice: number;
-  stock: number;
+  price: string;
+  name: string;
+  discountPercentage: number;
   description: string;
+  image: string;
+  _id: string;
+  stockLevel: number;
+  category :string;
+  tags :string[]
+
 }
+
+
+
 
 interface CartItem {
   selectedPlant: PT;
@@ -37,132 +45,152 @@ interface CartItem {
 // export const revalidateTime = 60
 
 async function feaPro() {
-  const res = await client.fetch(`*[_type == "featureProducts"]{
-    _id,
-  title,
-    newPrice,
-    code,
-    oldPrice,
-    description,
-    "image" : image.asset -> url,
-    stock
-    
+  const res = await client.fetch(`*[_type == "product" && "featured" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
 }`);
   return res;
 }
 
 async function uniqueFeatures() {
-  const res = await client.fetch(`*[_type == "uniqueFeatures"]{
+  const res = await client.fetch(`*[_type == "product" && "uniqueFeatures" in tags]{
   _id,
-  title,
+  name,
+  "image" : image.asset -> url,
+  price,
   description,
-  newPrice,
-  oldPrice,
-  "image": image.asset->url,
-  stock
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
 }
 `);
   return res;
 }
 
 async function getData() {
-  const res = await client.fetch(`*[_type == "shop"]{
-        _id,
-        title,
-        newPrice,
-        oldPrice,
-        description,
-        "image" : image.asset -> url,
-        stock
-        
-    }`);
+  const res = await client.fetch(`*[_type == "product" && "shops" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
+}`);
   return res;
 }
 
+
+
 async function latePro() {
-  const res = await client.fetch(`*[_type == "latestProducts"]{
-     _id,
-  title,
-    newPrice,
-    oldPrice,
-    description,
-    "image" : image.asset -> url,
-    stock
+  const res = await client.fetch(`*[_type == "product" && "latest" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
 }`);
   return res;
 }
 
 async function topCat() {
-  const res = await client.fetch(`*[_type == "topCategary"]{
-    _id,
-    title,
-    newPrice,
-    oldPrice,
-    description,
-    "image" : image.asset -> url,
-    stock
-    
+  const res = await client.fetch(`*[_type == "product" && "topCategory" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
 }`);
   return res;
 }
 
 async function products() {
-  const res = await client.fetch(`*[_type == "products"]{
-    _id,
-    title,
-    newPrice,
-    oldPrice,
-    description,
-    "image" : image.asset -> url,
-    stock
-    
+  const res = await client.fetch(`*[_type == "product" && "product" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
 }`);
+
   return res;
 }
 
 async function trenPro() {
-  const res = await client.fetch(`*[_type == "trendingproduct"]{
-    _id,
-    title,
-    newPrice,
-    oldPrice,
-    description,
-    "image" : image.asset -> url,
-    stock
-    
+  const res = await client.fetch(`*[_type == "product" && "trending" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
 }`);
   return res;
 }
 
 async function discountproduct() {
-  const res = await client.fetch(`*[_type == "disCountProduct"]{
-    _id,
-    title,
-    newPrice,
-    oldPrice,
-    description,
-    "image" : image.asset -> url,
-    stock
-    
+  const res = await client.fetch(`*[_type == "product" && "discoundTreProduct" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
 }`);
   return res;
 }
 
 async function offerProduct() {
   const res = await client.fetch(
-    `*[_type == "offerProducts"]{
-       _id,
-    title,
-      newPrice,
-      oldPrice,
-      description,
-      "image" : image.asset -> url,
-      stock
-  }
+    `*[_type == "product" && "offerProduct" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
+}
 `,
-    {
-      "Cache-Control": "no-store", // No cache
-    }
   );
 
   return res;
@@ -225,7 +253,7 @@ async function DettailPage({ params }: { params: Params }) {
                   src={product.image}
                   height={200}
                   width={200}
-                  alt={product.title}
+                  alt={product.name}
                   className="h-[130px] w-[130px] p-2"
                 />
               </div>
@@ -235,7 +263,7 @@ async function DettailPage({ params }: { params: Params }) {
                   src={product.image}
                   height={155}
                   width={151}
-                  alt={product.title}
+                  alt={product.name}
                   className="h-[130px] w-[130px] p-2"
                 />
               </div>
@@ -244,7 +272,7 @@ async function DettailPage({ params }: { params: Params }) {
                   src={product.image}
                   height={155}
                   width={151}
-                  alt={product.title}
+                  alt={product.name}
                   className="h-[130px] w-[130px] p-2"
                 />
               </div>
@@ -254,7 +282,7 @@ async function DettailPage({ params }: { params: Params }) {
                 src={product.image}
                 height={487}
                 width={375}
-                alt={product.title}
+                alt={product.name}
                 className=" h-[400px] w-full sm:w-[300px] p-3"
               />
             </div>
@@ -263,7 +291,7 @@ async function DettailPage({ params }: { params: Params }) {
             <section className="grid gap-5">
               <h1 className="text-[#0D134E] text-[25px] sm:text-[32px] font-bold">
                 {" "}
-                {product.title}
+                {product.name}
               </h1>
               <span className="flex  gap-3 items-center">
                 {" "}
@@ -273,12 +301,12 @@ async function DettailPage({ params }: { params: Params }) {
                 (22)
               </span>
               <span className=" flex items-center gap-5 font-medium">
-                <p>${product.newPrice}</p>{" "}
-                <p className="line-through  text-[#FB2E86]">
-                  ${product.oldPrice}
+                <p>${product.price}</p>{" "}
+                <p className="  text-[#FB2E86]">
+                  {product.discountPercentage}%off
                 </p>{" "}
               </span>
-              <h2 className="text-[#0D134E] font-semibold">Color</h2>
+              {/* <h2 className="text-[#0D134E] font-semibold">Color</h2> */}
               <p className="text-[#A9ACC6]">
                 {product.description}
                 {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
@@ -288,10 +316,10 @@ async function DettailPage({ params }: { params: Params }) {
                 <AddtocardButton product={product} />
                 <IoMdHeartEmpty className="text-[28px] hover:text-red-600" />{" "}
               </span>
-              <h1 className="text-[#0D134E] font-semibold">Categories:</h1>
-              <h1 className="text-[#0D134E] font-semibold">Tags</h1>
+              <h1 className="text-[#0D134E] font-semibold">Categories: {product.category}</h1>
+              <h1 className="text-[#0D134E] font-semibold">{`Tags :  ${product.tags.map((item : string)=> `${item}  `)} `}</h1>
               <h1 className="text-[#0D134E] font-semibold">
-                Stock : {product.stock}
+                Stock : {product.stockLevel}
               </h1>
 
               <span className="flex items-center  gap-4">

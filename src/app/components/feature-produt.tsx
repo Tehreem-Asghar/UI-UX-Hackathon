@@ -16,9 +16,9 @@ import { searchContext } from "../conntext";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface Product {
-  newPrice: number;
-  title: string;
-  oldPrice: number;
+  price: string;
+  name: string;
+  discountPercentage: number;
   description: string;
   image: string;
   _id: string;
@@ -30,23 +30,24 @@ function FeatureProdut() {
   const searchQuery = useContext(searchContext);
   // Filter products based on search query
   const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.search.toLowerCase())
+    product.name.toLowerCase().includes(searchQuery.search.toLowerCase())
   );
 
   useEffect(() => {
     async function getData() {
-      const res = await client.fetch(`*[_type == "featureProducts"]{
-        _id,
-        title,
-        newPrice,
-        stock,
-        code,
-        oldPrice,
-        description,
-        "image" : image.asset -> url,
-        
-        
-    }`);
+      const res = await client.fetch(`*[_type == "product" && "featured" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
+}`);
+
       setProducts(res);
     }
 
@@ -94,9 +95,9 @@ function FeatureProdut() {
                       <Link href={`/${product._id}`}>View Details</Link>
                     </Button>
                   </div>
-                  <div className="flex  w-[100%] flex-col justify-center items-center gap-3 mt-3   group-hover:bg-[#2F1AC4] ">
-                    <h3 className="text-[#FB2E86] group-hover:text-white text-[18px] font-bold">
-                      {product.title}
+                  <div className="flex  w-[100%] flex-col justify-center items-center gap-3 mt-3    group-hover:bg-[#2F1AC4] ">
+                    <h3 className="text-[#FB2E86] group-hover:text-white text-[18px] font-bold text-center">
+                      {product.name}
                     </h3>
                     <div className="flex gap-2">
                       <div className="h-[4px] w-[14px] bg-[#05E6B7] rounded-md"></div>
@@ -104,11 +105,12 @@ function FeatureProdut() {
                       <div className="h-[4px] w-[14px] bg-[#00009D] rounded-md"></div>
                     </div>
                     <p className="text-[#151875]  group-hover:text-white">
-                      {`  Code - ${product.code}`}
+                    Code - Y523201
+                      {/* {`  Code - ${product.code}`} */}
                     </p>
 
                     <p className="text-[#151875] group-hover:text-white pb-4">
-                      ${product.newPrice}
+                      ${product.price}
                     </p>
                   </div>
                 </div>

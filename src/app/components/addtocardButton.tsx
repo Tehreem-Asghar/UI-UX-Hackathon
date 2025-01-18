@@ -5,13 +5,27 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 
 interface PT {
-  _id: number;
-  title: string;
-  newPrice: number;
+  price: string;
+  name: string;
+  discountPercentage: number;
+  description: string;
   image: string;
-  oldPrice: number;
-  stock?: number; // ...............
+  _id: string;
+  stockLevel: number;
+  category :string;
+  tags :string[]
 }
+
+// price: string;
+// name: string;
+// discountPercentage: number;
+// description: string;
+// image: string;
+// _id: string;
+// stockLevel: number;
+// category :string;
+// tags :string[]
+
 
 interface CartItem {
   selectedPlant: PT;

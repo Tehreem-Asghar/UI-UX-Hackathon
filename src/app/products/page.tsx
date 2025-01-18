@@ -19,9 +19,9 @@ const josefinSans = Josefin_Sans({
 });
 
 interface Product {
-  newPrice: number;
-  title: string;
-  oldPrice: number;
+  price: string;
+  name: string;
+  discountPercentage: number;
   description: string;
   image: string;
   _id: string;
@@ -34,14 +34,18 @@ export default function Shop() {
   const [isOpen, setisOpen] = useState(true);
   React.useEffect(() => {
     const fetchProducts = async () => {
-      const res = await client.fetch(`*[_type == "products"]{
-        _id,
-        title,
-        newPrice,
-        oldPrice,
-        description,
-        "image": image.asset->url
-      }`);
+      const res = await client.fetch(`*[_type == "product" && "product" in tags]{
+  _id,
+  name,
+  "image" : image.asset -> url,
+  price,
+  description,
+  discountPercentage,
+  isFeaturedProduct,
+  stockLevel,
+  category,
+  tags
+}`);
       setProducts(res);
     };
     fetchProducts();
@@ -53,7 +57,8 @@ export default function Shop() {
 
   // Filter products based on search query
   const filteredProducts = products.filter((product) =>
-    product.title
+    product.name
+
       .toLowerCase()
       .includes(searchQuery.search.toLowerCase() || search.toLowerCase())
   );
@@ -142,7 +147,7 @@ export default function Shop() {
                             height={280}
                             width={270}
                             className="h-[169px] w-[169px]"
-                            alt={product.title}
+                            alt={product.name}
                           />
 
                           <div className="group-hover:grid gap-2 hidden  text-[#151875]  absolute bottom-4  left-2">
@@ -164,8 +169,8 @@ export default function Shop() {
 
                         <div className="pt-3   h-auto">
                           <Link href={`${product._id}`}>
-                            <h1 className="text-[#151875] font-bold text-[16px] text-center">
-                              {product.title}
+                            <h1 className="text-[#151875]  line-clamp-1 font-bold text-[16px] text-center">
+                              {product.name}
                             </h1>
                           </Link>
                           <div className="flex gap-2 justify-center items-center mt-1">
@@ -175,10 +180,10 @@ export default function Shop() {
                           </div>
                           <div className="flex gap-2 justify-center items-center mt-1">
                             <p className="text-[#151875]">
-                              ${product.newPrice}
+                             Rs- {product.price}
                             </p>{" "}
-                            <p className="line-through text-[#FB2E86]">
-                              ${product.oldPrice}.00
+                            <p className=" text-[#FB2E86]">
+                              {product.discountPercentage}%
                             </p>{" "}
                           </div>
                         </div>
@@ -222,12 +227,12 @@ export default function Shop() {
                        
                         <div
                           className="flex  sm:flex-row   flex-col gap-5 w-full"
-                          key={product.title}
+                          key={product.name}
                         >
                           <div className="h-[217px] w-full     sm:w-[30%]">
                             <Image
                               src={product.image}
-                              alt={product.title}
+                              alt={product.name}
                               height={217}
                               width={313}
                               // className="h-[217px] w-full sm:w-[313px]"
@@ -238,8 +243,8 @@ export default function Shop() {
                             <div className=" grid  gap-4  ">
                               <div className="w-auto flex items-center  gap-4">
                                 
-                                  <h1 className="text-[#111C85] text-[18px] font-bold">
-                                    {product.title}
+                                  <h1 className="text-[#111C85]  line-clamp-1 text-[18px] font-bold">
+                                    {product.name}
                                   </h1>
                                 
                                 <div className="flex gap-1 justify-center items-center">
@@ -252,10 +257,10 @@ export default function Shop() {
                               <div className=" flex    items-center gap-6">
                                 <div className="flex gap-2">
                                   <p className="text-[#111C85]">
-                                    ${product.newPrice}
+                                    {product.price}
                                   </p>
-                                  <p className="line-through text-[#EC42A2] ">
-                                    ${product.oldPrice}
+                                  <p className="  text-[#EC42A2] ">
+                                    {product.discountPercentage}%
                                   </p>
                                 </div>
 
@@ -269,7 +274,7 @@ export default function Shop() {
                               </div>
                               <Link href={`${product._id}`}>
                             
-                                <p className="text-[#9295AA]">
+                                <p className="text-[#9295AA] line-clamp-2">
                                   {product.description}
                                 </p>
                               </Link>
@@ -328,88 +333,9 @@ export default function Shop() {
               </section>
             </>
           )}
-          {/* <div className="w-full grid  sm:grid-cols-3 md:grid-cols-4 gap-3 items-center ">
-
-            {filteredProducts.length !== 0 ? (
-              
-              <>
 
 
 
-                
-
-                {filteredProducts.map((product: Product) => (
-                  <div
-                    key={product._id}
-                    className="w-full h-auto group grid  my-2 "
-                  >
-                    <div className="h-[250px] w-full  relative bg-[#EBF4F3] flex justify-center items-center">
-                      <Image
-                        src={product.image}
-                        height={280}
-                        width={270}
-                        className="h-[169px] w-[169px]"
-                        alt={product.title}
-                      />
-
-                      <div className="group-hover:grid gap-2 hidden  text-[#151875]  absolute bottom-4  left-2">
-                        <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
-                          {" "}
-                          <Link href={`/${product._id}`}>
-                            <CiShoppingCart />
-                          </Link>{" "}
-                        </div>
-                        <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
-                          {" "}
-                          <FaSearchPlus />
-                        </div>
-                        <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
-                          <CiHeart />{" "}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="pt-3   h-auto">
-                      <h1 className="text-[#151875] font-bold text-[16px] text-center">
-                        {product.title}
-                      </h1>
-                      <div className="flex gap-2 justify-center items-center mt-1">
-                        <div className="h-[10px] w-[10px] rounded-full  bg-[#DE9034]"></div>
-                        <div className="h-[10px] w-[10px]  rounded-full  bg-[#EC42A2]"></div>
-                        <div className="h-[10px] w-[10px]   rounded-full bg-[#8568FF]"></div>
-                      </div>
-                      <div className="flex gap-2 justify-center items-center mt-1">
-                        <p className="text-[#151875]">${product.newPrice}</p>{" "}
-                        <p className="line-through text-[#FB2E86]">
-                          ${product.oldPrice}.00
-                        </p>{" "}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </>
-            ) : (
-              <>
-                {Array.from({ length: 8 }).map((product: any, index) => (
-                  <div key={index} className="w-full h-auto group grid  my-2 ">
-                    <div className="h-[250px] w-full  relative bg-[#EBF4F3] flex justify-center items-center">
-                      <Skeleton className="h-[169px] w-[169px] mt-16 mb-8 bg-gray-200 " />
-                    </div>
-
-                    <div className="   h-auto">
-                      <Skeleton className="h-4 w-[250px]  mt-16 mb-8 bg-gray-400 " />
-
-                      <div className="flex gap-2 justify-center items-center mt-1">
-                      
-                        <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />
-                        <Skeleton className="h-[10px] w-[100px] rounded-full bg-gray-400 " />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </>
-            )}
-          </div> */}
         </div>
 
         <div className="h-[93px] sm:mx-[170px] mx-[30px]  mt-28 mb-4">
