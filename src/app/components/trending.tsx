@@ -107,7 +107,7 @@ export default function Trending() {
                 <h2 className="font-bold ">{product.name}</h2>
                 <div className="flex gap-3 pb-2">
                   <p>{product.price}</p>
-                  <p className="text-gray-500 ">{product.discountPercentage}%</p>
+                    {product.discountPercentage > 0  &&  <p className="text-gray-500 ">{product.discountPercentage}%</p>}  
                 </div>
               </Link>
             </div>

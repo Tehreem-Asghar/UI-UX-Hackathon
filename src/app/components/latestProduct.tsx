@@ -10,6 +10,7 @@ import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import { searchContext } from "../conntext";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -65,6 +66,46 @@ getData()
 
 
 
+
+
+
+   // Custom Button Component for the action
+   const ViewCartButton = () => (
+    <Link  href={"/wishlist"}> <button
+       className="bg-[#FB2E86] text-white   w-[90px] py-2 px-4 rounded "
+     >
+       WishList
+     </button>
+     </Link>
+   );
+
+  const WishList  = (Wishlist : Product)=>{
+
+    if(Wishlist){
+      const wishListItems = localStorage.getItem("wishlist");
+      
+      const wishlist : Product[] = wishListItems ? JSON.parse(wishListItems) : []
+
+        wishlist.push(Wishlist)
+        localStorage.setItem("wishlist" , JSON.stringify(wishlist))
+        toast("🎉 Item successfully added to your Wishlist!", {
+          description:
+            "You can continue shopping or proceed to view your wishlist by clicking below.",
+          action: <ViewCartButton />,
+          duration : 4000
+        });
+
+    }
+
+   }
+
+
+
+
+
+
+
+
   return (
     <main className="overflow-hidden">
      {filteredProducts.length !== 0 ? 
@@ -100,7 +141,7 @@ getData()
              />
              <div className="group-hover:flex    flex-col items-center gap-4 absolute hidden bottom-2 left-2">
               <Link  href={`/${product._id}`}>  <LuShoppingCart className="text-[#00009D]  text-[20px] " /> </Link>
-               <FaRegHeart className="text-[#1DB4E7]  " />
+               <FaRegHeart className="text-[#1DB4E7]  " onClick={()=> WishList(product)}/>
                <FaSearchPlus className="text-[#1DB4E7]" />
              </div>
 
@@ -119,7 +160,7 @@ getData()
            <Link href={`/${product._id}`}>  <p className="text-[#151875] text-[12px] sm:text-[15px]">{product.name}</p> </Link>
              <div className="flex gap-3 text-[12px] sm:text[15px]">
                <p className="text-[#151875]">${product.price}</p>
-               <p className="text-[#FB2448] ">{product.discountPercentage}%</p>
+              {product.discountPercentage >0 && <p className="text-[#FB2448] ">{product.discountPercentage}%</p>  } 
              </div>
            </div>
            

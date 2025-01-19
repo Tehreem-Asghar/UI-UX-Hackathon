@@ -14,6 +14,7 @@ import { client } from "../../sanity/lib/client";
 import { useContext, useEffect, useState } from "react";
 import { searchContext } from "../conntext";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
 
 interface Product {
   price: string;
@@ -23,7 +24,6 @@ interface Product {
   image: string;
   _id: string;
 }
-
 
 function FeatureProdut() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -35,7 +35,8 @@ function FeatureProdut() {
 
   useEffect(() => {
     async function getData() {
-      const res = await client.fetch(`*[_type == "product" && "featured" in tags]{
+      const res =
+        await client.fetch(`*[_type == "product" && "featured" in tags]{
   _id,
   name,
   "image" : image.asset -> url,
@@ -52,12 +53,36 @@ function FeatureProdut() {
     }
 
     getData();
-
   }, [filteredProducts]);
 
+  // Custom Button Component for the action
+  const ViewCartButton = () => (
+    <Link href={"/wishlist"}>
+      {" "}
+      <button className="bg-[#FB2E86] text-white   w-[90px] py-2 px-4 rounded ">
+        WishList
+      </button>
+    </Link>
+  );
 
+  const WishList = (Wishlist: Product) => {
+    if (Wishlist) {
+      const wishListItems = localStorage.getItem("wishlist");
 
- 
+      const wishlist: Product[] = wishListItems
+        ? JSON.parse(wishListItems)
+        : [];
+
+      wishlist.push(Wishlist);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      toast("🎉 Item successfully added to your Wishlist!", {
+        description:
+          "You can continue shopping or proceed to view your wishlist by clicking below.",
+        action: <ViewCartButton />,
+        duration: 4000,
+      });
+    }
+  };
 
   return (
     <main className="mx-4 lg:mx-0">
@@ -88,10 +113,13 @@ function FeatureProdut() {
                         {" "}
                         <LuShoppingCart className="text-[#00009D]  text-[20px] " />
                       </Link>
-                      <FaRegHeart className="text-[#1DB4E7]  " />
+                      <FaRegHeart
+                        className="text-[#1DB4E7]  "
+                        onClick={() => WishList(product)}
+                      />
                       <FaSearchPlus className="text-[#1DB4E7]" />
                     </div>
-                    <Button    className="h-[29px] w-[94px] hidden  hover:bg-[#08D15F]  bg-[#08D15F] p-1 text-[12px] text-white group-hover:flex justify-center items-center">
+                    <Button className="h-[29px] w-[94px] hidden  hover:bg-[#08D15F]  bg-[#08D15F] p-1 text-[12px] text-white group-hover:flex justify-center items-center">
                       <Link href={`/${product._id}`}>View Details</Link>
                     </Button>
                   </div>
@@ -105,7 +133,7 @@ function FeatureProdut() {
                       <div className="h-[4px] w-[14px] bg-[#00009D] rounded-md"></div>
                     </div>
                     <p className="text-[#151875]  group-hover:text-white">
-                    Code - Y523201
+                      Code - Y523201
                       {/* {`  Code - ${product.code}`} */}
                     </p>
 
@@ -165,4 +193,3 @@ function FeatureProdut() {
 }
 
 export default FeatureProdut;
-

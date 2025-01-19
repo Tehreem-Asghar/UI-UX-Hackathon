@@ -10,6 +10,7 @@ import axios from "axios";
 import { Rate, trackingObjType } from "../../../../type";
 import { Josefin_Sans } from "next/font/google";
 import { TrackShipment } from "@/app/components/tracking";
+import { route } from "sanity/router";
 
 
 const josefinSans = Josefin_Sans({
@@ -39,36 +40,30 @@ function OrderDone() {
   // State to store the cart items
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const router = useRouter();
-  // const [shipToAddress, setshipToAddress] = useState({
-  //   name: "Tehreem",
-  //   phone: "03481293364",
-  //   addressLine1: "sector 5b/2 nort karachi L-849",
-  //   addressLine2: "sector 5b/2 nort karachi L-849",
-  //   cityLocality: "karachi",
-  //   stateProvince: "CA",
-  //   postalCode: "90001",
-  //   countryCode: "US",
-  //   addressResidentialIndicator: "yes",
-  // });
 
   const [shipToAddress, setshipToAddress] = useState({
-    name: "Jane Doe",
-    phone: "+1 987 654 3210",
-    addressLine1: "123 Main Street",
-    addressLine2: "Suite 200",
-    cityLocality: "lahor",
+    name: "",
+    phone: "",
+    addressLine1: "",
+    addressLine2: "",
+    cityLocality: "",
     stateProvince: "CA",
     postalCode: "90001",
     countryCode: "US",
     addressResidentialIndicator: "yes",
   });
 
-  // const [packages, setPackages] = useState([
-  //   {
-  //     weight: { value: 5, unit: "ounce" },
-  //     dimensions: { height: 3, width: 15, length: 10, unit: "inch" },
-  //   },
-  // ]);
+
+
+
+
+
+  // name: "Jane Doe",
+  // phone: "+1 987 654 3210",
+  // addressLine1: "123 Main Street",
+  // addressLine2: "Suite 200",
+  // cityLocality: "lahor",
+
 
   const [rates, setRates] = useState<Rate[]>([]);
   // const [error, setError] = useState("");
@@ -79,14 +74,16 @@ function OrderDone() {
   const [trackingObj, setTrackingObj] = useState<trackingObjType | null>(null);
   const [rateAmount , setRateAmount] = useState<number>()
   const [isConfirm , setIsConfirm] = useState<boolean>(false)
+
+
  
   // Har input change handle karega hj
 
   const handleChange = (e: any) => {
     const { name, value } = e.target; // Input ka name aur value lete hain
     setshipToAddress((prevData) => ({
-      ...prevData, // Pichle state ka data rakhein
-      [name]: value, // Sirf specific field update karein
+      ...prevData, // Pichle state ka data 
+      [name]: value, // Sirf specific field update 
     }));
   };
 
@@ -185,7 +182,7 @@ function OrderDone() {
       localStorage.clear();
 
       // Notify user that update was successful
-      alert("your Order Confirm successfully!");
+      // alert("your Order Confirm successfully!");
       console.log("Stock has been updated successfully!");
       router.push("/cart/checkOut/orderDone");
     } catch (error) {
@@ -400,7 +397,7 @@ function OrderDone() {
                className={` ${loading ? "bg-[#FB2E86] hover:bg-[#f13587]" : " bg-[#eb84b1] hover:bg-[#c77c9c] "}h-[44px] w-[182px] rounded-sm text-white bg-[#FB2E86] hover:bg-[#FB2E86] mt-24`}
                type="submit"
              >
-               Continue Shipping
+              Continue Shipping
                {/* <Link href="/">Continue Shipping</Link> */}
              </button>
            </form>
@@ -473,9 +470,16 @@ function OrderDone() {
             <p>tracking number: {trackingObj.trackingNumber}</p>
             <p> labelId: {trackingObj.labelId}</p>
             <p> carrierCode: {trackingObj.carrierCode}</p>
-            <Link href={`/cart/checkOut/?labelId=${trackingObj.labelId}`}>
-              <button  onClick={()=> setIsConfirm(true)} className="px-4 py-2 w-full   mt-3  bg-green-500 text-white rounded-md hover:bg-green-600">Track Order</button>
-            </Link>
+            {/* <Link href={`/cart/checkOut/?labelId=${trackingObj.labelId}`}> */}
+              <button  onClick={()=> {  
+                
+                setIsConfirm(true)
+            
+                router.push(`/cart/checkOut/?labelId=${trackingObj.labelId}`)
+               }
+              
+              } className="px-4 py-2 w-full   mt-3  bg-green-500 text-white rounded-md hover:bg-green-600">Track Order</button>
+            {/* </Link> */}
           </div>
         )}
         {isConfirm && <TrackShipment/> }
@@ -538,7 +542,7 @@ function OrderDone() {
                 </div>
 
                 <Button
-                  onClick={() => handleUpdate()}
+                  onClick={() => isConfirm && handleUpdate()}
                   className="h-[40px] w-full bg-[#19D16F] mt-4 hover:bg-[#19D16F] text-white"
                 >
                   Confirm Order
@@ -551,5 +555,6 @@ function OrderDone() {
     </main>
   );
 }
+
 
 export default OrderDone;

@@ -1,12 +1,13 @@
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FaInstagramSquare, FaStar } from "react-icons/fa";
-import { IoMdHeartEmpty } from "react-icons/io";
 import { FaFacebook } from "react-icons/fa6";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa6";
 import { client } from "@/sanity/lib/client";
 import AddtocardButton from "../components/addtocardButton";
+import Wishlistbutton from "../components/wishlistbutton";
+
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ interface PT {
   tags :string[]
 
 }
+
 
 
 
@@ -229,6 +231,9 @@ async function DettailPage({ params }: { params: Params }) {
     );
   }
 
+
+    
+
   return (
     <main className="max-w-[1920px] mx-auto">
       <section className="h-[286px]  w-full  bg-[#F6F5FF]  grid items-center">
@@ -314,7 +319,8 @@ async function DettailPage({ params }: { params: Params }) {
               </p>
               <span className="flex gap-4 items-center  ml-8 text-[#151875]">
                 <AddtocardButton product={product} />
-                <IoMdHeartEmpty className="text-[28px] hover:text-red-600" />{" "}
+                <Wishlistbutton Product={product}/>
+                {/* <IoMdHeartEmpty className="text-[28px] hover:text-red-600"  onClick={()=> WishList(product)} /> */}
               </span>
               <h1 className="text-[#0D134E] font-semibold">Categories: {product.category}</h1>
               <h1 className="text-[#0D134E] font-semibold">{`Tags :  ${product.tags.map((item : string)=> `${item}  `)} `}</h1>

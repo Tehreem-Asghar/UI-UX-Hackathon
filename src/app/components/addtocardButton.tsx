@@ -16,17 +16,6 @@ interface PT {
   tags :string[]
 }
 
-// price: string;
-// name: string;
-// discountPercentage: number;
-// description: string;
-// image: string;
-// _id: string;
-// stockLevel: number;
-// category :string;
-// tags :string[]
-
-
 interface CartItem {
   selectedPlant: PT;
   quantity: number;
@@ -84,7 +73,7 @@ function AddtocardButton({ product }: any) {
   return (
     <Button
       onClick={() => addToCard()}
-      className="bg-inherit hover:text-white hover:bg-[#FB2E86] text-[#151875]"
+      className="bg-inherit  hover:text-white hover:bg-[#FB2E86] text-[#151875]"
     >
       Add To cart
     </Button>

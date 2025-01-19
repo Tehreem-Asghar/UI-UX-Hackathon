@@ -28,7 +28,8 @@ export default function TopCategary() {
 
   useEffect(() => {
     async function getData() {
-      const res = await client.fetch(`*[_type == "product" && "topCategory" in tags]{
+      const res =
+        await client.fetch(`*[_type == "product" && "topCategory" in tags]{
   _id,
   name,
   "image" : image.asset -> url,
@@ -85,7 +86,9 @@ export default function TopCategary() {
                       </Button>
                     </div>
                     <div className="flex  w-[100%] flex-col justify-center items-center gap-3 mt-3  text-[#151875]  ">
-                      <h2 className="font-bold  text-center line-clamp-1">{product.name}</h2>
+                      <h2 className="font-bold  text-center line-clamp-1">
+                        {product.name}
+                      </h2>
                       <div className="flex mb-4 gap-3">
                         <p>${product.price}</p>
                       </div>

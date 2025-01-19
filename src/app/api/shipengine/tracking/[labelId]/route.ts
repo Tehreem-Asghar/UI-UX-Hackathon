@@ -36,22 +36,3 @@ export async function GET(
 }
 
 
-
-
-// import { shipEngine } from "@/helper/shipEngine";
-// import { NextRequest, NextResponse } from "next/server";
-
-// export async function GET( req: NextRequest, { params }: { params: { labelId: string } }) {
-//   const labelId = String(params.labelId);  // Ensure it's a string
-
-//   try {
-//     const label = await shipEngine.trackUsingLabelId(labelId);  // Call API with labelId
-//     return NextResponse.json(label, { status: 200 });  // Return label info
-//   } catch (error : any) {
-//     console.log(error);
-//     return new Response(JSON.stringify({ error: error.message }), {
-//       status: 500,  // Internal Server Error
-//     });
-//   }
-// }
-

@@ -35,10 +35,12 @@ function TopHeader() {
           <FiUser />
           </Link>
         </p>
+        <Link href={'/wishlist'}>
         <p className="flex items-center gap-1">
         Wishlist
         <FaRegHeart />
         </p>
+        </Link>
        <Link href={'/cart'}> <CgShoppingCart className="lg:h-[24px] lg:w-[24px]  md:h-[18px] md:w-[18px]  h-[18px] w-[18px] ml-2"/> </Link>
 
 

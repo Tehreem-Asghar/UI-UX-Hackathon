@@ -12,6 +12,8 @@ import { TfiMenuAlt } from "react-icons/tfi";
 import { Josefin_Sans } from "next/font/google";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FaStar } from "react-icons/fa6";
+import { toast } from "sonner";
+
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -32,6 +34,7 @@ export default function Shop() {
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
   const [isOpen, setisOpen] = useState(true);
+
   React.useEffect(() => {
     const fetchProducts = async () => {
       const res = await client.fetch(`*[_type == "product" && "product" in tags]{
@@ -62,6 +65,41 @@ export default function Shop() {
       .toLowerCase()
       .includes(searchQuery.search.toLowerCase() || search.toLowerCase())
   );
+
+
+
+  // Custom Button Component for the action
+  const ViewCartButton = () => (
+   <Link  href={"/wishlist"}> <button
+      className="bg-[#FB2E86] text-white   w-[90px] py-2 px-4 rounded "
+    >
+      WishList
+    </button>
+    </Link>
+  );
+
+     const WishList  = (Wishlist : Product)=>{
+
+      if(Wishlist){
+        const wishListItems = localStorage.getItem("wishlist");
+        
+        const wishlist : Product[] = wishListItems ? JSON.parse(wishListItems) : []
+
+          wishlist.push(Wishlist)
+          localStorage.setItem("wishlist" , JSON.stringify(wishlist))
+              toast("🎉 Item successfully added to your Wishlist!", {
+                  description:
+                    "You can continue shopping or proceed to view your wishlist by clicking below.",
+                  action: <ViewCartButton />,
+                });
+
+      }
+
+     }
+
+
+
+
 
   return (
     <main className="max-w-[1920px] mx-auto">
@@ -162,7 +200,7 @@ export default function Shop() {
                               <FaSearchPlus />
                             </div>
                             <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
-                              <CiHeart />{" "}
+                              <CiHeart className="hover:text-red-700" onClick={()=> WishList(product)}/>
                             </div>
                           </div>
                         </div>
@@ -287,7 +325,7 @@ export default function Shop() {
                                   </div>
                                 </Link>
                                 <div className="h-[25px] w-[25px] ">
-                                  <CiHeart />{" "}
+                                  <CiHeart   className="hover:text-red-600" onClick={()=> WishList(product)}/>{" "}
                                 </div>
                                 <div className="h-[25px] w-[25px] ">
                                   {" "}

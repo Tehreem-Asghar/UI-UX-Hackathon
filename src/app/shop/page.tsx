@@ -11,6 +11,7 @@ import { FaSearchPlus } from "react-icons/fa";
 import { client } from "@/sanity/lib/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import { toast } from "sonner";
 
 
 const josefinSans = Josefin_Sans({
@@ -28,6 +29,46 @@ interface Product {
   image: string;
   _id: string;
 }
+
+
+
+
+  // Custom Button Component for the action
+  const ViewCartButton = () => (
+    <Link  href={"/wishlist"}> <button
+       className="bg-[#FB2E86] text-white   w-[90px] py-2 px-4 rounded "
+     >
+       WishList
+     </button>
+     </Link>
+   );
+ 
+      const WishList  = (Wishlist : Product)=>{
+ 
+       if(Wishlist){
+         const wishListItems = localStorage.getItem("wishlist");
+         
+         const wishlist : Product[] = wishListItems ? JSON.parse(wishListItems) : []
+ 
+           wishlist.push(Wishlist)
+           localStorage.setItem("wishlist" , JSON.stringify(wishlist))
+               toast("🎉 Item successfully added to your Wishlist!", {
+                   description:
+                     "You can continue shopping or proceed to view your wishlist by clicking below.",
+                   action: <ViewCartButton />,
+                 });
+ 
+       }
+ 
+      }
+ 
+
+
+
+
+
+
+
 
 
  function Shop() {
@@ -184,7 +225,7 @@ interface Product {
                 
                   <div className=" flex gap-4 items-center  text-[#151875]  "> 
                               <Link href={`/${shopItem._id}`} ><div className="h-[25px] w-[25px]"> <CiShoppingCart/> </div></Link>
-                              <div  className="h-[25px] w-[25px] "><CiHeart/> </div>
+                              <div  className="h-[25px] w-[25px] "><CiHeart className="hover:text-red-700" onClick={()=> WishList(shopItem)}/> </div>
                               <div  className="h-[25px] w-[25px] "> <FaSearchPlus/></div>
                               
                            </div>
@@ -267,7 +308,7 @@ interface Product {
                           <FaSearchPlus />
                         </div>
                         <div className="h-[25px] w-[25px] bg-white flex justify-center items-center rounded-full">
-                          <CiHeart />{" "}
+                          <CiHeart className="hover:text-red-700" onClick={()=> WishList(shopItem)} />{" "}
                         </div>
                       </div>
                     </div>
