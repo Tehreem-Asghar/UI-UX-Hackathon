@@ -118,7 +118,7 @@ This project is a fully functional e-commerce marketplace built during a 7-day h
 ## Deployment
 
 The project has been deployed and is live at:
-[Live Demo Link](#)
+[https://ui-ux-hackathon-sable.vercel.app/](#)
 
 ## Acknowledgments
 
