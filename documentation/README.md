@@ -1,4 +1,4 @@
-# Marketplace Technical Foundation General E-Commerce
+# Day2: Marketplace Technical Foundation General E-Commerce
 
 This project is an e-commerce application using **Sanity CMS** as the backend for managing product data and third-party APIs for shipping and payments. Below is a detailed breakdown of the project features, architecture, and workflow based on the provided diagram.
 
