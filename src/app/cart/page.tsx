@@ -148,7 +148,7 @@ function Cart() {
                         </td>
                         {/* Product Price */}
                         <td className="text-center text-[#1D3178] md:text-[16px] sm:text-[14px]  text-[12px]">
-                          ${item.selectedPlant.price}
+                          {item.selectedPlant.price}
                         </td>
                         {/* Quantity */}
                         <td className="text-center">
@@ -209,7 +209,7 @@ function Cart() {
                         </td>
                         {/* Total Price */}
                         <td className="text-center text-[#1D3178]">
-                          ${" "}
+                          {" "}
                           {item.quantity &&
                             item.selectedPlant.price &&
                             (
@@ -254,12 +254,12 @@ function Cart() {
               <div className="h-auto  w-full p-7  bg-[#E8E6F1]">
                 <div className="flex justify-between text-[#1D3178]  border-[2px]  border-b-[#d0ced4]">
                   <h3>Subtotals:</h3>
-                  <h3>${subTotal}</h3>
+                  <h3>{subTotal}</h3>
                 </div>
 
                 <div className="flex justify-between text-[#1D3178] mt-3  border-[2px]  border-b-[#d0ced4]">
                   <h3>Total:</h3>
-                  <h3>${total}</h3>
+                  <h3>{total}</h3>
                 </div>
 
                 <div className="flex gap-2 mt-4">
@@ -278,7 +278,7 @@ function Cart() {
                 </Button>
               </div>
 
-              <h2 className="my-5 text-center text-[#1D3178] font-bold">
+              {/* <h2 className="my-5 text-center text-[#1D3178] font-bold">
                 Calculate Shopping
               </h2>
 
@@ -299,7 +299,7 @@ function Cart() {
                   {" "}
                   Calculate Shiping
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

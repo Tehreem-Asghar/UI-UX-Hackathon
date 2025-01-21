@@ -42,9 +42,9 @@ function SecondHeader() {
     };
   
   return (
-    <main  className="  max-w-[1920px] mx-auto  w-full   "> 
-    <TopHeader/>
-    <main className="max-w-[1920px] mx-auto flex w-full   bg-white   lg:justify-center items-center">
+    <main  className=" max-w-[1920px] mx-auto  w-full   "> 
+      <TopHeader/> 
+    <main className="    max-w-[1920px] mx-auto flex w-full   bg-white   lg:justify-center items-center">
       <header className="h-[40px] lg:mx-[120px]  mx-[30px]  my-4 w-full  flex justify-between lg:justify-around items-center  ">
         <h1 className={`md:text-[34px] text-[28px] text-[#0D0E43]  font-[700] tracking-wide ${josefinSans.className}`}>
           Hekto
@@ -185,6 +185,7 @@ function SecondHeader() {
         </div>
       </header>
     </main>
+    
     </main>
   );
 }

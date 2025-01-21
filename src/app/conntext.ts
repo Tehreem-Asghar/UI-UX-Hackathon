@@ -7,3 +7,5 @@ interface  SearchType{
 }
 
 export const searchContext = createContext({}  as SearchType);
+
+export const updateStock = createContext([] as SearchType[] )

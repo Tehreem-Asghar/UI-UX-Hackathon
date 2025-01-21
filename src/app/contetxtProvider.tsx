@@ -10,6 +10,7 @@ function ContextProvider({
 
  const  [search , setSearch] = useState("")
 
+
   return (
           <>
           <searchContext.Provider    value={{search , setSearch}}>
