@@ -30,7 +30,8 @@ const josefinSans = Josefin_Sans({
 
 function SecondHeader() {
   const activeLink = usePathname();
-
+  
+  
 
   const [search, setSearch] = useState("");
     const searchQuery = useContext(searchContext)
@@ -184,6 +185,7 @@ function SecondHeader() {
         </Sheet>
         </div>
       </header>
+     
     </main>
     
     </main>

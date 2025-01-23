@@ -6,6 +6,7 @@ import SecondHeader from "./components/secondHeader";
 import Footer, { BottomFooter } from "./components/footer";
 import ContextProvider from "./contetxtProvider";
 import { Toaster } from "@/components/ui/sonner"
+import { AuthProvider } from "./provider/provider";
 
 
 // import {
@@ -44,12 +45,13 @@ export default function RootLayout({
           <SignedIn>
             <UserButton />
           </SignedIn> */}
-        
+        <AuthProvider> 
         <ContextProvider> 
         {/* <TopHeader/> */}
         <SecondHeader/>
         {children}
         </ContextProvider>
+        </AuthProvider>
         <Toaster />
         <Footer/>
         <BottomFooter/>

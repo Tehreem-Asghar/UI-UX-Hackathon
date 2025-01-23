@@ -16,7 +16,7 @@ export default function About() {
     "/images/offer/offer3.png",
     "/images/offer/offer4.png",
   ];
-
+ 
   return (
     <main className="max-w-[1920px] mx-auto">
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center ">

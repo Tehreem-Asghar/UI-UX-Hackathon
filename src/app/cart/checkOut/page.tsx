@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { IoCheckbox } from "react-icons/io5";
-import Link from "next/link";
+ import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import { useRouter } from "next/navigation";
