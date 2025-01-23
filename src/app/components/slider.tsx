@@ -58,10 +58,10 @@ export default function Sliding() {
     <Skeleton className="h-[150px] w-[200px]" />
   </div>
   <div className="w-[500px] lg:w-[644px] h-auto flex flex-col gap-8 pl-5 lg:pl-0 lg:gap-4 py-7 mt-20">
-  <Skeleton className="h-[100px] w-[400px]" />
-  <Skeleton className="h-[100px] w-[400px]" />
-  <Skeleton className="h-[100px] w-[400px]" />
-  <Skeleton className="h-[100px] w-[400px]" />
+  <Skeleton className="h-[100px] sm:w-[400px] w-[250px]" />
+  <Skeleton className="h-[100px] sm:w-[400px] w-[250px]" />
+  <Skeleton className="h-[100px] sm:w-[400px] w-[250px]" />
+  <Skeleton className="h-[100px] sm:w-[400px] w-[250px]" />
   </div>
   <div className="sm:flex justify-center hidden items-center">
   

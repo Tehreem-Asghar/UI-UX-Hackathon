@@ -193,8 +193,8 @@ getData()
               <div className="flex  w-[100%]  justify-between items-center  my-3  px-6    " >
               <Skeleton className="h-4 w-[250px]  mt-16 mb-8 bg-gray-400 " />
                               <div className="flex gap-3 text-[12px] sm:text[15px]">
-                              <Skeleton className="h-4 w-[150px]  mt-16 mb-8 bg-gray-400 " />
-                              <Skeleton className="h-4 w-[150px]  mt-16 mb-8 bg-gray-400 " />
+                              <Skeleton className="h-4 w-[100px]  mt-16 mb-8 bg-gray-400 " />
+                              <Skeleton className="h-4 w-[100px]  mt-16 mb-8 bg-gray-400 " />
                 </div>
               </div>
               

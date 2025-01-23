@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 function TopHeader() {
   const { data: session } = useSession();
-  console.log("heloooo", session?.user);
+  // console.log("Session", session?.user);
   const router= useRouter()
 
     const handleLogout = async () => {
@@ -32,8 +32,8 @@ function TopHeader() {
   // Helper function to get the user's initial
   const getUserInitial = (name?: string) => name?.charAt(0).toUpperCase();
   return (
-    <main className="max-w-[1920px] mx-auto flex  w-full   h-[50px] md:h-[50px] bg-[#7E33E0] items-center justify-center">
-      <section className="  w-full     bg-[#7E33E0] text-white  flex  sm:flex-row flex-col justify-center items-center  sm:justify-evenly text-[10px] md:text-[12px] lg:text-[16px]   p-2  md:p-0">
+    <main className="max-w-[1920px] mx-auto flex  w-full   h-auto md:h-[50px] bg-[#7E33E0] items-center justify-center">
+      <section className="  w-full     bg-[#7E33E0] text-white  flex  sm:flex-row flex-col justify-center items-center  sm:justify-evenly text-[10px] md:text-[12px] lg:text-[16px]   ">
         {session?.user ? (
           <>
             <div className="sm:flex hidden items-center sm:gap-4  md:gap-7 gap-1">
@@ -42,7 +42,7 @@ function TopHeader() {
                 <p>tehreemmeo818@gmail.com </p>
               </div>
 
-              <div className="flex  items-center text-[12px] md:text-[16px] gap-1">
+              <div className=" flex   items-center text-[12px] md:text-[16px] gap-1">
                 <MdOutlinePhoneInTalk />
                 <p>+92 3443551431</p>
               </div>
@@ -55,7 +55,7 @@ function TopHeader() {
               <p>tehreemmeo818@gmail.com </p>
             </div>
 
-            <div className="flex  items-center text-[12px] md:text-[16px] gap-1">
+            <div className="md:flex hidden items-center text-[12px] md:text-[16px] gap-1">
               <MdOutlinePhoneInTalk />
               <p>+92 3443551431</p>
             </div>
@@ -81,38 +81,11 @@ function TopHeader() {
             </Link>
             <Link href={"/cart"}>
               {" "}
-              <CgShoppingCart className="lg:h-[24px] lg:w-[24px]  md:h-[18px] md:w-[18px]  h-[18px] w-[18px] ml-2" />{" "}
+              <CgShoppingCart className="lg:h-[24px] lg:w-[24px]  md:h-[18px] md:w-[18px]  h-[18px] w-[18px] ml-1" />{" "}
             </Link>
           </div>
         </div>
       </section>
-      {/* User profile link on the right side */}
-      {/* <div className="sm:flex   pb-2  items-center space-x-2 self-end    justify-center ">
-        {session?.user ? (
-          <Link
-            href={"/profile"}
-            className="text-md flex items-center space-x-1 px-6"
-          >
-            <span className="font-bold text-white bg-[#FB2E86]  rounded-full w-9 h-9 flex items-center justify-center">
-              {getUserInitial(session.user.name)}
-            </span>
-          
-          </Link>
-        ) : (
-          <p>
-            <Link
-              href={"/login"}
-              className="flex items-center md:pb-2 pt-1 text-white gap-1 pr-4"
-            >
-            
-              Login
-              <FiUser />
-            </Link>
-          </p>
-        )}
-      </div> */}
-
-
 
       {session?.user ? (
         <>
@@ -141,7 +114,7 @@ function TopHeader() {
           <p>
             <Link
               href={"/login"}
-              className="flex items-center md:pb-2 pt-1 text-white gap-1 pr-4"
+              className="flex items-center md:pb-2 pt-1 pl-1 text-white gap-1 pr-4"
             >
               {" "}
               Login
