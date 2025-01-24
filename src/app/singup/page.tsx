@@ -49,6 +49,7 @@ export default function Signup() {
 
       if (res.ok) {
         router.push("/login");
+        // console.log("user registered")
       } else {
         setError("User registration failed.");
       }
