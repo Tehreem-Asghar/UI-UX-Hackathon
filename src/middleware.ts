@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 export const middleware = (request: NextRequest) => {
   // Retrieve the session token from cookies
   const cookie = request.cookies.get("next-auth.session-token");
+  const deployedCookie = request.cookies.get("__Secure-next-auth.session-token");
   const isLoggedIn = cookie?.value; // Ensure cookie exists and retrieve its value
-
+console.log(isLoggedIn)
   // If not logged in, redirect to login page
-  if (!isLoggedIn) {
+  if (!isLoggedIn || !deployedCookie) {
     const loginUrl = new URL("/login", request.url);
     return NextResponse.redirect(loginUrl);
   }
@@ -16,7 +17,7 @@ export const middleware = (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/cart", "/cart/checkOut", "/cart/checkOut/orderDone", "/wishlist", "/contact"],
+  matcher: [ "/cart/checkOut", "/cart/checkOut/orderDone", "/wishlist", "/contact"],
 };
 
 
