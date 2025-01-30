@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -18,6 +17,8 @@ const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Invalid email address." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  address: z.string().min(10, { message: "Address must be at least 10 characters." }), // New address field validation
+  phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }), // New phone field validation
 });
 
 export default function Signup() {
@@ -30,6 +31,8 @@ export default function Signup() {
       name: "",
       email: "",
       password: "",
+      address: "",
+      phone: "",
     },
   });
 
@@ -118,6 +121,46 @@ export default function Signup() {
                   </FormItem>
                 )}
               />
+                  <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="Confirm  Password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+             <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your address" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem> <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your phone number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+
               <Button type="submit" className="h-[47px] w-full bg-[#FB2E86] text-white hover:bg-[#FB2E86]">
                 Sign up
               </Button>
@@ -133,7 +176,7 @@ export default function Signup() {
         </div>
       </section>
 
-      <div className="h-[93px] sm:mx-[170px] mx-[30px] mb-4">
+      <div className="h-[93px] sm:mx-[170px] mx-[30px] mt-16 mb-4">
         <Image
           src="/images/tags/tags.png"
           height={93}

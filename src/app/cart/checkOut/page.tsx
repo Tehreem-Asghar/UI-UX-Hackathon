@@ -12,6 +12,9 @@ import { TrackShipment } from "@/app/components/tracking";
 import { toast } from "sonner";
 // import StripeCheckOutButton from "@/app/components/Checkout";
 import getStipePromise from "@/lib/stripe";
+import { useSession } from "next-auth/react";
+import { v4 as uuidv4 } from 'uuid'; // Ensure you have this package installed
+
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -55,11 +58,7 @@ function OrderDone() {
     addressResidentialIndicator: "yes",
   });
 
-  // name: "Jane Doe",
-  // phone: "+1 987 654 3210",
-  // addressLine1: "123 Main Street",
-  // addressLine2: "Suite 200",
-  // cityLocality: "lahor",
+  
 
   const [rates, setRates] = useState<Rate[]>([]);
   // const [error, setError] = useState("");
@@ -71,7 +70,11 @@ function OrderDone() {
   const [rateAmount, setRateAmount] = useState<number>();
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [ShippingButText, setShippingButText] = useState("Continue Shipping");
+ 
+   const { data: session, update } = useSession(); 
 
+const [address , setAddress] = useState(null)
+const [phone , setPhone] = useState(null)
   // Har input change handle karega hj
 
   const handleChange = (e: any) => {
@@ -115,10 +118,11 @@ function OrderDone() {
       // see the response in browser
       console.log(response.data);
       setLoading(true);
-
+      setAddress(response.data.shipTo.addressLine1)
+      setPhone(response.data.shipTo.phone)
       // Update the state with the fetched rates
       setRates(response.data.rateResponse.rates);
-      console.log("rates.................", rates);
+      // console.log("rates.................", rates);
     } catch (error) {
       console.log(error);
       setErrors(["An error occurred while fetching rates."]);
@@ -126,6 +130,12 @@ function OrderDone() {
       setLoading(false);
     }
   };
+    const [formData, setFormData] = useState({
+      name : "",
+      email: "",
+      address: "",
+      phone: "",
+    });
 
   // Get data from localStorage and save it in the state
   useEffect(() => {
@@ -135,7 +145,45 @@ function OrderDone() {
     } else {
       setCartItems([]);
     }
-  }, []);
+
+    async function getDatabase() {
+      try {
+        if (!session?.user.email) return;
+
+        const response = await fetch(`/api/auth/getdatafromdb`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: session?.user.email }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data from database");
+        }
+
+        const data = await response.json();
+        if (data.user) {
+          setFormData({
+            name: data.user.name || "",
+            email: data.user.email || "",
+            address: data.user.address || "",
+            phone: data.user.phone ? String(data.user.phone) : "",
+          });
+    
+          
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+getDatabase()
+
+
+
+
+
+  }, [session?.user.email]);
   const SHIPPING_COST: number | undefined = rateAmount ? rateAmount : 0;
 
   const calculateSubtotal: () => number = () => {
@@ -152,38 +200,43 @@ function OrderDone() {
 
   const total = Number(calculateSubtotal());
 
-  const handleUpdate = async () => {
-    try {
-      const updatePromises = cartItems.map(async (item) => {
-        if (
-          item.selectedPlant.stockLevel &&
-          item.quantity &&
-          item.selectedPlant._id
-        ) {
-          // Ensure stock and quantity are numbers before updating
-          await client
-            .patch(item.selectedPlant._id)
-            .set({
-              stockLevel: item.selectedPlant.stockLevel - item.quantity,
-            })
-            .commit();
-        }
-      });
+  // const handleUpdate = async () => {
+  //   try {
+  //     const updatePromises = cartItems.map(async (item) => {
+  //       if (
+  //         item.selectedPlant.stockLevel &&
+  //         item.quantity &&
+  //         item.selectedPlant._id
+  //       ) {
+  //         // Ensure stock and quantity are numbers before updating
+  //         await client
+  //           .patch(item.selectedPlant._id)
+  //           .set({
+  //             stockLevel: item.selectedPlant.stockLevel - item.quantity,
+  //           })
+  //           .commit();
+  //       }
+  //     });
 
-      // Wait for all update operations to complete
-      await Promise.all(updatePromises);
+  //     // Wait for all update operations to complete
+  //     await Promise.all(updatePromises);
 
-      // After updates, clear the local storage
-      localStorage.clear();
+  //     // After updates, clear the local storage
+  //     localStorage.clear();
 
-      console.log("Stock has been updated successfully!");
-      router.push("/cart/checkOut/orderDone");
-    } catch (error) {
-      console.error("Error updating stock:", error);
-    }
-  };
+  //     console.log("Stock has been updated successfully!");
+  //     router.push("/cart/checkOut/orderDone");
+  //   } catch (error) {
+  //     console.error("Error updating stock:", error);
+  //   }
+  // };
 
   // Function to create label from selected rate
+ 
+ 
+ 
+ 
+ 
   const handleCreateLabel = async () => {
     if (!rateId) {
       alert("Please select a rate to create a label.");
@@ -216,6 +269,7 @@ function OrderDone() {
     }
   };
 
+
   const ViewCartButton = () => (
     <Link href={"/wishlist"}>
       {" "}
@@ -225,6 +279,8 @@ function OrderDone() {
     </Link>
   );
 
+
+ // payment handler
   const handleCheckout = async () => {
     const stripe = await getStipePromise();
     const response = await fetch("/api/stripe-session/", {
@@ -235,8 +291,74 @@ function OrderDone() {
     });
 
     const data = await response.json();
+
+
+    // if payment success then update stock and clear local storage
     if (data.session) {
-      stripe?.redirectToCheckout({ sessionId: data.session.id });
+
+
+         try {
+
+            const updatePromises = cartItems.map(async (item: any) => {
+              if (
+                item.selectedPlant.stockLevel &&
+                item.quantity &&
+                item.selectedPlant._id
+              ) {
+                await client
+                  .patch(item.selectedPlant._id)
+                  .set({
+                    stockLevel: item.selectedPlant.stockLevel - item.quantity,
+                  })
+                  .commit();
+              }
+            });
+      
+            await Promise.all(updatePromises);
+
+       
+           
+const createCustomerOrder = async () => {
+  try {
+    const result = await client.create({
+      _type: 'customerOrder',
+      customerName: formData.name, // Customer name from form data
+      email: formData.email,       // Email from form data
+      phone: phone,                // Phone number
+      address: address,            // Address
+      orderDate: new Date().toISOString(), // Current date/time
+      items: cartItems.map((item) => ({
+        _type: 'object',
+        product: { _type: 'reference', _ref: item.selectedPlant._id }, // Reference to product
+        quantity: item.quantity, // Pass quantity here
+        _key: uuidv4(),          // Unique key for the object
+      })),
+      totalAmount: total, // Calculate total price for all items
+      status: 'delivered',  // Set initial order status
+    });
+
+    console.log('Customer Order Created:', result);
+  } catch (error) {
+    console.error('Error creating customer order:', error);
+  }
+};
+           
+           
+            createCustomerOrder();
+
+
+
+      
+            localStorage.clear();
+      
+            console.log("Stock has been updated successfully!");
+            
+           stripe?.redirectToCheckout({ sessionId: data.session.id });
+          } catch (error) {
+            console.error("Error updating stock:", error);
+          }
+
+      // stripe?.redirectToCheckout({ sessionId: data.session.id });
     }
   };
 
@@ -254,7 +376,7 @@ function OrderDone() {
             <p className="text-[#FB2E86]">.shopping cart</p>
           </span>
         </div>
-      </section>
+       </section>
 
       <section className="my-9 sm:mx-[170px] mx-[30px]">
         <div>
@@ -287,7 +409,7 @@ function OrderDone() {
                       placeholder="Phone number"
                       className="w-full p-2 bg-inherit"
                       required
-                      name="phone" // Name attribute zaroori hai
+                      name="phone" 
                       value={shipToAddress.phone}
                       onChange={(e) => handleChange(e)}
                     />
@@ -310,7 +432,7 @@ function OrderDone() {
                         type="text"
                         placeholder="name"
                         className="w-full p-2 bg-inherit"
-                        name="name" // Name attribute zaroori hai
+                        name="name" 
                         value={shipToAddress.name}
                         onChange={(e) => handleChange(e)}
                         required
@@ -330,7 +452,7 @@ function OrderDone() {
                         type="text"
                         placeholder="addressLine1"
                         className="w-full p-2  bg-inherit"
-                        name="addressLine1" // Name attribute zaroori hai
+                        name="addressLine1" 
                         value={shipToAddress.addressLine1}
                         onChange={(e) => handleChange(e)}
                         required
@@ -342,7 +464,7 @@ function OrderDone() {
                         placeholder="addressLine2"
                         className="w-full p-2  bg-inherit"
                         required
-                        name="addressLine2" // Name attribute zaroori hai
+                        name="addressLine2" 
                         value={shipToAddress.addressLine2}
                         onChange={(e) => handleChange(e)}
                       />
@@ -368,7 +490,7 @@ function OrderDone() {
                       placeholder="City"
                       className="w-full  p-2  bg-inherit"
                       required
-                      name="cityLocality" // Name attribute zaroori hai
+                      name="cityLocality" 
                       value={shipToAddress.cityLocality}
                       onChange={(e) => handleChange(e)}
                     />
@@ -380,7 +502,7 @@ function OrderDone() {
                         type="text"
                         placeholder="Country Code (e.g., PK)"
                         className="w-full  p-2 bg-inherit"
-                        name="countryCode" // Name attribute zaroori hai
+                        name="countryCode" 
                         value={shipToAddress.countryCode}
                         onChange={(e) => handleChange(e)}
                         readOnly
@@ -391,7 +513,7 @@ function OrderDone() {
                         type="number"
                         placeholder="Postal Code"
                         className="w-full p-2 bg-inherit"
-                        name="postalCode" // Name attribute zaroori hai
+                        name="postalCode" 
                         value={shipToAddress.postalCode}
                         onChange={(e) => handleChange(e)}
                         readOnly

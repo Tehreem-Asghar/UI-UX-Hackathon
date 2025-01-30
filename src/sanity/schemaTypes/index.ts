@@ -13,16 +13,18 @@ import saleProduct from "./saleProduct";
 import clientSayes from "./clientSayes";
 
 import product from "./product";
-import order from "./order";
+import customer from "./customer";
+import order from "./orders";
+import customerOrder from "./customersOrder";
+
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     
-    
- 
+    customerOrder,
+    customer,
     shopexOffer,
     DiscountOffer,
-    order,
     herosec,
     subscrib,
     blogs,
@@ -30,6 +32,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     saleProduct,
     product,
     clientSayes,
+    order
     
   ],
 };

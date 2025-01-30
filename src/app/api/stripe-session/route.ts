@@ -29,7 +29,8 @@ export async function POST(request: Request) {
             product_data: {
               name: "Custom Order", // Static product name
             },
-            unit_amount: body * 100, // Convert total to cents (Stripe requires amounts in the smallest currency unit)
+            unit_amount: Math.round(body * 100),
+            // unit_amount: body * 100, // Convert total to cents (Stripe requires amounts in the smallest currency unit)
           },
           quantity: 1, // Always 1 because we're using a single total value
         },

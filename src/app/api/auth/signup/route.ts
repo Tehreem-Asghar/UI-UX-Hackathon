@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req: any) {
   try {
-    const { name, email, password } = await req.json();
+    const { name, email, password, address, phone  } = await req.json();
     await dbConnect();
 
     const existingUser = await user.findOne({ email });
@@ -17,7 +17,7 @@ export async function POST(req: any) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await user.create({ name, email, password: hashedPassword, role: "user" });
+    await user.create({ name, email, password: hashedPassword, role: "user" , address, phone});
 
     return NextResponse.json({ message: "User registered." }, { status: 201 });
   } catch (error) {
@@ -33,27 +33,3 @@ export async function POST(req: any) {
 
 
 
-
-
-
-
-// import { save } from "@/services/user";
-// import { NextRequest, NextResponse } from "next/server";
-
-// export async function POST(request : NextRequest){
-//     const {email , password} = await request.json();
-//     console.log("signup body", email , password);
-//     try{ 
-//         save(email , password)
-//         return NextResponse.json(
-//             { message: "user created" },
-//             { status: 201 } // Pass the status code as an option
-//         );
-
-//     }catch(error){
-//         return NextResponse.json(
-//             { message: error },
-//             { status: 400 } // Pass the status code as an option
-//         );
-//     }
-// }

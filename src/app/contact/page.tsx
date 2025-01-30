@@ -1,6 +1,7 @@
 import React from 'react'
-import { Josefin_Sans } from "next/font/google";
 import Image from 'next/image';
+import { Josefin_Sans } from "next/font/google";
+
 
 const josefinSans = Josefin_Sans({
     subsets: ["latin"],

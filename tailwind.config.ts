@@ -26,7 +26,10 @@ const config: Config = {
         },
 		screen4: {
 			min : '1018px' , max : '1117px'
-		  }
+		  },
+		screen5: {
+			min : '0px' , max : '1115px'
+		  },
       },
   		borderRadius: {
   			lg: 'var(--radius)',

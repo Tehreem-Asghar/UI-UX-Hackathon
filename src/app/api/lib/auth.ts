@@ -1,12 +1,13 @@
+
+
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import  dbConnect  from "@/database/dbConnect";
-import {user} from "@/model/User";
-
+import dbConnect from "@/database/dbConnect";
+import { user } from "@/model/User";
 import { AuthOptions } from "next-auth";
 import { NextAuthUser } from "../auth/types/type";
 
- export  const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -37,10 +38,14 @@ import { NextAuthUser } from "../auth/types/type";
 
           // Map to NextAuthUser
           const userResponse: NextAuthUser = {
+            id : userFromDb._id,
             email: userFromDb.email,
             name: userFromDb.name,
             role: userFromDb.role,
             image: userFromDb.image,
+            address: userFromDb.address,  // Include address
+            phone: userFromDb.phone,      // Include phone
+
           };
 
           return userResponse;

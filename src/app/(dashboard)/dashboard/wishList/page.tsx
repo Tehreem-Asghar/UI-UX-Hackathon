@@ -3,8 +3,8 @@ import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { LuHeartOff } from "react-icons/lu";
-import AddtocardButton from "../components/addtocardButton";
-import Link from "next/link";
+import AddtocardButton from "@/app/components/addtocardButton";
+
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -25,7 +25,7 @@ interface Product {
   }
 
 
-function Wishlist() {
+function WishList() {
   const [parsedItems, setParsedItems] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -55,19 +55,12 @@ console.log("Updated wishlist:", updatedItems);
 
   return (
     <div className="max-w-[1920px] mx-auto">
-      <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center border-b-gray-300 border-b ">
-        <div className="sm:mx-[170px] mx-[30px] overflow-hidden text-center sm:text-left">
-          <h2
-            className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
+    
+        <h2
+            className={`${josefinSans.className} text-[25px] pt-3  text-center sm:text-[36px] text-[#101750] font-bold`}
           >
             WishList Items ({parsedItems.length})
           </h2>
-          <span className="flex sm:justify-start justify-center font-medium">
-            <p>Home.Pages</p>
-            <p className="text-[#FB2E86]">.wishlist</p>
-          </span>
-        </div>
-      </section>
       {parsedItems.length >0 ? <>
         <section className="mt-9  mb-40">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 justify-center gap-4">
@@ -91,17 +84,12 @@ console.log("Updated wishlist:", updatedItems);
       </section>
       
       </>   :  
-       <div className="h-full w-full flex justify-center items-center">
-       
-       <div  className="h-auto  w-[500px] grid justify-center items-center my-56  md:my-72">
-        <h2  className="text-[#151875] font-extrabold mb-2 text-[25px] md:text-[30px]">Your WishList is Empty </h2>
-       <Link  href={'/'}> <button className="bg-[#FB2E86]  text-white p-4 w-full h-auto">Continue Shopping</button>  </Link> 
-       </div>
-        
+       <div className=" pl-3 text-center">
+           <h2>Your WishList Is Empty</h2>
       </div>}
     
     </div>
   );
 }
 
-export default Wishlist;
+export default WishList;

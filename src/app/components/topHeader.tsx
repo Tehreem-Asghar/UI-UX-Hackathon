@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa6";
@@ -28,9 +28,63 @@ function TopHeader() {
       router.push('/login'); // Redirect to login page after logout
     };
 
-  // max-w-[1920px] mx-auto align-middle w-full    h-auto md:h-[60px] bg-[#7E33E0] text-white  flex  sm:flex-row flex-col justify-center items-center  sm:justify-evenly text-[10px] md:text-[12px] lg:text-[16px]   p-2  md:p-0"
+
   // Helper function to get the user's initial
   const getUserInitial = (name?: string) => name?.charAt(0).toUpperCase();
+
+  interface UserFormData {
+    name: string;
+    email: string;
+  
+  }
+
+const [formData, setFormData] = useState<UserFormData>({
+  name: session?.user.name || "",
+  email: session?.user.email || "",
+ 
+});
+
+
+   useEffect(() => {
+     async function getDatabase() {
+       try {
+         if (!session?.user.email) return;
+ 
+         const response = await fetch(`/api/auth/getdatafromdb`, {
+           method: "POST",
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify({ email: session?.user.email }),
+         });
+ 
+         if (!response.ok) {
+           throw new Error("Failed to fetch data from database");
+         }
+ 
+         const data = await response.json();
+         if (data.user) {
+           setFormData({
+             name: data.user.name || "",
+             email: data.user.email || "",
+            
+           });
+           // getUserInitial(data.user.name)
+           
+         }
+       } catch (error) {
+         console.error("Error fetching data:", error);
+       }
+     }
+ 
+     getDatabase();
+   }, [session?.user.email]);
+ 
+
+
+
+
+
   return (
     <main className="max-w-[1920px] mx-auto flex  w-full   h-auto md:h-[50px] bg-[#7E33E0] items-center justify-center">
       <section className="  w-full     bg-[#7E33E0] text-white  flex  sm:flex-row flex-col justify-center items-center  sm:justify-evenly text-[10px] md:text-[12px] lg:text-[16px]   ">
@@ -93,17 +147,17 @@ function TopHeader() {
             <DropdownMenuTrigger className="space-x-1 px-6 ">
              
               <span className="font-bold text-white bg-[#FB2E86]  rounded-full w-9 h-9 flex items-center justify-center">
-               {getUserInitial(session.user.name)}   
+               {getUserInitial(formData.name)}   
               </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account <br/>
-             <p className="text-blue-800"> {session.user.email} </p>
+             <p className="text-blue-800"> {formData.email} </p>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               
-              {/* <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
+            <Link href="/dashboard"><DropdownMenuItem>DashBoard</DropdownMenuItem></Link>  
+              {/* <DropdownMenuItem>Billing</DropdownMenuItem>
               <DropdownMenuItem>Team</DropdownMenuItem> */}
               <DropdownMenuItem><button  onClick={handleLogout}>  Log Out </button> </DropdownMenuItem>
             </DropdownMenuContent>
@@ -114,7 +168,7 @@ function TopHeader() {
           <p>
             <Link
               href={"/login"}
-              className="flex items-center md:pb-2 pt-1 pl-1 text-white gap-1 pr-4"
+              className="flex items-center md:pb-2 pt-1 pl- text-white gap-1 pr-4"
             >
               {" "}
               Login
