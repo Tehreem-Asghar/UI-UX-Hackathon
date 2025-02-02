@@ -53,7 +53,7 @@ function FeatureProdut() {
     }
 
     getData();
-  }, [filteredProducts]);
+  }, []);
 
   // Custom Button Component for the action
   const ViewCartButton = () => (

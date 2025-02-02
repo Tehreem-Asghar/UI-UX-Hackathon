@@ -44,7 +44,7 @@ const searchQuery = useContext(searchContext)
 
 useEffect(()=>{
 
-  async function getData() {
+  async function getData(){
     const res = await client.fetch(`*[_type == "product" && "latest" in tags]{
   _id,
   name,
@@ -62,7 +62,7 @@ useEffect(()=>{
   }
   
 getData()
-},[ filteredProducts])
+},[])
 
 
 

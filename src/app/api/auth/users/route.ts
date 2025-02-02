@@ -15,6 +15,7 @@ export async function PUT(req: NextRequest) {
       { new: true } // Return the updated document
     );
     
+    
 
     if (!updatedUser) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });

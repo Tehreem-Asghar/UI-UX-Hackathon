@@ -47,7 +47,8 @@ export function TrackShipment() {
       setLabelId(queryLabelId); // Set labelId from query params
       handleSubmit(queryLabelId); // Automatically submit the form
     }
-  }, [queryLabelId , handleSubmit]);
+    
+  }, [queryLabelId ]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-8 text-black">

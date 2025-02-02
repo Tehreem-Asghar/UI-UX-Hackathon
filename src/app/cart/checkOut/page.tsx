@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { IoCheckbox } from "react-icons/io5";
- import Link from "next/link";
+import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import { useRouter } from "next/navigation";
@@ -13,8 +13,7 @@ import { toast } from "sonner";
 // import StripeCheckOutButton from "@/app/components/Checkout";
 import getStipePromise from "@/lib/stripe";
 import { useSession } from "next-auth/react";
-import { v4 as uuidv4 } from 'uuid'; // Ensure you have this package installed
-
+import { v4 as uuidv4 } from "uuid"; // Ensure you have this package installed
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -42,8 +41,6 @@ function OrderDone() {
   // State to store the cart items
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  
-
   const router = useRouter();
 
   const [shipToAddress, setshipToAddress] = useState({
@@ -58,8 +55,6 @@ function OrderDone() {
     addressResidentialIndicator: "yes",
   });
 
-  
-
   const [rates, setRates] = useState<Rate[]>([]);
   // const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -70,11 +65,11 @@ function OrderDone() {
   const [rateAmount, setRateAmount] = useState<number>();
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [ShippingButText, setShippingButText] = useState("Continue Shipping");
- 
-   const { data: session, update } = useSession(); 
 
-const [address , setAddress] = useState(null)
-const [phone , setPhone] = useState(null)
+  const { data: session, update } = useSession();
+
+  const [address, setAddress] = useState(null);
+  const [phone, setPhone] = useState(null);
   // Har input change handle karega hj
 
   const handleChange = (e: any) => {
@@ -118,8 +113,8 @@ const [phone , setPhone] = useState(null)
       // see the response in browser
       console.log(response.data);
       setLoading(true);
-      setAddress(response.data.shipTo.addressLine1)
-      setPhone(response.data.shipTo.phone)
+      setAddress(response.data.shipTo.addressLine1);
+      setPhone(response.data.shipTo.phone);
       // Update the state with the fetched rates
       setRates(response.data.rateResponse.rates);
       // console.log("rates.................", rates);
@@ -130,12 +125,12 @@ const [phone , setPhone] = useState(null)
       setLoading(false);
     }
   };
-    const [formData, setFormData] = useState({
-      name : "",
-      email: "",
-      address: "",
-      phone: "",
-    });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    address: "",
+    phone: "",
+  });
 
   // Get data from localStorage and save it in the state
   useEffect(() => {
@@ -170,19 +165,12 @@ const [phone , setPhone] = useState(null)
             address: data.user.address || "",
             phone: data.user.phone ? String(data.user.phone) : "",
           });
-    
-          
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
-getDatabase()
-
-
-
-
-
+    getDatabase();
   }, [session?.user.email]);
   const SHIPPING_COST: number | undefined = rateAmount ? rateAmount : 0;
 
@@ -232,11 +220,7 @@ getDatabase()
   // };
 
   // Function to create label from selected rate
- 
- 
- 
- 
- 
+
   const handleCreateLabel = async () => {
     if (!rateId) {
       alert("Please select a rate to create a label.");
@@ -269,7 +253,6 @@ getDatabase()
     }
   };
 
-
   const ViewCartButton = () => (
     <Link href={"/wishlist"}>
       {" "}
@@ -279,8 +262,7 @@ getDatabase()
     </Link>
   );
 
-
- // payment handler
+  // payment handler
   const handleCheckout = async () => {
     const stripe = await getStipePromise();
     const response = await fetch("/api/stripe-session/", {
@@ -292,71 +274,61 @@ getDatabase()
 
     const data = await response.json();
 
-
     // if payment success then update stock and clear local storage
     if (data.session) {
-
-
-         try {
-
-            const updatePromises = cartItems.map(async (item: any) => {
-              if (
-                item.selectedPlant.stockLevel &&
-                item.quantity &&
-                item.selectedPlant._id
-              ) {
-                await client
-                  .patch(item.selectedPlant._id)
-                  .set({
-                    stockLevel: item.selectedPlant.stockLevel - item.quantity,
-                  })
-                  .commit();
-              }
-            });
-      
-            await Promise.all(updatePromises);
-
-       
-           
-const createCustomerOrder = async () => {
-  try {
-    const result = await client.create({
-      _type: 'customerOrder',
-      customerName: formData.name, // Customer name from form data
-      email: formData.email,       // Email from form data
-      phone: phone,                // Phone number
-      address: address,            // Address
-      orderDate: new Date().toISOString(), // Current date/time
-      items: cartItems.map((item) => ({
-        _type: 'object',
-        product: { _type: 'reference', _ref: item.selectedPlant._id }, // Reference to product
-        quantity: item.quantity, // Pass quantity here
-        _key: uuidv4(),          // Unique key for the object
-      })),
-      totalAmount: total, // Calculate total price for all items
-      status: 'delivered',  // Set initial order status
-    });
-
-    console.log('Customer Order Created:', result);
-  } catch (error) {
-    console.error('Error creating customer order:', error);
-  }
-};
-           
-           
-            createCustomerOrder();
-
-
-
-      
-            localStorage.clear();
-      
-            console.log("Stock has been updated successfully!");
-            
-           stripe?.redirectToCheckout({ sessionId: data.session.id });
-          } catch (error) {
-            console.error("Error updating stock:", error);
+      try {
+        const updatePromises = cartItems.map(async (item: any) => {
+          if (
+            item.selectedPlant.stockLevel &&
+            item.quantity &&
+            item.selectedPlant._id
+          ) {
+            await client
+              .patch(item.selectedPlant._id)
+              .set({
+                stockLevel: item.selectedPlant.stockLevel - item.quantity,
+              })
+              .commit();
           }
+        });
+
+        await Promise.all(updatePromises);
+
+        const createCustomerOrder = async () => {
+          try {
+            const result = await client.create({
+              _type: "customerOrder",
+              customerName: formData.name, // Customer name from form data
+              email: formData.email, // Email from form data
+              phone: phone, // Phone number
+              address: address, // Address
+              orderDate: new Date().toISOString(), // Current date/time
+              items: cartItems.map((item) => ({
+                _type: "object",
+                product: { _type: "reference", _ref: item.selectedPlant._id }, // Reference to product
+                quantity: item.quantity, // Pass quantity here
+                _key: uuidv4(), // Unique key for the object
+              })),
+              totalAmount: total, // Calculate total price for all items
+              status: "delivered", // Set initial order status
+            });
+
+            console.log("Customer Order Created:", result);
+          } catch (error) {
+            console.error("Error creating customer order:", error);
+          }
+        };
+
+        createCustomerOrder();
+
+        localStorage.clear();
+
+        console.log("Stock has been updated successfully!");
+
+        stripe?.redirectToCheckout({ sessionId: data.session.id });
+      } catch (error) {
+        console.error("Error updating stock:", error);
+      }
 
       // stripe?.redirectToCheckout({ sessionId: data.session.id });
     }
@@ -376,7 +348,7 @@ const createCustomerOrder = async () => {
             <p className="text-[#FB2E86]">.shopping cart</p>
           </span>
         </div>
-       </section>
+      </section>
 
       <section className="my-9 sm:mx-[170px] mx-[30px]">
         <div>
@@ -409,7 +381,7 @@ const createCustomerOrder = async () => {
                       placeholder="Phone number"
                       className="w-full p-2 bg-inherit"
                       required
-                      name="phone" 
+                      name="phone"
                       value={shipToAddress.phone}
                       onChange={(e) => handleChange(e)}
                     />
@@ -432,7 +404,7 @@ const createCustomerOrder = async () => {
                         type="text"
                         placeholder="name"
                         className="w-full p-2 bg-inherit"
-                        name="name" 
+                        name="name"
                         value={shipToAddress.name}
                         onChange={(e) => handleChange(e)}
                         required
@@ -452,7 +424,7 @@ const createCustomerOrder = async () => {
                         type="text"
                         placeholder="addressLine1"
                         className="w-full p-2  bg-inherit"
-                        name="addressLine1" 
+                        name="addressLine1"
                         value={shipToAddress.addressLine1}
                         onChange={(e) => handleChange(e)}
                         required
@@ -464,7 +436,7 @@ const createCustomerOrder = async () => {
                         placeholder="addressLine2"
                         className="w-full p-2  bg-inherit"
                         required
-                        name="addressLine2" 
+                        name="addressLine2"
                         value={shipToAddress.addressLine2}
                         onChange={(e) => handleChange(e)}
                       />
@@ -490,7 +462,7 @@ const createCustomerOrder = async () => {
                       placeholder="City"
                       className="w-full  p-2  bg-inherit"
                       required
-                      name="cityLocality" 
+                      name="cityLocality"
                       value={shipToAddress.cityLocality}
                       onChange={(e) => handleChange(e)}
                     />
@@ -502,7 +474,7 @@ const createCustomerOrder = async () => {
                         type="text"
                         placeholder="Country Code (e.g., PK)"
                         className="w-full  p-2 bg-inherit"
-                        name="countryCode" 
+                        name="countryCode"
                         value={shipToAddress.countryCode}
                         onChange={(e) => handleChange(e)}
                         readOnly
@@ -513,7 +485,7 @@ const createCustomerOrder = async () => {
                         type="number"
                         placeholder="Postal Code"
                         className="w-full p-2 bg-inherit"
-                        name="postalCode" 
+                        name="postalCode"
                         value={shipToAddress.postalCode}
                         onChange={(e) => handleChange(e)}
                         readOnly
@@ -700,13 +672,17 @@ const createCustomerOrder = async () => {
 
                 <div className="py-5">
                   <button
-                     className="h-[40px] w-full bg-[#19D16F] mt-4 hover:bg-[#19D16F] text-white"
-                    onClick={()=>{   isConfirm ? handleCheckout() : toast("Please complete Rateing Proccess", {
-                      description:
-                        "Fill out the required form and create shipping rates to continue with the next steps. ",
-                      action: <ViewCartButton />,
-                      duration: 4000,
-                    });}}
+                    className="h-[40px] w-full bg-[#19D16F] mt-4 hover:bg-[#19D16F] text-white"
+                    onClick={() => {
+                      isConfirm
+                        ? handleCheckout()
+                        : toast("Please complete Rateing Proccess", {
+                            description:
+                              "Fill out the required form and create shipping rates to continue with the next steps. ",
+                            action: <ViewCartButton />,
+                            duration: 4000,
+                          });
+                    }}
                   >
                     Check out
                   </button>

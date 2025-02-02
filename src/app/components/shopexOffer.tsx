@@ -18,24 +18,36 @@ interface Offer {
   image: string;
 }
 
-async function getData() {
-  const res = await client.fetch(
-    `*[_type == "shopexOffer"]{
-       _id,
-    title,
-     offertitle,
-      description,
-      "image" : image.asset -> url
-  }`
-  );
-  return res;
-}
+// async function getData() {
+//   const res = await client.fetch(
+//     `*[_type == "shopexOffer"]{
+//        _id,
+//     title,
+//      offertitle,
+//       description,
+//       "image" : image.asset -> url
+//   }`
+//   );
+//   return res;
+// }
 
 const ShopexOffer = () => {
   const [data, setData] = useState<Offer[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
+      async function getData() {
+        const res = await client.fetch(
+          `*[_type == "shopexOffer"]{
+             _id,
+          title,
+           offertitle,
+            description,
+            "image" : image.asset -> url
+        }`
+        );
+        return res;
+      }
       const offers = await getData();
       setData(offers);
     };

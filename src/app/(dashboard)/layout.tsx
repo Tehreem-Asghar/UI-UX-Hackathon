@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import ContextProvider from "../contetxtProvider";
 import Sidebar from "./components/sidebare";
