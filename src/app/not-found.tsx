@@ -1,13 +1,13 @@
 import React from "react";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 function notfound() {
   return (
@@ -15,7 +15,7 @@ function notfound() {
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center ">
         <div className="sm:mx-[170px] mx-[30px] overflow-hidden text-center sm:text-left">
           <h2
-            className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
+            className={` text-[25px] sm:text-[36px] text-[#101750] font-bold`}
           >
             404 Not Found
           </h2>

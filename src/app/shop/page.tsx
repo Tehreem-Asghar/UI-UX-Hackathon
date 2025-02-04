@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import { PiCirclesFourFill } from "react-icons/pi";
 import { TfiMenuAlt } from "react-icons/tfi";
 import Image from "next/image";
@@ -14,10 +14,10 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 
 
@@ -116,7 +116,7 @@ interface Product {
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center ">
         <div className="sm:mx-[170px] mx-[30px] overflow-hidden text-center sm:text-left">
           <h2
-            className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
+            className={` text-[25px] sm:text-[36px] text-[#101750] font-bold`}
           >
             Shop Grid Default
           </h2>
@@ -131,7 +131,7 @@ interface Product {
         <div className="flex justify-between items-center w-full  gap-8">
           <div>
             <h2
-              className={`${josefinSans.className}  text-[11px] sm:text-[14px] lg:text-[18px]  text-[#101750] font-bold`}
+              className={`  text-[11px] sm:text-[14px] lg:text-[18px]  text-[#101750] font-bold`}
             >
               Ecommerce Acceories & Fashion item
             </h2>

@@ -9,16 +9,16 @@ import { CiHeart, CiShoppingCart } from "react-icons/ci";
 import { searchContext } from "../conntext";
 import { PiCirclesFourFill } from "react-icons/pi";
 import { TfiMenuAlt } from "react-icons/tfi";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FaStar } from "react-icons/fa6";
 import { toast } from "sonner";
 
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 interface Product {
   price: string;
@@ -106,7 +106,7 @@ export default function Shop() {
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center ">
         <div className="sm:mx-[170px] mx-[30px] overflow-hidden text-center sm:text-left">
           <h2
-            className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
+            className={` text-[25px] sm:text-[36px] text-[#101750] font-bold`}
           >
             Shop Grid Default
           </h2>
@@ -121,7 +121,7 @@ export default function Shop() {
         <div className="flex justify-between items-center w-full  gap-8">
           <div>
             <h2
-              className={`${josefinSans.className}  text-[11px] sm:text-[14px] lg:text-[18px]  text-[#101750] font-bold`}
+              className={` text-[11px] sm:text-[14px] lg:text-[18px]  text-[#101750] font-bold`}
             >
               Ecommerce Acceories & Fashion item
             </h2>

@@ -3,7 +3,7 @@ import FeatureProdut from "./components/feature-produt";
 import LatestProduct from "./components/latestProduct";
 import ShopexOffer from "./components/shopexOffer";
 import Image from "next/image";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Trending from "./components/trending";
 import DiscountItem from "./components/discountItem";
 import TopCategary from "./components/topcategary";
@@ -13,10 +13,10 @@ import { client } from "@/sanity/lib/client";
 
 
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 export const revalidate = 60
 
@@ -79,7 +79,7 @@ export default async function Home() {
             />
 
             <div className="grid gap-3 mx-5 sm:mx-0">
-            <h1  className={`text-[#151875] font-bold text-[20px]  sm:text-[30px]  ${josefinSans.className}`}>Unique Features Of leatest & <br/>
+            <h1  className={`text-[#151875] font-bold text-[20px]  sm:text-[30px]  `}>Unique Features Of leatest & <br/>
               Trending Poducts</h1>
 
               <div className='flex items-center gap-3'> <div className='rounded-full bg-[#F52B70] p-1  h-1 w-1'></div> <p className='text-[#ACABC3]'>All frames constructed with hardwood solids and laminates</p> </div>

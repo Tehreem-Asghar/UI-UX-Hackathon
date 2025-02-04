@@ -4,16 +4,16 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import Image from "next/image";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 interface Product {
   _id: string;
@@ -89,7 +89,7 @@ export default function Sliding() {
               </div>
               <div className="w-[500px] lg:w-[644px] h-auto flex flex-col gap-8 pl-5 lg:pl-0 lg:gap-4 py-7 mt-20">
                 <p className="text-[#FB2E86] text-[16px]">{item.toptitle}</p>
-                <h1 className={`${josefinSans.className} lg:text-[35px] text-[25px] font-bold leading-tight `}>
+                <h1 className={` lg:text-[35px] text-[25px] font-bold leading-tight `}>
                   {item.secondtitle}
                 </h1>
                 <p className="text-[#8A8FB9] text-[14px]">{item.description}</p>

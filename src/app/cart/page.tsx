@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { IoCheckbox } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
@@ -9,10 +9,10 @@ import Link from "next/link";
 
 import { toast } from "sonner"; 
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 
 interface PT {
@@ -83,7 +83,7 @@ function Cart() {
 
   const subTotal: number = calculateSubtotal();
 
-  const SHIPPING_COST = 200; // Example flat shipping cost
+  // const SHIPPING_COST = 200; // Example flat shipping cost
   const total = calculateSubtotal() 
 
   // JSX Render
@@ -92,7 +92,7 @@ function Cart() {
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center">
         <div className="sm:mx-[170px] mx-[30px] overflow-hidden  text-center sm:text-left">
           <h2
-            className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
+            className={` text-[25px] sm:text-[36px] text-[#101750] font-bold`}
           >
             Shopping Cart
           </h2>

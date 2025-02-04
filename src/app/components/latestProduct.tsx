@@ -1,6 +1,6 @@
 "use client"
 import React, { useContext, useEffect, useState } from "react";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FaSearchPlus } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa6";
@@ -11,10 +11,10 @@ import { client } from "@/sanity/lib/client";
 import { searchContext } from "../conntext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 
 interface Product {
@@ -111,7 +111,7 @@ getData()
      {filteredProducts.length !== 0 ? 
      <>
      <h1
-     className={`sm:text-[42px]  text-[35px] mt-16 mb-3 font-bold text-[#1A0B5B] ${josefinSans.className} text-center`}
+     className={`sm:text-[42px]  text-[35px] mt-16 mb-3 font-bold text-[#1A0B5B]  text-center`}
    >
      Leatest Products{" "}
    </h1>

@@ -1,12 +1,12 @@
 import React from "react";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 export default function Faq() {
   return (
@@ -14,7 +14,7 @@ export default function Faq() {
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center">
         <div className="sm:mx-[170px] mx-[30px] overflow-hidden text-center sm:text-left">
           <h2
-            className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
+            className={` text-[25px] sm:text-[36px] text-[#101750] font-bold`}
           >
             FAQ
           </h2>
@@ -56,7 +56,7 @@ export default function Faq() {
           </div>
           <div className="lg:w-[50%]  w-full text-[#CDCEDC] p-2 sm:p-5">
             <h1
-              className={`sm:text-[30px]  text-[20px] font-bold  ${josefinSans.className} text-[#1D3178]`}
+              className={`sm:text-[30px]  text-[20px] font-bold   text-[#1D3178]`}
             >
               Ask a Question
             </h1>

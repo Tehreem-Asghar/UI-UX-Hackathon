@@ -4,7 +4,7 @@ import Link from "next/link";
 import { IoSearch } from "react-icons/io5";
 import { searchContext } from "../conntext";
 import { usePathname } from "next/navigation";
-import { Lato , Josefin_Sans } from "next/font/google";
+// import { Lato , Josefin_Sans } from "next/font/google";
 import { SlMenu } from "react-icons/sl";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,16 +16,16 @@ import {
 } from "@/components/ui/sheet";
 import TopHeader from "./topHeader";
 
-const lato = Lato({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const lato = Lato({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 
-const josefinSans = Josefin_Sans({
-    subsets: ["latin"],
-    weight: ["400", "700"],
-  });
+// const josefinSans = Josefin_Sans({
+//     subsets: ["latin"],
+//     weight: ["400", "700"],
+//   });
 
 
 function SecondHeader() {
@@ -47,11 +47,11 @@ function SecondHeader() {
       <TopHeader/> 
     <main className="    max-w-[1920px] mx-auto flex w-full   bg-white   lg:justify-center items-center">
       <header className="h-[40px] lg:mx-[120px]  mx-[30px]  my-4 w-full  flex justify-between lg:justify-around items-center  ">
-        <h1 className={`md:text-[34px] text-[28px] text-[#0D0E43]  font-[700] tracking-wide ${josefinSans.className}`}>
+        <h1 className={`md:text-[34px] text-[28px] text-[#0D0E43]  font-[700] tracking-wide `}>
           Hekto
         </h1>
         <nav
-          className={`lg:flex gap-6 text-[#0D0E43]  hidden text-[16px]  ${lato.className}`}
+          className={`lg:flex gap-6 text-[#0D0E43]  hidden text-[16px] `}
         >
           <Link
             href={"/"}
@@ -122,7 +122,7 @@ function SecondHeader() {
              
             </SheetHeader>
             <nav
-              className={`flex flex-col  gap-6 text-[#0D0E43]  text-[16px] mt-24  items-center ${lato.className}`}
+              className={`flex flex-col  gap-6 text-[#0D0E43]  text-[16px] mt-24  items-center `}
             >
               <Link
                 href={"/"}

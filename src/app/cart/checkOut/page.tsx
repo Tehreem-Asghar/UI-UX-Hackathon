@@ -7,7 +7,7 @@ import { client } from "@/sanity/lib/client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Rate, trackingObjType } from "../../../../type";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import { TrackShipment } from "@/app/components/tracking";
 import { toast } from "sonner";
 // import StripeCheckOutButton from "@/app/components/Checkout";
@@ -15,10 +15,10 @@ import getStipePromise from "@/lib/stripe";
 import { useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid"; // Ensure you have this package installed
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 interface PT {
   price: string;
@@ -339,7 +339,7 @@ function OrderDone() {
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center">
         <div className="sm:mx-[170px] mx-[30px] overflow-hidden text-center sm:text-left">
           <h2
-            className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
+            className={` text-[25px] sm:text-[36px] text-[#101750] font-bold`}
           >
             Shopping Cart
           </h2>
@@ -353,7 +353,7 @@ function OrderDone() {
       <section className="my-9 sm:mx-[170px] mx-[30px]">
         <div>
           <h2
-            className={`${josefinSans.className} text-[24px]  text-[#101750] font-bold`}
+            className={` text-[24px]  text-[#101750] font-bold`}
           >
             Hekto Demo
           </h2>

@@ -1,16 +1,16 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FaPenFancy, FaRegCalendarAlt } from "react-icons/fa";
 import { client } from "@/sanity/lib/client";
 import Link from "next/link";
 import { format } from "date-fns";
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 async function fetchBlogs() {
   try {
@@ -58,7 +58,7 @@ export default function Blogs() {
 
   return (
     <main className="lg:mx-[100px] mx-[20px] overflow-hidden mb-20">
-      <h1 className={`${josefinSans.className} font-bold text-[32px] text-center`}>
+      <h1 className={` font-bold text-[32px] text-center`}>
         Latest Blog
       </h1>
 

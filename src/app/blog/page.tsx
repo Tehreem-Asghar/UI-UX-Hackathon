@@ -1,5 +1,5 @@
 "use client";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FaFacebook, FaPenFancy } from "react-icons/fa6";
 import { FaInstagramSquare, FaRegCalendarAlt } from "react-icons/fa";
@@ -10,10 +10,10 @@ import { format, setDate } from "date-fns";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 
 function Blogs() {
@@ -134,7 +134,7 @@ function Blogs() {
       <section className="h-[286px] w-full bg-[#F6F5FF] grid items-center ">
         <div className="sm:mx-[170px] mx-[30px] overflow-hidden text-center sm:text-left">
           <h2
-            className={`${josefinSans.className} text-[25px] sm:text-[36px] text-[#101750] font-bold`}
+            className={` text-[25px] sm:text-[36px] text-[#101750] font-bold`}
           >
             Blog Page
           </h2>

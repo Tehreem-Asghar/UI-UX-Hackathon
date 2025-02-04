@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -8,10 +8,10 @@ import { client } from "@/sanity/lib/client";
 import { searchContext } from "../conntext";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 interface TopCategary {
   price: string;
@@ -58,7 +58,7 @@ export default function TopCategary() {
         <>
           <div className="lg:mx-[170px] sm:mx-[30px]">
             <h1
-              className={`text-[#151875] text-[34px] text-center font-bold mb-6    ${josefinSans.className}`}
+              className={`text-[#151875] text-[34px] text-center font-bold mb-6    `}
             >
               Top Categories
             </h1>
@@ -103,7 +103,7 @@ export default function TopCategary() {
         <>
           <div className="lg:mx-[170px] sm:mx-[30px]">
             <h1
-              className={`text-[#151875] text-[34px] text-center font-bold mb-6    ${josefinSans.className}`}
+              className={`text-[#151875] text-[34px] text-center font-bold mb-6    `}
             >
               <Skeleton className="h-4 w-[250px]  mt-16 mb-8 bg-gray-400 " />
             </h1>

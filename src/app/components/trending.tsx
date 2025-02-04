@@ -2,16 +2,16 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 interface Product {
   price: string;
@@ -85,7 +85,7 @@ export default function Trending() {
 
   return (
     <main className="mt-24 w-full">
-      <h1 className={`text-[#151875] text-[34px] text-center font-bold mb-6 ${josefinSans.className}`}>
+      <h1 className={`text-[#151875] text-[34px] text-center font-bold mb-6 `}>
         Trending Products
       </h1>
 {trendingProducts.length > 0 ?<>

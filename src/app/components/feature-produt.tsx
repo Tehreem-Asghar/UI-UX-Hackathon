@@ -1,15 +1,15 @@
 "use client";
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FaRegHeart } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
 import { FaSearchPlus } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 import { client } from "../../sanity/lib/client";
 import { useContext, useEffect, useState } from "react";
 import { searchContext } from "../conntext";
@@ -89,7 +89,7 @@ function FeatureProdut() {
       {filteredProducts.length !== 0 ? (
         <>
           <h1
-            className={`sm:text-[42px]  text-[27px] mt-16 mb-8 font-bold text-[#151875] ${josefinSans.className} text-center`}
+            className={`sm:text-[42px]  text-[27px] mt-16 mb-8 font-bold text-[#151875]  text-center`}
           >
             Featured Products{" "}
           </h1>

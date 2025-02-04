@@ -1,15 +1,15 @@
 "use client"
-import { Josefin_Sans } from "next/font/google";
+// import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { LuHeartOff } from "react-icons/lu";
 import AddtocardButton from "@/app/components/addtocardButton";
 
 
-const josefinSans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+// const josefinSans = Josefin_Sans({
+//   subsets: ["latin"],
+//   weight: ["400", "700"],
+// });
 
 
 interface Product {
@@ -57,7 +57,7 @@ console.log("Updated wishlist:", updatedItems);
     <div className="max-w-[1920px] mx-auto">
     
         <h2
-            className={`${josefinSans.className} text-[25px] pt-3  text-center sm:text-[36px] text-[#101750] font-bold`}
+            className={` text-[25px] pt-3  text-center sm:text-[36px] text-[#101750] font-bold`}
           >
             WishList Items ({parsedItems.length})
           </h2>
