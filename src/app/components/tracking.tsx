@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useCallback } from "react";
 import axios from "axios";
 import { useSearchParams, useRouter } from "next/navigation";
 import { TrackingData } from "../../../type";
@@ -17,29 +17,57 @@ export function TrackShipment() {
   const queryLabelId = searchParams?.get("labelId") || ""; // Safely fetch labelId
 
   // Function to handle form submission
-  const handleSubmit = async (labelId: string) => {
+  // const handleSubmit = async (labelId: string) => {
+  //   if (!labelId) {
+  //     setError("Label ID is required.");
+  //     return;
+  //   }
+
+  //   setLoading(true); // Show loading spinner
+  //   setError(null); // Clear previous errors
+
+  //   try {
+  //     // Update the URL with the labelId query parameter without scrolling
+  //     router.replace(`/cart/checkOut?labelId=${labelId}`); // No scroll option
+
+  //     // Make API request to track shipment
+  //     const response = await axios.get(`/api/shipengine/tracking/${labelId}`);
+  //     setTrackingData(response.data); // Set tracking data
+  //   } catch (err) {
+  //     console.error("Error tracking shipment:", err);
+  //     setError("Failed to track shipment. Please check the label ID and try again."); // Set error message
+  //   } finally {
+  //     setLoading(false); // Hide loading spinner
+  //   }
+  // };
+  const handleSubmit = useCallback(async (labelId: string) => {
     if (!labelId) {
       setError("Label ID is required.");
       return;
     }
-
-    setLoading(true); // Show loading spinner
-    setError(null); // Clear previous errors
-
+  
+    setLoading(true);
+    setError(null);
+  
     try {
-      // Update the URL with the labelId query parameter without scrolling
-      router.replace(`/cart/checkOut?labelId=${labelId}`); // No scroll option
-
-      // Make API request to track shipment
+      router.replace(`/cart/checkOut?labelId=${labelId}`);
       const response = await axios.get(`/api/shipengine/tracking/${labelId}`);
-      setTrackingData(response.data); // Set tracking data
+      setTrackingData(response.data);
     } catch (err) {
       console.error("Error tracking shipment:", err);
-      setError("Failed to track shipment. Please check the label ID and try again."); // Set error message
+      setError("Failed to track shipment. Please check the label ID and try again.");
     } finally {
-      setLoading(false); // Hide loading spinner
+      setLoading(false);
     }
-  };
+  }, [router]);
+  
+
+
+
+
+
+
+
 
   // Automatically fetch tracking data if labelId is present in query params
   useEffect(() => {
@@ -48,7 +76,7 @@ export function TrackShipment() {
       handleSubmit(queryLabelId); // Automatically submit the form
     }
     
-  }, [queryLabelId ]);
+  }, [queryLabelId,  handleSubmit ]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-8 text-black">
