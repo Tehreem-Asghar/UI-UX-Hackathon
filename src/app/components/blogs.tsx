@@ -28,10 +28,7 @@ async function fetchBlogs() {
           title,
           description
         }
-      }`,
-      {
-        'Cache-Control': 'no-store',
-      }
+      }`
     );
     return res;
   } catch (error) {

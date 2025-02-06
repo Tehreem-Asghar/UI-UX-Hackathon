@@ -156,7 +156,7 @@ const [formData, setFormData] = useState<UserFormData>({
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               
-            <Link href="/dashboard"><DropdownMenuItem>DashBoard</DropdownMenuItem></Link>  
+            <DropdownMenuItem> <Link href="/dashboard">DashBoard</Link></DropdownMenuItem>
               {/* <DropdownMenuItem>Billing</DropdownMenuItem>
               <DropdownMenuItem>Team</DropdownMenuItem> */}
               <DropdownMenuItem><button  onClick={handleLogout}>  Log Out </button> </DropdownMenuItem>

@@ -30,10 +30,7 @@ async function blog() {
       description
     },
      publishDate,
-  }`,
-    {
-      "Cache-Control": "no-store", // No cache
-    }
+  }`
   );
 
   return res;

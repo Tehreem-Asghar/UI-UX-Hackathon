@@ -40,7 +40,6 @@ const StripeCheckOutButton = () => {
     const response = await fetch("/api/stripe-session/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      cache: "no-cache",
       body: JSON.stringify(products),
     });
 

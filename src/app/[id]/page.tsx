@@ -18,8 +18,7 @@ interface Params {
   id: string;
 }
 
-export const revalidate = 10; // ISR: Page will revalidate every 10 seconds
-
+// export const revalidate = 10; // ISR: Page will revalidate every 10 seconds
 
 
 interface PT {

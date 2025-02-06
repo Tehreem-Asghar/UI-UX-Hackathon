@@ -70,6 +70,7 @@ function OrderDone() {
 
   const [address, setAddress] = useState(null);
   const [phone, setPhone] = useState(null);
+  const [name, setName] = useState(null);
   // Har input change handle karega hj
 
   const handleChange = (e: any) => {
@@ -115,6 +116,7 @@ function OrderDone() {
       setLoading(true);
       setAddress(response.data.shipTo.addressLine1);
       setPhone(response.data.shipTo.phone);
+      setName(response.data.shipTo.name)
       // Update the state with the fetched rates
       setRates(response.data.rateResponse.rates);
       // console.log("rates.................", rates);
@@ -268,7 +270,6 @@ function OrderDone() {
     const response = await fetch("/api/stripe-session/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      cache: "no-cache",
       body: JSON.stringify(total),
     });
 
@@ -298,7 +299,7 @@ function OrderDone() {
           try {
             const result = await client.create({
               _type: "customerOrder",
-              customerName: formData.name, // Customer name from form data
+              customerName: name, // Customer name from form data
               email: formData.email, // Email from form data
               phone: phone, // Phone number
               address: address, // Address

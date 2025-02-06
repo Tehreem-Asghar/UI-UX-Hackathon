@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
-import { FaFacebook, FaPenFancy } from "react-icons/fa6";
-import { FaInstagramSquare, FaRegCalendarAlt } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa6";
+import { FaInstagramSquare } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
-import { format, setDate } from "date-fns";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -67,10 +67,7 @@ function Vlogs() {
   category,
   tags
 }
-  `,
-        {
-          "Cache-Control": "no-store", // No cache
-        }
+  `
       );
 
       setofferPro(res);

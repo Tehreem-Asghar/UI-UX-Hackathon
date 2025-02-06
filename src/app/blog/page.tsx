@@ -53,10 +53,7 @@ function Blogs() {
       title,
       description
     }
-  }`,
-        {
-          "Cache-Control": "no-store",
-        }
+  }`
       );
 
       setdata(res);

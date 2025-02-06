@@ -226,7 +226,7 @@ function Cart() {
                     </>
                   ))}
                 </tbody>
-                <tfoot>
+                {/* <tfoot>
                   <tr>
                     <td colSpan={4} className="text-right">
                       <div className="flex justify-between w-full mt-10">
@@ -242,7 +242,7 @@ function Cart() {
                       </div>
                     </td>
                   </tr>
-                </tfoot>
+                </tfoot> */}
               </table>
             </div>
 

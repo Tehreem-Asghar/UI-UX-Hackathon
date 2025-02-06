@@ -30,45 +30,45 @@ interface CartItem {
 }
 
 function Confirm() { // Updated name
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  const handleUpdate = async () => {
-    try {
-      const updatePromises = cartItems.map(async (item: any) => {
-        if (
-          item.selectedPlant.stockLevel &&
-          item.quantity &&
-          item.selectedPlant._id
-        ) {
-          await client
-            .patch(item.selectedPlant._id)
-            .set({
-              stockLevel: item.selectedPlant.stockLevel - item.quantity,
-            })
-            .commit();
-        }
-      });
+  // const handleUpdate = async () => {
+  //   try {
+  //     const updatePromises = cartItems.map(async (item: any) => {
+  //       if (
+  //         item.selectedPlant.stockLevel &&
+  //         item.quantity &&
+  //         item.selectedPlant._id
+  //       ) {
+  //         await client
+  //           .patch(item.selectedPlant._id)
+  //           .set({
+  //             stockLevel: item.selectedPlant.stockLevel - item.quantity,
+  //           })
+  //           .commit();
+  //       }
+  //     });
 
-      await Promise.all(updatePromises);
+  //     await Promise.all(updatePromises);
 
-      localStorage.clear();
+  //     localStorage.clear();
 
-      console.log("Stock has been updated successfully!");
-    } catch (error) {
-      console.error("Error updating stock:", error);
-    }
-  };
+  //     console.log("Stock has been updated successfully!");
+  //   } catch (error) {
+  //     console.error("Error updating stock:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const dataFromLocalStorage = localStorage.getItem("cart");
-      if (dataFromLocalStorage) {
-        setCartItems(JSON.parse(dataFromLocalStorage));
-      } else {
-        setCartItems([]);
-      }
-    }
-  }, [setCartItems]);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const dataFromLocalStorage = localStorage.getItem("cart");
+  //     if (dataFromLocalStorage) {
+  //       setCartItems(JSON.parse(dataFromLocalStorage));
+  //     } else {
+  //       setCartItems([]);
+  //     }
+  //   }
+  // }, [setCartItems]);
 
   return (
     <main className="max-w-[1920px] mx-auto">
