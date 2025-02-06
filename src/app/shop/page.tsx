@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { PiCirclesFourFill } from "react-icons/pi";
 import { TfiMenuAlt } from "react-icons/tfi";
 import Image from "next/image";
-import { IoIosStar } from "react-icons/io";
+// import { IoIosStar } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
 import { CiHeart, CiShoppingCart } from "react-icons/ci";
 import { FaSearchPlus } from "react-icons/fa";
@@ -180,7 +180,7 @@ interface Product {
         <div>
 
         {filteredProducts.length !== 0 ? <>   {filteredProducts.map((shopItem : Product)  => (
-            <div className="flex  sm:flex-row  flex-col gap-5 w-full" key={shopItem.name}>
+            <div className="flex  sm:flex-row  flex-col gap-5 w-full" key={shopItem._id}>
               <div className="h-[217px] w-full sm:w-[30%]">
                 <Image
                   src={shopItem.image}
