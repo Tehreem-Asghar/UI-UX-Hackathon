@@ -140,7 +140,7 @@ useEffect(() => {
 
         {/* Profile Information */}
         <div className="bg-white p-4 w-full  mx-auto rounded-lg shadow-lg  shadow-pink-400">
-          <h2 className="text-xl font-semibold mb-2  text-[#FB2E86]">Profile Information</h2>
+          <h2 className="text-xl font-semibold mb-2  text-[#1D3178]">Profile Information</h2>
           <p><strong className='text-[#1D3178]'>Name:</strong> {formData.name}</p>
           <p><strong  className='text-[#1D3178] '>Email:</strong> {formData.email}</p>
           <p><strong  className='text-[#1D3178]'>Contact:</strong> {formData.phone}</p>
@@ -151,7 +151,7 @@ useEffect(() => {
 
         {/* Order History */}
         <div className="bg-white   p-4 rounded-lg shadow-lg  shadow-pink-400">
-          <h2 className="text-xl font-semibold mb-2 text-[#FB2E86]">Order History</h2>
+          <h2 className="text-xl font-semibold mb-2 text-[#1D3178]">Order History</h2>
           {orders.length >0 ? <>
             <ul>
             {orders.slice(0, 4).map((item)=>(
@@ -170,7 +170,7 @@ useEffect(() => {
 
         {/* Wishlist */}
         <div className="bg-white p-4  rounded-lg shadow-lg  shadow-pink-400">
-          <h2 className="text-xl font-semibold mb-2  text-[#FB2E86]">Wishlist</h2>
+          <h2 className="text-xl font-semibold mb-2  text-[#1D3178]">Wishlist</h2>
           {parsedItems.length >0 ? <>
             <ul>
             {parsedItems.slice(0,4).map((item)=>(
@@ -188,10 +188,10 @@ useEffect(() => {
 
        
         {/* Logout Option */}
-        <div className="bg-white p-4  rounded-lg shadow-lg  shadow-pink-400">
+        {/* <div className="bg-white p-4  rounded-lg shadow-lg  shadow-pink-400">
           <h2 className="text-xl font-semibold mb-2  text-[#FB2E86]">Logout</h2>
           <button  onClick={handleLogout} className=" w-full text-white px-4 py-2 rounded  shadow-lg shadow-pink-400   bg-[#c46fe6]">Logout</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

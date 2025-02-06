@@ -119,7 +119,7 @@ const getUserInitial = (name?: string) => name?.charAt(0).toUpperCase();
           <RiLogoutBoxFill /> Log Out
         </button>
       </div>
-      <div className="flex  md:hidden flex-col justify-center gap-6  pt-14">
+      <div className="flex text-white md:hidden flex-col justify-center gap-6  pt-14">
         <Link href="/dashboard"  >
           <HiTemplate  className="  pl-1 text-[30px]" />
         </Link>
@@ -132,7 +132,7 @@ const getUserInitial = (name?: string) => name?.charAt(0).toUpperCase();
         >
           <FaHistory  className="  pl-1 text-[30px]" /> 
         </Link>
-        <Link href="/dashboard/wishList">
+        <Link href="/dashboard/wish">
           <FaHeart  className="  pl-1 text-[30px]"/> 
         </Link>
         
