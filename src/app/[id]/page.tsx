@@ -43,7 +43,7 @@ interface CartItem {
   quantity: number;
 }
 
-export const revalidateTime = 120
+// export const revalidateTime = 120
 
 async function feaPro() {
   const res = await client.fetch(`*[_type == "product" && "featured" in tags]{
