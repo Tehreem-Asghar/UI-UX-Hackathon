@@ -220,6 +220,9 @@ async function DettailPage({ params }: { params: Params }) {
     trendingproduct
   );
 
+
+  console.log(allProduct)
+
   const product = allProduct.find((item: any) => String(item._id) === id);
   console.log(product);
   if (!product) {
