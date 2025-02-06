@@ -132,7 +132,7 @@ const getUserInitial = (name?: string) => name?.charAt(0).toUpperCase();
         >
           <FaHistory  className="  pl-1 text-[30px]" /> 
         </Link>
-        <Link href="/dashboard/Wishlist" >
+        <Link href="/dashboard/wishList">
           <FaHeart  className="  pl-1 text-[30px]"/> 
         </Link>
         

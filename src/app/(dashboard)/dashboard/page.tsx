@@ -128,7 +128,8 @@ useEffect(() => {
   return (
     <div className=" w-[100%]   min-h-screen bg-gray-100 p-4">
       {/* Header */}
-      <header className=" bg-gradient-to-r from-[#FB2E86] to-[#c46fe6]  text-white p-4 rounded-lg mb-4">
+      {/* bg-gradient-to-r from-[#FB2E86] to-[#c46fe6] */}
+      <header className="bg-[#7E33E0]     text-white p-4 rounded-lg mb-4">
         <h1 className=" text-[14px] sm:text-2xl font-bold">Welcome, {formData.name}!</h1>
          <p className="text-sm">Manage your account and orders</p>
       </header>
@@ -145,7 +146,7 @@ useEffect(() => {
           <p><strong  className='text-[#1D3178]'>Contact:</strong> {formData.phone}</p>
           <p><strong  className='text-[#1D3178]'>Address:</strong> {formData.address}</p>
 
-        <Link href={'/dashboard/profile'}>    <button className="mt-2 bg-gradient-to-r hover:from-[#ff2081] hover:to-[#c46fe6]  from-[#c46fe6]  to-[#FB2E86] w-full text-white px-4 py-2 rounded">Edit Profile</button> </Link>
+        <Link href={'/dashboard/profile'}>    <button className="mt-2 bg-[#c46fe6] w-full text-white px-4 py-2 rounded">Edit Profile</button> </Link>
         </div>
 
         {/* Order History */}
@@ -160,7 +161,7 @@ useEffect(() => {
             ))}
          
           </ul>
-          <Link href={'/dashboard/orderHistory'} ><button className="mt-2  w-full bg-gradient-to-r hover:from-[#FB2E86] hover:to-[#c46fe6]  from-[#c46fe6]  to-[#FB2E86] text-white px-4 py-2 rounded">View All Orders</button></Link>
+          <Link href={'/dashboard/orderHistory'} ><button className="mt-2  w-full bg-[#c46fe6] text-white px-4 py-2 rounded">View All Orders</button></Link>
           </> : <>
             <p  className='text-[#1D3178] '>not yet Order</p>
           </>}
@@ -177,7 +178,7 @@ useEffect(() => {
             ))}
          
           </ul>
-          <Link href="/dashboard/Wishlist" >    <button className="mt-2 bg-gradient-to-r hover:from-[#FB2E86] hover:to-[#c46fe6]  from-[#c46fe6]  to-[#FB2E86] w-full text-white px-4 py-2 rounded">View Wishlist</button> </Link>
+          <Link href="/dashboard/Wishlist" >    <button className="mt-2 bg-[#c46fe6] w-full text-white px-4 py-2 rounded">View Wishlist</button> </Link>
           
           </>  : <>
           <p  className='text-[#1D3178]'>Wishlist is empty</p> 
@@ -189,7 +190,7 @@ useEffect(() => {
         {/* Logout Option */}
         <div className="bg-white p-4  rounded-lg shadow-lg  shadow-pink-400">
           <h2 className="text-xl font-semibold mb-2  text-[#FB2E86]">Logout</h2>
-          <button  onClick={handleLogout} className=" w-full text-white px-4 py-2 rounded  shadow-lg shadow-pink-400    bg-gradient-to-r hover:from-[#FB2E86] hover:to-[#c46fe6]  from-[#c46fe6]  to-[#FB2E86]">Logout</button>
+          <button  onClick={handleLogout} className=" w-full text-white px-4 py-2 rounded  shadow-lg shadow-pink-400   bg-[#c46fe6]">Logout</button>
         </div>
       </div>
     </div>

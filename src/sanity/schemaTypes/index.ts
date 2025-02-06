@@ -4,7 +4,6 @@ import shopexOffer from "./shopexOffer";
 import DiscountOffer from "./discountOffer";
 
 import herosec from "./herosection";
-import subscrib from "./subscribLatestUpdate";
 import blogs from "./blogs";
 
 import recentblogs from "./recentPost";
@@ -14,7 +13,7 @@ import clientSayes from "./clientSayes";
 
 import product from "./product";
 import customer from "./customer";
-import order from "./orders";
+// import order from "./orders";
 import customerOrder from "./customersOrder";
 
 
@@ -26,13 +25,13 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     shopexOffer,
     DiscountOffer,
     herosec,
-    subscrib,
+  
     blogs,
     recentblogs,
     saleProduct,
     product,
     clientSayes,
-    order
+    // order
     
   ],
 };
