@@ -423,16 +423,7 @@ async function DettailPage({ params }: { params: Params }) {
       </div>
 
 
-      <p>
-        {allProduct.map((i)=>{
-          return(
-            <div key={i._id}>
-           <p>{i.name} {i._id}</p>
-           <p>{i.description}</p>
-            </div>
-          )
-        })}
-      </p>
+     
     </main>
   );
 }
